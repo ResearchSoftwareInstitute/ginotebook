@@ -93,7 +93,36 @@ edits by tapping or clicking on the *Delete Green Infrastructure*
 button in the *Green Infrastructure edits* listing.
 
 ### Placing green infrastructure in street view 
-TBD
+
+![street view editor](images/street_view_editor.jpg)
+Figure 2. street view editor.
+
+In the street view editor(Figure 2), users can place green infrastructure 
+objects in the street view as follows:
+
+1. Select *Native vegetation* in the *Category* drop-down menu.
+
+2. Choose the type of native vegetation by clicking on its image.
+
+3. Click on the *Add to scene* button or drag and drop.
+
+4. Place the tree in the right place of street view.
+To navigate to the target area where users would like to place green 
+infrastructure objects, users could click and drag their mouse to orient
+the street view and scroll with their mouse to zoom in and out. After this,
+users could click and drag the objects to there.
+
+5. Adjust the vegetation parameters (e.g. diameter, height, name etc.);
+
+6. Click on the *Send to GI Notebook* button to save the GI in the GI 
+Notebook (or hit the *delete* key, which will delete it).
+
+All placed green infrastructure objects will appear in the list of 
+*GI elements*. When an element of this list is selected, the associated 
+3D model will be highlighted in a cuboid mesh.
+
+The *GI elements* list also allows users to select multiple GI 
+elements and do editing for multiple elements simultaneously.
 
 ### Creating a green infrastructure performance report
 TBD
