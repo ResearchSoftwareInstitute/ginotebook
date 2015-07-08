@@ -1,0 +1,12 @@
+postgis:
+  image: mjstealey/postgresql
+ginotebook:
+  build: .
+  command: /bin/bash init.sh
+  volumes:
+  - "/home/ginotebook/ginotebook:/home/docker/ginotebook"
+  ports:
+  - "8000:8000"
+  - "1338:22"
+  links:
+  - postgis:postgis
