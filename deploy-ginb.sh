@@ -1,10 +1,11 @@
 #!/bin/bash
 
-# run-nginx.sh
+# deploy-ginb.sh
 # Author: Michael Stealey <michael.j.stealey@gmail.com>
 
 ### Configuration Variables ###
 GINB_PATH='/home/ginotebook/ginotebook'
+
 
 ### SSL Configuration Variables ###
 FQDN_OR_IP='ginotebook.renci.org'
@@ -16,9 +17,52 @@ GINB_SSL_DIR='/home/'${USER}'/hs-certs'
 GINB_NGINX_DIR='/home/ginotebook/ginotebook/nginx'
 GINB_NGINX_IMG='ginb-nginx-img'
 GINB_NGINX='ginb-nginx'
-GINB_CNAME='ginotebook_ginotebook_1'
 
-echo "*** RUN SCRIPT run-nginx.sh ***"
+### Container / Image Names ###
+GINB_CNAME='ginotebook_ginotebook_1'
+GINB_IMG_NAME='ginotebook_ginotebook'
+
+echo "*** RUN SCRIPT deploy-ginb.sh ***"
+
+### ginotebook ###
+cd ${GINB_PATH}
+
+# check for --clean flag
+if [[ ${1} = '--clean' ]]; then
+    echo "*** remove and rebuild IMG: ${GINB_IMG_NAME} and CONTAINER: ${GINB_CNAME} ***"
+    docker-compose stop
+    yes | docker-compose rm
+    docker rmi ${GINB_IMG_NAME};
+fi
+
+# get submodules
+echo "*** get git submodules ***"
+git submodule init && git submodule update
+
+echo "*** build docker containers as defined in docker-compose.yml ***"
+docker-compose build
+echo "*** bring up all docker containers as defined in docker-compose.yml ***"
+docker-compose up -d;
+
+# load pg.development.sql into postgis database
+echo "*** load clean pg.development.sql database from the running hydroshare container ***"
+echo "*** drop existing database ***"
+docker exec ${GINB_CNAME} dropdb -U postgres -h postgis postgres
+echo "*** create new database ***"
+docker exec ${GINB_CNAME} createdb -U postgres -h postgis postgres --encoding UNICODE --template=template0
+echo "*** create POSTGIS extension ***"
+docker exec ${GINB_CNAME} psql -U postgres -h postgis -w -c 'create extension postgis;'
+echo "*** load database with contents of pg.development.sql ***"
+#docker exec ${GINB_CNAME} psql -U postgres -h postgis -f pg.development.sql;
+echo "*** mangae.py collectstatic ***"
+docker exec ${GINB_CNAME} python manage.py collectstatic -v0 --noinput
+echo "*** manage.py makemigrations ***"
+docker exec ${GINB_CNAME} python manage.py makemigrations
+echo "*** manage.py migrate ***"
+docker exec ${GINB_CNAME} python manage.py migrate
+
+### nginx ###
+cd ${GINB_NGINX_DIR}
 
 # check for --clean flag
 if [[ ${1} = '--clean' ]]; then
@@ -77,5 +121,5 @@ else
     fi
 fi
 
-echo "*** FINISHED SCRIPT run-nginx.sh ***"
+echo "*** FINISHED SCRIPT deploy-ginb.sh ***"
 exit;
