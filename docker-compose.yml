@@ -4,7 +4,7 @@ ginotebook:
   build: .
   command: /bin/bash init.sh
   volumes:
-  - "/home/ginotebook/ginotebook:/home/docker/ginotebook"
+  - "/home/hydro/github/ginotebook:/home/docker/ginotebook"
   ports:
   - "1338:22"
   links:

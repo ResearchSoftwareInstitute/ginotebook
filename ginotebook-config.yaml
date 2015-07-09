@@ -1,0 +1,18 @@
+### Configuration Variables ###
+GINB_PATH: /home/ginotebook/ginotebook
+
+### SSL Configuration Variables ###
+FQDN_OR_IP: ginotebook.renci.org
+SSL_CERT_FILE: hydrodev-vb.example.org.cert
+SSL_KEY_FILE: hydrodev-vb.example.org.key
+GINB_SSL_DIR: /home/ginotebook/hs-certs
+
+### nginx Configuration Variables ###
+GINB_NGINX_DIR: /home/ginotebook/ginotebook/nginx
+GINB_BASE_IMG: sshd_base
+GINB_NGINX_IMG: ginb-nginx-img
+GINB_NGINX: ginb-nginx
+
+### Container / Image Names ###
+GINB_CNAME: ginotebook_ginotebook_1
+GINB_IMG_NAME: ginotebook_ginotebook

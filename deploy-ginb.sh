@@ -3,26 +3,16 @@
 # deploy-ginb.sh
 # Author: Michael Stealey <michael.j.stealey@gmail.com>
 
-### Configuration Variables ###
-GINB_PATH='/home/ginotebook/ginotebook'
-
-
-### SSL Configuration Variables ###
-FQDN_OR_IP='ginotebook.renci.org'
-SSL_CERT_FILE='hydrodev-vb.example.org.cert'
-SSL_KEY_FILE='hydrodev-vb.example.org.key'
-GINB_SSL_DIR='/home/'${USER}'/hs-certs'
-
-### nginx Configuration Variables ###
-GINB_NGINX_DIR='/home/ginotebook/ginotebook/nginx'
-GINB_NGINX_IMG='ginb-nginx-img'
-GINB_NGINX='ginb-nginx'
-
-### Container / Image Names ###
-GINB_CNAME='ginotebook_ginotebook_1'
-GINB_IMG_NAME='ginotebook_ginotebook'
+CONFIG_DIR=${PWD}
+CONFIG_FILE='ginotebook-config.yaml'
 
 echo "*** RUN SCRIPT deploy-ginb.sh ***"
+
+# read rodsuser-config.yaml into environment
+sed -e "s/:[^:\/\/]/=/g;s/$//g;s/ *=/=/g" $CONFIG_FILE > $CONFIG_DIR/ginotebook-config.sh
+sed -i 's/#.*$//' $CONFIG_DIR/ginotebook-config.sh
+sed -i '/^$/d' $CONFIG_DIR/ginotebook-config.sh
+while read line; do export $line; done < <(cat $CONFIG_DIR/ginotebook-config.sh)
 
 ### ginotebook ###
 cd ${GINB_PATH}
@@ -30,8 +20,8 @@ cd ${GINB_PATH}
 # check for --clean flag
 if [[ ${1} = '--clean' ]]; then
     echo "*** remove and rebuild IMG: ${GINB_IMG_NAME} and CONTAINER: ${GINB_CNAME} ***"
-    docker-compose stop
-    yes | docker-compose rm
+    docker stop $(docker ps -a -q)
+    docker rm -fv $(docker ps -a -q)
     docker rmi ${GINB_IMG_NAME};
 fi
 
@@ -39,10 +29,23 @@ fi
 echo "*** get git submodules ***"
 git submodule init && git submodule update
 
+# build sshd_base if it doesn't exist
+CHECK_BASE_IMAGE=`docker images | tr -s ' ' | cut -d ' ' -f 1 | grep ${GINB_BASE_IMG}`
+if [[ -z "${CHECK_BASE_IMAGE}" ]]; then
+    cd sshd_base
+    echo "*** docker build -t ${GINB_BASE_IMG} . ***"
+    docker build -t ${GINB_BASE_IMG} .
+    cd ${GINB_PATH};
+else
+    echo "*** IMG: ${GINB_BASE_IMG} already exists ***";
+fi
+
+# build docker containers as defined in docker-compose.yml
 echo "*** build docker containers as defined in docker-compose.yml ***"
 docker-compose build
 echo "*** bring up all docker containers as defined in docker-compose.yml ***"
-docker-compose up -d;
+docker-compose up -d
+sleep 3s
 
 # load pg.development.sql into postgis database
 echo "*** load clean pg.development.sql database from the running hydroshare container ***"
@@ -53,7 +56,7 @@ docker exec ${GINB_CNAME} createdb -U postgres -h postgis postgres --encoding UN
 echo "*** create POSTGIS extension ***"
 docker exec ${GINB_CNAME} psql -U postgres -h postgis -w -c 'create extension postgis;'
 echo "*** load database with contents of pg.development.sql ***"
-#docker exec ${GINB_CNAME} psql -U postgres -h postgis -f pg.development.sql;
+#docker exec ${GINB_CNAME} psql -U postgres -h postgis -f pg.development.sql
 echo "*** mangae.py collectstatic ***"
 docker exec ${GINB_CNAME} python manage.py collectstatic -v0 --noinput
 echo "*** manage.py makemigrations ***"

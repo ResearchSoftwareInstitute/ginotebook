@@ -20,5 +20,3 @@ RUN echo docker:docker | chpasswd
 RUN chown -R docker:docker /home/docker
 
 WORKDIR /home/docker/ginotebook
-#USER docker
-
