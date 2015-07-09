@@ -40,9 +40,9 @@ yes | cp -rf ${SSL_KEY_FILE} ${GINB_SSL_DIR}
 
 # create ginb-nginx.conf file
 yes | cp -rf ${GINB_NGINX_DIR}/ginotebook-nginx.conf ${GINB_NGINX_DIR}/ginb-nginx.conf
-sed -i 's/FQDN_OR_IP/'${FQDN_OR_IP}'/g' ${GINB_NGINX_DIR}/hs-nginx.conf
-sed -i 's/SSL_CERT_FILE/'${SSL_CERT_FILE}'/g' ${GINB_NGINX_DIR}/hs-nginx.conf
-sed -i 's/SSL_KEY_FILE/'${SSL_KEY_FILE}'/g' ${GINB_NGINX_DIR}/hs-nginx.conf
+sed -i 's/FQDN_OR_IP/'${FQDN_OR_IP}'/g' ${GINB_NGINX_DIR}/ginb-nginx.conf
+sed -i 's/SSL_CERT_FILE/'${SSL_CERT_FILE}'/g' ${GINB_NGINX_DIR}/ginb-nginx.conf
+sed -i 's/SSL_KEY_FILE/'${SSL_KEY_FILE}'/g' ${GINB_NGINX_DIR}/ginb-nginx.conf
 
 # build hs-nginx if it doesn't exist
 CHECK_NGINX_IMAGE=`docker images | tr -s ' ' | cut -d ' ' -f 1 | grep ${GINB_NGINX_IMG}`
