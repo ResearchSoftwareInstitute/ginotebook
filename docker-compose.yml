@@ -1,12 +1,23 @@
 postgis:
   image: mjstealey/postgresql
+rabbitmq:
+  image: rabbitmq:3.5
 ginotebook:
   build: .
-  command: /bin/bash init.sh
   volumes:
-  #- "/home/hydro/ginotebook:/home/docker/ginotebook"
-  - "/home/ginotebook/ginotebook:/home/docker/ginotebook"
+    #- "/home/hydro/ginotebook:/home/docker/ginotebook"
+    - "/home/ginotebook/ginotebook:/home/docker/ginotebook"
   ports:
-  - "1338:22"
+    - "1338:22"
   links:
-  - postgis:postgis
+    - postgis:postgis
+    - rabbitmq:rabbitmq
+  command: /bin/bash init.sh
+defaultworker:
+  build: .
+  volumes_from:
+    - ginotebook
+  links:
+    - postgis:postgis
+    - rabbitmq:rabbitmq
+  command: celery worker -A ginotebook -E -Q default
