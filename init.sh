@@ -1,7 +1,8 @@
 #!/bin/sh
 
 sleep 3s
-psql -U postgres -h postgis -w -c 'create extension postgis;'
 echo "made sure postgis was enabled on PostgreSQL"
+psql -U postgres -h postgis -w -c 'create extension postgis;'
 /usr/sbin/sshd
-python manage.py runserver 0.0.0.0:8000
+uwsgi --socket :8001 --ini uwsgi.ini
+#python manage.py runserver 0.0.0.0:8000
