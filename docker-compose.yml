@@ -4,6 +4,13 @@ rabbitmq:
   image: rabbitmq:3.5
 ginotebook:
   build: .
+  environment:
+    POSTGIS_HOST: postgis
+    POSTGIS_PORT: 5432
+    POSTGIS_PASSWORD: postgres
+    POSTGIS_DB: postgres
+    POSTGIS_USER: postgres
+    PGPASSWORD: postgres
   volumes:
     #- "/home/hydro/ginotebook:/home/docker/ginotebook"
     - "/home/ginotebook/ginotebook:/home/docker/ginotebook"
@@ -15,6 +22,13 @@ ginotebook:
   command: /bin/bash init.sh
 defaultworker:
   build: .
+  environment:
+    POSTGIS_HOST: postgis
+    POSTGIS_PORT: 5432
+    POSTGIS_PASSWORD: postgres
+    POSTGIS_DB: postgres
+    POSTGIS_USER: postgres
+    PGPASSWORD: postgres
   volumes_from:
     - ginotebook
   links:

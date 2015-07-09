@@ -26,6 +26,14 @@ TEMPLATE_DEBUG = True
 
 ALLOWED_HOSTS = []
 
+RABBITMQ_HOST = os.environ.get('RABBITMQ_PORT_5672_TCP_ADDR', 'localhost')
+RABBITMQ_PORT = '5672'
+
+POSTGIS_HOST = os.environ.get('POSTGIS_PORT_5432_TCP_ADDR', 'localhost')
+POSTGIS_PORT = 5432
+POSTGIS_DB = os.environ.get('POSTGIS_DB', 'postgres')
+POSTGIS_PASSWORD = os.environ.get('POSTGIS_PASSWORD', 'postgres')
+POSTGIS_USER = os.environ.get('POSTGIS_USER', 'postgres')
 
 # Application definition
 
@@ -57,11 +65,22 @@ WSGI_APPLICATION = 'ginotebook.wsgi.application'
 # https://docs.djangoproject.com/en/1.7/ref/settings/#databases
 
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+    "default": {
+        # Add "postgresql_psycopg2", "mysql", "sqlite3" or "oracle".
+        "ENGINE": "django.contrib.gis.db.backends.postgis",
+        # DB name or path to database file if using sqlite3.
+        "NAME": POSTGIS_DB,
+        # Not used with sqlite3.
+        "USER": POSTGIS_USER,
+        # Not used with sqlite3.
+        "PASSWORD": POSTGIS_PASSWORD,
+        # Set to empty string for localhost. Not used with sqlite3.
+        "HOST": POSTGIS_HOST,
+        # Set to empty string for default. Not used with sqlite3.
+        "PORT": POSTGIS_PORT,
     }
 }
+POSTGIS_VERSION=(2,1,1)
 
 # Internationalization
 # https://docs.djangoproject.com/en/1.7/topics/i18n/
