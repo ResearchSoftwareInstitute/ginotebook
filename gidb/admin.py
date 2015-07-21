@@ -20,8 +20,23 @@ admin.site.register(GIVegGrowthState)
 admin.site.register(TemplatesForEcoClimate)
 admin.site.register(GITemplate)
 admin.site.register(GIElement)
-admin.site.register(RHESSysStratumType)
-admin.site.register(RHESSysSoilType)
-admin.site.register(Representation2D)
-admin.site.register(Representation3D)
 
+class RHESSysStratumTypeAdmin(admin.ModelAdmin):
+    list_display = ('name', 'rhessys_default_id')
+    ordering = ('rhessys_default_id',)
+admin.site.register(RHESSysStratumType, RHESSysStratumTypeAdmin)
+
+class RHESSysSoilTypeAdmin(admin.ModelAdmin):
+    list_display = ('name', 'rhessys_default_id')
+    ordering = ('rhessys_default_id',)
+admin.site.register(RHESSysSoilType, RHESSysSoilTypeAdmin)
+
+class Representation2DAdmin(admin.ModelAdmin):
+    list_display = ('name',)
+    ordering = list_display
+admin.site.register(Representation2D, Representation2DAdmin)
+
+class Representation3DAdmin(admin.ModelAdmin):
+    list_display = ('name',)
+    ordering = list_display
+admin.site.register(Representation3D, Representation3DAdmin)

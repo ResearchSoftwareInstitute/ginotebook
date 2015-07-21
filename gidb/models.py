@@ -2,7 +2,7 @@ from django.contrib.gis.db import models
 
 class Watershed(models.Model):
     name = models.CharField(max_length=64)
-    model_url = models.URLField(max_length=512)
+    model_url = models.URLField(max_length=1024)
     template_menu = models.ForeignKey('TemplatesForEcoClimate')
 
     def __unicode__(self):  # __str__ on Python 3
@@ -83,8 +83,8 @@ class GIElement(models.Model):
         verbose_name = 'Green infrastructure element'
 
 class RHESSysStratumType(models.Model):
-    name = models.CharField(max_length=128, unique=True)
-    rhessys_default_id = models.IntegerField(unique=True)
+    name = models.CharField(max_length=64, unique=True)
+    rhessys_default_id = models.CharField(max_length=8, unique=True)
 
     def __unicode__(self):  # __str__ on Python 3
         return self.name
@@ -93,8 +93,8 @@ class RHESSysStratumType(models.Model):
         verbose_name = 'RHESSys stratum type'
 
 class RHESSysSoilType(models.Model):
-    name = models.CharField(max_length=128, unique=True)
-    rhessys_default_id = models.IntegerField(unique=True)
+    name = models.CharField(max_length=64, unique=True)
+    rhessys_default_id = models.CharField(max_length=8, unique=True)
 
     def __unicode__(self):  # __str__ on Python 3
         return self.name
@@ -102,16 +102,24 @@ class RHESSysSoilType(models.Model):
     class Meta:
         verbose_name = 'RHESSys soil type'
 
-class Representation(models.Model):
+class Representation2D(models.Model):
+    name = models.CharField(max_length=64, unique=True)
     rep_file = models.FileField()
-    rep_thumbnail = models.FileField()
+    rep_thumbnail = models.FileField(blank=True, null=True)
 
-class Representation2D(Representation):
+    def __unicode__(self):  # __str__ on Python 3
+        return self.name
 
     class Meta:
         verbose_name ='2D visual representation'
 
-class Representation3D(Representation):
+class Representation3D(models.Model):
+    name = models.CharField(max_length=64, unique=True)
+    rep_file = models.FileField()
+    rep_thumbnail = models.FileField()
+
+    def __unicode__(self):  # __str__ on Python 3
+        return self.name
 
     class Meta:
         verbose_name ='3D visual representation'
