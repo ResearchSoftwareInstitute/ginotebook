@@ -74,7 +74,7 @@ class GIElement(models.Model):
     model_3d = models.ForeignKey('Representation3D', blank=False, null=True)
     model_planview = models.ForeignKey('Representation2D', blank=False, null=True)
     stratum_type = models.ForeignKey('RHESSysStratumType', blank=False, null=True)
-    soil_type = models.ForeignKey('RHESSSysSoilType', blank=False, null=True)
+    soil_type = models.ForeignKey('RHESSysSoilType', blank=False, null=True)
 
     def __unicode__(self):  # __str__ on Python 3
         return self.name
@@ -92,7 +92,7 @@ class RHESSysStratumType(models.Model):
     class Meta:
         verbose_name = 'RHESSys stratum type'
 
-class RHESSSysSoilType(models.Model):
+class RHESSysSoilType(models.Model):
     name = models.CharField(max_length=128, unique=True)
     rhessys_default_id = models.IntegerField(unique=True)
 

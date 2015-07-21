@@ -8,7 +8,7 @@ from .models import TemplatesForEcoClimate
 from .models import GITemplate
 from .models import GIElement
 from .models import RHESSysStratumType
-from .models import RHESSSysSoilType
+from .models import RHESSysSoilType
 from .models import Representation2D
 from .models import Representation3D
 
@@ -21,7 +21,7 @@ admin.site.register(TemplatesForEcoClimate)
 admin.site.register(GITemplate)
 admin.site.register(GIElement)
 admin.site.register(RHESSysStratumType)
-admin.site.register(RHESSSysSoilType)
+admin.site.register(RHESSysSoilType)
 admin.site.register(Representation2D)
 admin.site.register(Representation3D)
 

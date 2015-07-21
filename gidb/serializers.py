@@ -8,7 +8,7 @@ from .models import TemplatesForEcoClimate
 from .models import GITemplate
 from .models import GIElement
 from .models import RHESSysStratumType
-from .models import RHESSSysSoilType
+from .models import RHESSysSoilType
 from .models import Representation2D
 from .models import Representation3D
 
@@ -64,7 +64,7 @@ class RHESSysStratumTypeSerializer(serializers.ModelSerializer):
 class RHESSysSoilTypeSerializer(serializers.ModelSerializer):
 
     class Meta:
-        model = RHESSSysSoilType
+        model = RHESSysSoilType
         fields = ('id', 'name', 'rhessys_default_id')
 
 class Representation2DSerializer(serializers.ModelSerializer):
