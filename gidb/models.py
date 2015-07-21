@@ -55,7 +55,7 @@ class TemplatesForEcoClimate(models.Model):
         return self.name
 
     class Meta:
-        verbose_name = 'Eco-climate GI templates'
+        verbose_name = 'Eco-climate GI template'
 
 class GITemplate(models.Model):
     name = models.CharField(max_length=64, unique=True)
