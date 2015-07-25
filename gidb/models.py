@@ -71,10 +71,10 @@ class GITemplate(models.Model):
 
 class GIElement(models.Model):
     name = models.CharField(max_length=64, blank=False)
-    model_3d = models.ForeignKey('Representation3D', blank=False, null=True)
-    model_planview = models.ForeignKey('Representation2D', blank=False, null=True)
-    stratum_type = models.ForeignKey('RHESSysStratumType', blank=False, null=True)
-    soil_type = models.ForeignKey('RHESSysSoilType', blank=False, null=True)
+    model_3d = models.ForeignKey('Representation3D', blank=True, null=True)
+    model_planview = models.ForeignKey('Representation2D', blank=True, null=True)
+    stratum_type = models.ForeignKey('RHESSysStratumType', blank=True, null=True)
+    soil_type = models.ForeignKey('RHESSysSoilType', blank=True, null=True)
 
     def __unicode__(self):  # __str__ on Python 3
         return self.name
