@@ -1,4 +1,4 @@
-from django.contrib import admin
+from django.contrib.gis import admin
 
 from .models import Watershed
 from .models import GIInstance
@@ -14,7 +14,7 @@ from .models import Representation3D
 
 
 admin.site.register(Watershed)
-admin.site.register(GIInstance)
+admin.site.register(GIInstance, admin.GeoModelAdmin)
 admin.site.register(HumanPrefImage)
 admin.site.register(GIVegGrowthState)
 admin.site.register(TemplatesForEcoClimate)

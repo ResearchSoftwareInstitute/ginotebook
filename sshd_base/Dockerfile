@@ -18,6 +18,7 @@ ADD . /home/docker/base_image
 WORKDIR /home/docker/base_image
 RUN wget https://bootstrap.pypa.io/get-pip.py
 RUN python get-pip.py
+RUN apt-get update
 RUN apt-get install -y libpq-dev python-dev
 RUN apt-get install -y postgresql-9.3 postgresql-client-common postgresql-common postgresql-client-9.3
 RUN pip install -r requirements.txt
