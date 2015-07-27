@@ -13,68 +13,68 @@ from .models import Representation2D
 from .models import Representation3D
 
 
-class WatershedSerializer(serializers.ModelSerializer):
+class WatershedSerializer(serializers.HyperlinkedModelSerializer):
 
     class Meta:
         model = Watershed
-        fields = ('id', 'name', 'model_url', 'template_menu')
+        fields = ('url', 'id', 'name', 'model_url', 'template_menu')
 
-class GIInstanceSerializer(serializers.ModelSerializer):
+class GIInstanceSerializer(serializers.HyperlinkedModelSerializer):
 
     class Meta:
         model = GIInstance
-        fields = ('id', 'watershed', 'template', 'placement_poly')
+        fields = ('url', 'id', 'watershed', 'template', 'placement_poly')
 
-class HumanPrefImageSerializer(serializers.ModelSerializer):
+class HumanPrefImageSerializer(serializers.HyperlinkedModelSerializer):
 
     class Meta:
         model = HumanPrefImage
-        fields = ('id', 'name', 'gi_instance', 'pref_image')
+        fields = ('url', 'id', 'name', 'gi_instance', 'pref_image')
 
-class GIVegGrowthStateSerializer(serializers.ModelSerializer):
+class GIVegGrowthStateSerializer(serializers.HyperlinkedModelSerializer):
 
     class Meta:
         model = GIVegGrowthState
-        fields = ('id', 'gi_instance', 'gi_element', 'leaf_area_index', 'stem_density', 'height')
+        fields = ('url', 'id', 'gi_instance', 'gi_element', 'leaf_area_index', 'stem_density', 'height')
 
-class TemplatesForEcoClimateSerializer(serializers.ModelSerializer):
+class TemplatesForEcoClimateSerializer(serializers.HyperlinkedModelSerializer):
 
     class Meta:
         model = TemplatesForEcoClimate
-        fields = ('id', 'name', 'templates')
+        fields = ('url', 'id', 'name', 'templates')
 
-class GITemplateSerializer(serializers.ModelSerializer):
+class GITemplateSerializer(serializers.HyperlinkedModelSerializer):
 
     class Meta:
         model = GITemplate
-        fields = ('id', 'name', 'model_3d', 'model_planview', 'gi_elements')
+        fields = ('url', 'id', 'name', 'model_3d', 'model_planview', 'gi_elements')
 
-class GIElementSerializer(serializers.ModelSerializer):
+class GIElementSerializer(serializers.HyperlinkedModelSerializer):
 
     class Meta:
         model = GIElement
-        fields = ('id', 'name', 'model_3d', 'model_planview', 'stratum_type', 'soil_type')
+        fields = ('url', 'id', 'name', 'model_3d', 'model_planview', 'stratum_type', 'soil_type')
 
-class RHESSysStratumTypeSerializer(serializers.ModelSerializer):
+class RHESSysStratumTypeSerializer(serializers.HyperlinkedModelSerializer):
 
     class Meta:
         model = RHESSysStratumType
-        fields = ('id', 'name', 'rhessys_default_id')
+        fields = ('url', 'id', 'name', 'rhessys_default_id')
 
-class RHESSysSoilTypeSerializer(serializers.ModelSerializer):
+class RHESSysSoilTypeSerializer(serializers.HyperlinkedModelSerializer):
 
     class Meta:
         model = RHESSysSoilType
-        fields = ('id', 'name', 'rhessys_default_id')
+        fields = ('url', 'id', 'name', 'rhessys_default_id')
 
-class Representation2DSerializer(serializers.ModelSerializer):
+class Representation2DSerializer(serializers.HyperlinkedModelSerializer):
 
     class Meta:
         model = Representation2D
-        fields = ('id', 'rep_file', 'rep_thumbnail')
+        fields = ('url', 'id', 'rep_file', 'rep_thumbnail')
 
-class Representation3DSerializer(serializers.ModelSerializer):
+class Representation3DSerializer(serializers.HyperlinkedModelSerializer):
 
     class Meta:
         model = Representation3D
-        fields = ('id', 'rep_file', 'rep_thumbnail')
+        fields = ('url', 'id', 'rep_file', 'rep_thumbnail')
