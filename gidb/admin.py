@@ -32,11 +32,11 @@ class RHESSysSoilTypeAdmin(admin.ModelAdmin):
 admin.site.register(RHESSysSoilType, RHESSysSoilTypeAdmin)
 
 class Representation2DAdmin(admin.ModelAdmin):
-    list_display = ('name',)
+    list_display = ('name', 'rep_file')
     ordering = list_display
 admin.site.register(Representation2D, Representation2DAdmin)
 
 class Representation3DAdmin(admin.ModelAdmin):
-    list_display = ('name',)
+    list_display = ('name', 'rep_thumbnail')
     ordering = list_display
 admin.site.register(Representation3D, Representation3DAdmin)
