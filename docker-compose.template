@@ -19,7 +19,7 @@ ginotebook:
   links:
     - postgis:postgis
     - rabbitmq:rabbitmq
-  command: /bin/bash init.sh
+  command: /bin/bash init
 defaultworker:
   build: .
   environment:

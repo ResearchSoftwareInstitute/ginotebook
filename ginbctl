@@ -21,8 +21,8 @@ GINB_DOCKER_IMAGES=(ginotebook_ginotebook ginotebook_defaultworker)
 OTHER_DOCKER_CONTAINERS=(ginotebook_postgis_1 ginotebook_rabbitmq_1)
 
 ### Pre-flight Variables ###
-HTTP_RECAPTCHA='http://www.google.com/recaptcha/api/js/recaptcha_ajax.js'
-HTTPS_RECAPTCHA='https://www.google.com/recaptcha/api/js/recaptcha_ajax.js'
+#HTTP_RECAPTCHA='http://www.google.com/recaptcha/api/js/recaptcha_ajax.js'
+#HTTPS_RECAPTCHA='https://www.google.com/recaptcha/api/js/recaptcha_ajax.js'
 DEV_SERVER='python manage.py runserver 0.0.0.0:8000'
 PROD_SERVER='uwsgi --socket :8001 --ini uwsgi.ini'
 
@@ -86,7 +86,7 @@ preflight_ginb() {
         if [ "${USE_SSL,,}" = true ]; then
             echo "*** Using SSL: USE_SSL = ${USE_SSL} ***"
             # use https version of recaptcha
-            sed -i 's!'${HTTP_RECAPTCHA}'!'${HTTPS_RECAPTCHA}'!g' ${GINB_PATH}/theme/templates/accounts/_signup_form.html
+            #sed -i 's!'${HTTP_RECAPTCHA}'!'${HTTPS_RECAPTCHA}'!g' ${GINB_PATH}/theme/templates/accounts/_signup_form.html
             # create hs-certs directory if it doesn't exist
             if [[ ! -d ${HOST_SSL_DIR} ]]; then
                 echo "*** creating directory: ${HOST_SSL_DIR} ***"
@@ -98,14 +98,14 @@ preflight_ginb() {
         else
             echo "*** Not using SSL: USE_SSL = ${USE_SSL} ***"
             # use http version of recaptcha
-            sed -i 's!'${HTTPS_RECAPTCHA}'!'${HTTP_RECAPTCHA}'!g' ${GINB_PATH}/theme/templates/accounts/_signup_form.html;
+            #sed -i 's!'${HTTPS_RECAPTCHA}'!'${HTTP_RECAPTCHA}'!g' ${GINB_PATH}/theme/templates/accounts/_signup_form.html;
         fi
         # use production server to run ginotebook
         sed -i 's/'"${DEV_SERVER}"'/'"${PROD_SERVER}"'/g' ${GINB_PATH}/init;
     else
         echo "*** Not using nginx: USE_NGINX = ${USE_NGINX} ***"
         # use http version of recaptcha
-        sed -i 's!'${HTTPS_RECAPTCHA}'!'${HTTP_RECAPTCHA}'!g' ${GINB_PATH}/theme/templates/accounts/_signup_form.html
+        #sed -i 's!'${HTTPS_RECAPTCHA}'!'${HTTP_RECAPTCHA}'!g' ${GINB_PATH}/theme/templates/accounts/_signup_form.html
         # use development server to run ginotebook
         sed -i 's/'"${PROD_SERVER}"'/'"${DEV_SERVER}"'/g' ${GINB_PATH}/init;
     fi
