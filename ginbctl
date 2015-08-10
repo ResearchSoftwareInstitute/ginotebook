@@ -82,19 +82,23 @@ preflight_ginb() {
     sed -i 's!GINB_SHARED_VOLUME!'${GINB_PATH}'!g' ${GINB_PATH}/docker-compose.yml
     if [ "${USE_NGINX,,}" = true ]; then
         echo "*** Using nginx: USE_NGINX = ${USE_NGINX} ***"
+        if [[ ! -d ${SSL_HOST_DIR} ]]; then
+            echo "*** creating directory: ${SSL_HOST_DIR} ***"
+            mkdir ${SSL_HOST_DIR};
+        fi
         # generate nginx configuration file
         if [ "${USE_SSL,,}" = true ]; then
             echo "*** Using SSL: USE_SSL = ${USE_SSL} ***"
             # use https version of recaptcha
             #sed -i 's!'${HTTP_RECAPTCHA}'!'${HTTPS_RECAPTCHA}'!g' ${GINB_PATH}/theme/templates/accounts/_signup_form.html
             # create hs-certs directory if it doesn't exist
-            if [[ ! -d ${HOST_SSL_DIR} ]]; then
-                echo "*** creating directory: ${HOST_SSL_DIR} ***"
-                mkdir ${HOST_SSL_DIR};
+            if [[ ! -d ${SSL_HOST_DIR} ]]; then
+                echo "*** creating directory: ${SSL_HOST_DIR} ***"
+                mkdir ${SSL_HOST_DIR};
             fi
             # copy ssl cert and ssl key to hs-certs directory
-            yes | cp -rf ${SSL_CERT_DIR}/${SSL_CERT_FILE} ${HOST_SSL_DIR}
-            yes | cp -rf ${SSL_CERT_DIR}/${SSL_KEY_FILE} ${HOST_SSL_DIR};
+            yes | cp -rf ${SSL_CERT_DIR}/${SSL_CERT_FILE} ${SSL_HOST_DIR}
+            yes | cp -rf ${SSL_CERT_DIR}/${SSL_KEY_FILE} ${SSL_HOST_DIR};
         else
             echo "*** Not using SSL: USE_SSL = ${USE_SSL} ***"
             # use http version of recaptcha

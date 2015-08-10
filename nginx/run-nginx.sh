@@ -46,7 +46,7 @@ if [[ -z "${CHECK_NGINX_CID}" ]]; then
     docker run -d --name ${NGINX_DOCKER_CNTR} \
         --link ${GINOTEBOOK_CID}:ginotebook \
         -p 80:80 -p 443:443 \
-        --volume ${HOST_SSL_DIR}:/hs-certs \
+        --volume ${SSL_HOST_DIR}:/ginb-certs \
         --volumes-from ${GINOTEBOOK_CID} \
         -ti ${NGINX_DOCKER_IMG};
 else
