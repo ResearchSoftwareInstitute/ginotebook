@@ -23,8 +23,11 @@ RUN apt-get install -y libpq-dev python-dev
 RUN apt-get install -y postgresql-9.3 postgresql-client-common postgresql-common postgresql-client-9.3
 RUN pip install -r requirements.txt
 
-# install geo requirments
+# install geo requirements
 RUN sudo apt-get install -y binutils libproj-dev gdal-bin libgeoip1 gdal-bin python-gdal
+
+# install other packages
+RUN sudo apt-get install rsync
 
 EXPOSE 22
 CMD ["/usr/sbin/sshd", "-D"]

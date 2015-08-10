@@ -1,0 +1,37 @@
+postgis:
+  image: mjstealey/postgresql
+rabbitmq:
+  image: rabbitmq:3.5
+ginotebook:
+  build: .
+  environment:
+    POSTGIS_HOST: postgis
+    POSTGIS_PORT: 5432
+    POSTGIS_PASSWORD: postgres
+    POSTGIS_DB: postgres
+    POSTGIS_USER: postgres
+    PGPASSWORD: postgres
+  volumes:
+    - "GINB_SHARED_VOLUME:/home/docker/ginotebook"
+  ports:
+    - "1338:22"
+    - "8000:8000"
+  links:
+    - postgis:postgis
+    - rabbitmq:rabbitmq
+  command: /bin/bash init.sh
+defaultworker:
+  build: .
+  environment:
+    POSTGIS_HOST: postgis
+    POSTGIS_PORT: 5432
+    POSTGIS_PASSWORD: postgres
+    POSTGIS_DB: postgres
+    POSTGIS_USER: postgres
+    PGPASSWORD: postgres
+  volumes_from:
+    - ginotebook
+  links:
+    - postgis:postgis
+    - rabbitmq:rabbitmq
+  command: celery worker -A ginotebook -E -Q default
