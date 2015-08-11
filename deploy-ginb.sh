@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 # deploy-ginb.sh
 # Author: Michael Stealey <michael.j.stealey@gmail.com>
