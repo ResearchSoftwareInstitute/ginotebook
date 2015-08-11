@@ -30,6 +30,7 @@ display_usage() {
 	echo "*** ginotebook Control script ***"
 	echo "usage: $0 deploy      # deletes all database and container contents and deploys from scratch"
 	echo "usage: $0 loaddb      # loads database specified in ginotebook-config.yaml into running container"
+	echo "usage: $0 loadmedia   # loads media directory specified in ginotebook-config.yaml into running container"
 	echo "usage: $0 rebuild     # deletes ginotebook container contents only and deploys using exsiting database"
 	echo "usage: $0 restart     # restarts the ginotebook container without rebuilding"
 	echo "usage: $0 start       # attempts to start all containers"
@@ -146,7 +147,7 @@ rebuild_ginb() {
 
 loaddb_ginb() {
     echo "*** ${1^^} ***"
-    echo "*** load clean pg.development.sql database from the running ginotebook container ***"
+    echo "*** load clean ${GINB_DATABASE} database from the running ginotebook container ***"
     CID=$(docker ps -a | grep ginotebook_ginotebook_1 | cut -d ' ' -f 1)
     echo "*** drop existing database ***"
     docker exec $CID dropdb -U postgres -h postgis postgres
@@ -162,6 +163,18 @@ loaddb_ginb() {
     #docker exec $CID python manage.py makemigrations
     echo "*** manage.py migrate ***"
     docker exec $CID python manage.py migrate
+}
+
+loadmedia_ginb() {
+    echo "*** ${1^^} ***"
+    echo "*** load clean ${GINB_MEDIA} from the running ginotebook container ***"
+    CID=$(docker ps -a | grep ginotebook_ginotebook_1 | cut -d ' ' -f 1)
+    echo "*** Expand new media directory  ***"
+    tar -xzf ${GINB_MEDIA}
+    echo "*** Remove existing media directory  ***"
+    docker exec $CID rm -rf ginotebook/static/media
+    echo "*** Load new media directory  ***"
+    docker exec $CID cp -r media_files/media ginotebook/static/
 }
 
 deploy_ginb() {
@@ -198,6 +211,7 @@ deploy_ginb() {
         sleep 1
     done
     echo
+    loadmedia_ginb LOADMEDIA
     loaddb_ginb LOADDB
     if [ "${USE_NGINX,,}" = true ]; then
         restart_nginx
@@ -215,6 +229,8 @@ case "$1" in
     deploy) deploy_ginb $1
         ;;
     loaddb) loaddb_ginb $1
+        ;;
+    loadmedia) loadmedia_ginb $1
         ;;
     rebuild) rebuild_ginb $1
         ;;
