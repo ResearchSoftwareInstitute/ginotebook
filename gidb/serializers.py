@@ -53,7 +53,8 @@ class GIElementSerializer(serializers.HyperlinkedModelSerializer):
 
     class Meta:
         model = GIElement
-        fields = ('url', 'id', 'name', 'model_3d', 'model_planview', 'stratum_type', 'soil_type')
+        fields = ('url', 'id', 'name', 'model_3d', 'model_planview',
+                  'stratum_type', 'soil_type', 'major_axis', 'minor_axis')
 
 class RHESSysStratumTypeSerializer(serializers.HyperlinkedModelSerializer):
 
