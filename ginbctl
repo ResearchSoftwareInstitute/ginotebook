@@ -37,20 +37,28 @@ display_usage() {
 	echo "usage: $0 stop        # stops all running containers"
 }
 
-restart_nginx() {
-    echo "*** RESTART NGINX ***"
+start_nginx() {
+    echo "*** START NGINX ***"
     cd $NGINX_DIR
-    ./run-nginx.sh --clean
+    ./run-nginx start
+    cd -
+}
+
+stop_nginx() {
+    echo "*** STOP NGINX ***"
+    cd $NGINX_DIR
+    ./run-nginx stop
     cd -
 }
 
 restart_ginb() {
     echo "*** ${1^^} ***"
+    stop_nginx
     preflight_ginb
     docker stop ginotebook_ginotebook_1
     docker start ginotebook_ginotebook_1
     if [ "${USE_NGINX,,}" = true ]; then
-        restart_nginx
+        start_nginx
     fi
 }
 
@@ -64,12 +72,13 @@ start_ginb() {
         docker start $f;
     done
     if [ "${USE_NGINX,,}" = true ]; then
-        restart_nginx
+        start_nginx
     fi
 }
 
 stop_ginb() {
     echo "*** ${1^^}: all running docker containers ***"
+    stop_nginx
     for f in "${GINB_DOCKER_CONTAINERS[@]}"; do
         docker stop $f;
     done
@@ -117,7 +126,8 @@ preflight_ginb() {
 }
 
 rebuild_ginb() {
-    echo "*** ${1^^} *** "
+    echo "*** ${1^^} ***"
+    stop_nginx
     preflight_ginb
     stop_ginb STOP
     echo "*** REMOVE: all ginotebook docker containers (preserves exiting database contents)  ***"
@@ -141,7 +151,7 @@ rebuild_ginb() {
     done
     echo
     if [ "${USE_NGINX,,}" = true ]; then
-        restart_nginx
+        start_nginx
     fi
 }
 
@@ -179,6 +189,7 @@ loadmedia_ginb() {
 
 deploy_ginb() {
     echo "*** ${1^^} ***"
+    stop_nginx
     preflight_ginb
     stop_ginb STOP
     echo "*** REMOVE: all docker containers (deletes existing database)  ***"
@@ -214,7 +225,7 @@ deploy_ginb() {
     loadmedia_ginb LOADMEDIA
     loaddb_ginb LOADDB
     if [ "${USE_NGINX,,}" = true ]; then
-        restart_nginx
+        start_nginx
     fi
 }
 
