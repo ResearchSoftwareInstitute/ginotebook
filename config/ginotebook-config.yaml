@@ -1,0 +1,19 @@
+### Local Configuration Variables ###
+GINB_PATH: /home/ginotebook/ginotebook
+GINB_BACKUP_DIR: /home/ginotebook/ginotebook/files
+GINB_DATABASE: ginb-database-backup.sql
+GINB_MEDIA: ginb-media-backup.tar.gz
+
+### Deployment Options ###
+USE_NGINX: false
+USE_SSL: false
+
+### nginx Configuration Variables ###
+FQDN_OR_IP: localhost
+NGINX_DIR: /home/ginotebook/ginotebook/nginx
+
+### SSL Configuration Variables ###
+SSL_HOST_DIR: /home/ginotebook/hs-certs
+SSL_CERT_DIR: /home/ginotebook/ginotebook/nginx/cert-files
+SSL_CERT_FILE: ginotebook.renci.org-self.cert
+SSL_KEY_FILE: ginotebook.renci.org-self.key

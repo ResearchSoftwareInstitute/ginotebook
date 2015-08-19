@@ -1,0 +1,279 @@
+#!/usr/bin/env bash
+
+# ginbctl
+# GINotebook Control Script
+# Author: Michael Stealey <michael.j.stealey@gmail.com>
+
+### Local Config ###
+CONFIG_DIRECTORY='./config'
+CONFIG_FILE=${CONFIG_DIRECTORY}'/ginotebook-config.yaml'
+HOME_DIR=${PWD}
+
+# Read ginotebook-config.yaml into environment
+sed -e "s/:[^:\/\/]/=/g;s/$//g;s/ *=/=/g" $CONFIG_FILE > $CONFIG_DIRECTORY/ginotebook-config.sh
+sed -i 's/#.*$//' $CONFIG_DIRECTORY/ginotebook-config.sh
+sed -i '/^\s*$/d' $CONFIG_DIRECTORY/ginotebook-config.sh
+while read line; do export $line; done < <(cat $CONFIG_DIRECTORY/ginotebook-config.sh)
+
+### Docker Variables ###
+GINB_DOCKER_CONTAINERS=(ginotebook_ginotebook_1 ginotebook_defaultworker_1)
+GINB_DOCKER_IMAGES=(ginotebook_ginotebook ginotebook_defaultworker)
+OTHER_DOCKER_CONTAINERS=(ginotebook_postgis_1 ginotebook_rabbitmq_1)
+
+### Pre-flight Variables ###
+#HTTP_RECAPTCHA='http://www.google.com/recaptcha/api/js/recaptcha_ajax.js'
+#HTTPS_RECAPTCHA='https://www.google.com/recaptcha/api/js/recaptcha_ajax.js'
+DEV_SERVER='python manage.py runserver 0.0.0.0:8000'
+PROD_SERVER='uwsgi --socket :8001 --ini uwsgi.ini'
+
+display_usage() {
+	echo "*** ginotebook Control script ***"
+	echo "usage: $0 deploy      # deletes all database and container contents and deploys from scratch"
+	echo "usage: $0 loaddb      # loads database specified in ginotebook-config.yaml into running container"
+	echo "usage: $0 loadmedia   # loads media directory specified in ginotebook-config.yaml into running container"
+	echo "usage: $0 rebuild     # deletes ginotebook container contents only and deploys using exsiting database"
+	echo "usage: $0 restart     # restarts the ginotebook container without rebuilding"
+	echo "usage: $0 start       # attempts to start all containers"
+	echo "usage: $0 stop        # stops all running containers"
+}
+
+start_nginx() {
+    echo "*** START NGINX ***"
+    cd $NGINX_DIR
+    ./run-nginx start
+    cd -
+}
+
+stop_nginx() {
+    echo "*** STOP NGINX ***"
+    cd $NGINX_DIR
+    ./run-nginx stop
+    cd -
+}
+
+restart_ginb() {
+    echo "*** ${1^^} ***"
+    stop_nginx
+    preflight_ginb
+    docker stop ginotebook_ginotebook_1
+    docker start ginotebook_ginotebook_1
+    if [ "${USE_NGINX,,}" = true ]; then
+        start_nginx
+    fi
+}
+
+start_ginb() {
+    echo "*** ${1^^}: all docker containers ***"
+    preflight_ginb
+    for f in "${OTHER_DOCKER_CONTAINERS[@]}"; do
+        docker start $f;
+    done
+    for f in "${GINB_DOCKER_CONTAINERS[@]}"; do
+        docker start $f;
+    done
+    if [ "${USE_NGINX,,}" = true ]; then
+        start_nginx
+    fi
+}
+
+stop_ginb() {
+    echo "*** ${1^^}: all running docker containers ***"
+    stop_nginx
+    for f in "${GINB_DOCKER_CONTAINERS[@]}"; do
+        CHECK_GINB_DOCKER_CID=`docker ps -a | tr -s ' ' | grep ${f} | cut -d ' ' -f 1`
+        if [[ -n "${CHECK_GINB_DOCKER_CID}" ]]; then
+            docker stop $f;
+        fi
+    done
+    for f in "${OTHER_DOCKER_CONTAINERS[@]}"; do
+        CHECK_GINB_OTHER_CID=`docker ps -a | tr -s ' ' | grep ${f} | cut -d ' ' -f 1`
+        if [[ -n "${CHECK_GINB_OTHER_CID}" ]]; then
+            docker stop $f;
+        fi
+    done
+}
+
+preflight_ginb() {
+    yes | cp -rf ${GINB_PATH}/docker-compose.template ${GINB_PATH}/docker-compose.yml
+    sed -i 's!GINB_SHARED_VOLUME!'${GINB_PATH}'!g' ${GINB_PATH}/docker-compose.yml
+    if [ "${USE_NGINX,,}" = true ]; then
+        echo "*** Using nginx: USE_NGINX = ${USE_NGINX} ***"
+        if [[ ! -d ${SSL_HOST_DIR} ]]; then
+            echo "*** creating directory: ${SSL_HOST_DIR} ***"
+            mkdir ${SSL_HOST_DIR};
+        fi
+        # generate nginx configuration file
+        if [ "${USE_SSL,,}" = true ]; then
+            echo "*** Using SSL: USE_SSL = ${USE_SSL} ***"
+            # use https version of recaptcha
+            #sed -i 's!'${HTTP_RECAPTCHA}'!'${HTTPS_RECAPTCHA}'!g' ${GINB_PATH}/theme/templates/accounts/_signup_form.html
+            # create hs-certs directory if it doesn't exist
+            if [[ ! -d ${SSL_HOST_DIR} ]]; then
+                echo "*** creating directory: ${SSL_HOST_DIR} ***"
+                mkdir ${SSL_HOST_DIR};
+            fi
+            # copy ssl cert and ssl key to hs-certs directory
+            yes | cp -rf ${SSL_CERT_DIR}/${SSL_CERT_FILE} ${SSL_HOST_DIR}
+            yes | cp -rf ${SSL_CERT_DIR}/${SSL_KEY_FILE} ${SSL_HOST_DIR};
+        else
+            echo "*** Not using SSL: USE_SSL = ${USE_SSL} ***"
+            # use http version of recaptcha
+            #sed -i 's!'${HTTPS_RECAPTCHA}'!'${HTTP_RECAPTCHA}'!g' ${GINB_PATH}/theme/templates/accounts/_signup_form.html;
+        fi
+        # use production server to run ginotebook
+        sed -i 's/'"${DEV_SERVER}"'/'"${PROD_SERVER}"'/g' ${GINB_PATH}/init;
+    else
+        echo "*** Not using nginx: USE_NGINX = ${USE_NGINX} ***"
+        # use http version of recaptcha
+        #sed -i 's!'${HTTPS_RECAPTCHA}'!'${HTTP_RECAPTCHA}'!g' ${GINB_PATH}/theme/templates/accounts/_signup_form.html
+        # use development server to run ginotebook
+        sed -i 's/'"${PROD_SERVER}"'/'"${DEV_SERVER}"'/g' ${GINB_PATH}/init;
+    fi
+}
+
+rebuild_ginb() {
+    echo "*** ${1^^} ***"
+    stop_nginx
+    preflight_ginb
+    stop_ginb STOP
+    echo "*** REMOVE: all ginotebook docker containers (preserves exiting database contents)  ***"
+    for f in "${GINB_DOCKER_CONTAINERS[@]}"; do
+        CHECK_GINB_DOCKER_CID=`docker ps -a | tr -s ' ' | grep ${f} | cut -d ' ' -f 1`
+        if [[ -n "${CHECK_GINB_DOCKER_CID}" ]]; then
+            docker rm -fv $f;
+        fi
+    done
+    sleep 1s
+    echo "*** REMOVE: all ginotebook docker images  ***"
+    for f in "${GINB_DOCKER_IMAGES[@]}"; do
+        CHECK_GINB_DOCKER_IMG=`docker ps images | tr -s ' ' | grep ${f} | cut -d ' ' -f 1`
+        if [[ -n "${CHECK_GINB_DOCKER_IMG}" ]]; then
+            docker rmi -f $f;
+        fi
+    done
+    sleep 1s
+    # bring up all docker containers
+    echo "*** bring up all docker containers as defined in docker-compose.yml ***"
+    docker-compose up -d
+    # allow containers to start
+    echo "*** allowing containers to start up ***"
+    for pc in $(seq 10 -1 1); do
+        echo -ne "$pc ...\033[0K\r"
+        sleep 1
+    done
+    echo
+    if [ "${USE_NGINX,,}" = true ]; then
+        start_nginx
+    fi
+}
+
+loaddb_ginb() {
+    echo "*** ${1^^} ***"
+    echo "*** load clean ${GINB_DATABASE} database from the running ginotebook container ***"
+    CID=$(docker ps -a | grep ginotebook_ginotebook_1 | cut -d ' ' -f 1)
+    echo "*** drop existing database ***"
+    docker exec $CID dropdb -U postgres -h postgis postgres
+    echo "*** create new database ***"
+    docker exec $CID createdb -U postgres -h postgis postgres --encoding UNICODE --template=template0
+    echo "*** create POSTGIS extension ***"
+    docker exec $CID psql -U postgres -h postgis -w -c 'create extension postgis;'
+    echo "*** load database with contents of ${GINB_DATABASE} ***"
+    docker exec $CID psql -U postgres -h postgis -f ${GINB_DATABASE}
+    echo "*** mangae.py collectstatic ***"
+    docker exec $CID python manage.py collectstatic -v0 --noinput
+    #echo "*** manage.py makemigrations ***"
+    #docker exec $CID python manage.py makemigrations
+    echo "*** manage.py migrate ***"
+    docker exec $CID python manage.py migrate
+}
+
+loadmedia_ginb() {
+    echo "*** ${1^^} ***"
+    echo "*** load clean ${GINB_MEDIA} from the running ginotebook container ***"
+    CID=$(docker ps -a | grep ginotebook_ginotebook_1 | cut -d ' ' -f 1)
+    echo "*** Expand new media directory  ***"
+    tar -xzf ${GINB_MEDIA}
+    echo "*** Remove existing media directory  ***"
+    docker exec $CID rm -rf ginotebook/static/media
+    echo "*** Load new media directory  ***"
+    docker exec $CID cp -r media_files/media ginotebook/static/
+}
+
+deploy_ginb() {
+    echo "*** ${1^^} ***"
+    stop_nginx
+    preflight_ginb
+    stop_ginb STOP
+    echo "*** REMOVE: all docker containers (deletes existing database)  ***"
+    for f in "${GINB_DOCKER_CONTAINERS[@]}"; do
+        CHECK_GINB_DOCKER_CID=`docker ps -a | tr -s ' ' | grep ${f} | cut -d ' ' -f 1`
+        if [[ -n "${CHECK_GINB_DOCKER_CID}" ]]; then
+            docker rm -fv $f;
+        fi
+    done
+    sleep 1s
+    for f in "${OTHER_DOCKER_CONTAINERS[@]}"; do
+        CHECK_GINB_OTHER_CID=`docker ps -a | tr -s ' ' | grep ${f} | cut -d ' ' -f 1`
+        if [[ -n "${CHECK_GINB_OTHER_CID}" ]]; then
+            docker rm -fv $f;
+        fi
+    done
+    sleep 1s
+    echo "*** REMOVE: all ginotebook docker images  ***"
+    for f in "${GINB_DOCKER_IMAGES[@]}"; do
+        CHECK_GINB_DOCKER_IMG=`docker images | tr -s ' ' | grep ${f} | cut -d ' ' -f 1`
+        if [[ -n "${CHECK_GINB_DOCKER_IMG}" ]]; then
+            docker rmi -f $f;
+        fi
+    done
+    sleep 1s
+    # get submodules
+    echo "*** get git submodules ***"
+    git submodule init && git submodule update
+    # build docker containers
+    echo "*** build docker containers as defined in docker-compose.yml ***"
+    docker-compose build
+    # bring up all docker containers
+    echo "*** bring up all docker containers as defined in docker-compose.yml ***"
+    docker-compose up -d
+    # allow containers to start
+    echo "*** allowing containers to start up ***"
+    for pc in $(seq 10 -1 1); do
+        echo -ne "$pc ...\033[0K\r"
+        sleep 1
+    done
+    echo
+    loadmedia_ginb LOADMEDIA
+    loaddb_ginb LOADDB
+    if [ "${USE_NGINX,,}" = true ]; then
+        start_nginx
+    fi
+}
+
+### Display usage if exactly one argument is not provided ###
+if [  $# -ne 1 ]
+then
+    display_usage
+    exit 1
+fi
+
+case "$1" in
+    deploy) deploy_ginb $1
+        ;;
+    loaddb) loaddb_ginb $1
+        ;;
+    loadmedia) loadmedia_ginb $1
+        ;;
+    rebuild) rebuild_ginb $1
+        ;;
+    restart) restart_ginb $1
+        ;;
+    start) start_ginb $1
+        ;;
+    stop) stop_ginb $1
+        ;;
+    *) display_usage
+        ;;
+esac
+
+exit 0;

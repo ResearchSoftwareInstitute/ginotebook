@@ -12,14 +12,14 @@ ginotebook:
     POSTGIS_USER: postgres
     PGPASSWORD: postgres
   volumes:
-    #- "/home/hydro/ginotebook:/home/docker/ginotebook"
     - "/home/ginotebook/ginotebook:/home/docker/ginotebook"
   ports:
     - "1338:22"
+    - "8000:8000"
   links:
     - postgis:postgis
     - rabbitmq:rabbitmq
-  command: /bin/bash init.sh
+  command: /bin/bash init
 defaultworker:
   build: .
   environment:
