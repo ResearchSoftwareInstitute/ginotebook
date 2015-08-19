@@ -1,8 +1,8 @@
 ### Local Configuration Variables ###
 GINB_PATH: /home/ginotebook/ginotebook
 GINB_BACKUP_DIR: /home/ginotebook/ginotebook/files
-GINB_DATABASE: ginb-database-backup.sql
-GINB_MEDIA: ginb-media-backup.tar.gz
+GINB_DATABASE: pg.ginotebook.sql
+GINB_MEDIA: media.ginotebook.tar.gz
 
 ### Deployment Options ###
 USE_NGINX: false
