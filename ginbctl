@@ -80,10 +80,16 @@ stop_ginb() {
     echo "*** ${1^^}: all running docker containers ***"
     stop_nginx
     for f in "${GINB_DOCKER_CONTAINERS[@]}"; do
-        docker stop $f;
+        CHECK_GINB_DOCKER_CID=`docker ps -a | tr -s ' ' | grep ${f} | cut -d ' ' -f 1`
+        if [[ -n "${CHECK_GINB_DOCKER_CID}" ]]; then
+            docker stop $f;
+        fi
     done
     for f in "${OTHER_DOCKER_CONTAINERS[@]}"; do
-        docker stop $f;
+        CHECK_GINB_OTHER_CID=`docker ps -a | tr -s ' ' | grep ${f} | cut -d ' ' -f 1`
+        if [[ -n "${CHECK_GINB_OTHER_CID}" ]]; then
+            docker stop $f;
+        fi
     done
 }
 
@@ -132,12 +138,18 @@ rebuild_ginb() {
     stop_ginb STOP
     echo "*** REMOVE: all ginotebook docker containers (preserves exiting database contents)  ***"
     for f in "${GINB_DOCKER_CONTAINERS[@]}"; do
-        docker rm -fv $f;
+        CHECK_GINB_DOCKER_CID=`docker ps -a | tr -s ' ' | grep ${f} | cut -d ' ' -f 1`
+        if [[ -n "${CHECK_GINB_DOCKER_CID}" ]]; then
+            docker rm -fv $f;
+        fi
     done
     sleep 1s
     echo "*** REMOVE: all ginotebook docker images  ***"
     for f in "${GINB_DOCKER_IMAGES[@]}"; do
-        docker rmi -f $f;
+        CHECK_GINB_DOCKER_IMG=`docker ps images | tr -s ' ' | grep ${f} | cut -d ' ' -f 1`
+        if [[ -n "${CHECK_GINB_DOCKER_IMG}" ]]; then
+            docker rmi -f $f;
+        fi
     done
     sleep 1s
     # bring up all docker containers
@@ -194,16 +206,25 @@ deploy_ginb() {
     stop_ginb STOP
     echo "*** REMOVE: all docker containers (deletes existing database)  ***"
     for f in "${GINB_DOCKER_CONTAINERS[@]}"; do
-        docker rm -fv $f;
+        CHECK_GINB_DOCKER_CID=`docker ps -a | tr -s ' ' | grep ${f} | cut -d ' ' -f 1`
+        if [[ -n "${CHECK_GINB_DOCKER_CID}" ]]; then
+            docker rm -fv $f;
+        fi
     done
     sleep 1s
     for f in "${OTHER_DOCKER_CONTAINERS[@]}"; do
-        docker rm -fv $f;
+        CHECK_GINB_OTHER_CID=`docker ps -a | tr -s ' ' | grep ${f} | cut -d ' ' -f 1`
+        if [[ -n "${CHECK_GINB_OTHER_CID}" ]]; then
+            docker rm -fv $f;
+        fi
     done
     sleep 1s
     echo "*** REMOVE: all ginotebook docker images  ***"
     for f in "${GINB_DOCKER_IMAGES[@]}"; do
-        docker rmi -f $f;
+        CHECK_GINB_DOCKER_IMG=`docker images | tr -s ' ' | grep ${f} | cut -d ' ' -f 1`
+        if [[ -n "${CHECK_GINB_DOCKER_IMG}" ]]; then
+            docker rmi -f $f;
+        fi
     done
     sleep 1s
     # get submodules
