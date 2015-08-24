@@ -9,6 +9,13 @@
     <link href="{% static 'css/normalize.css' %}" rel="stylesheet" media="all">
     <link href="{% static 'css/styles.css' %}" rel="stylesheet" media="all">
     <!--[if lt IE 9]><script src="{% static 'js/html5shiv-printshiv.js' %}" media="all"></script><![endif]-->
+    <script src="{% static 'js/jquery-2.1.4.js' %}" media="all"></script>
+
+    <script>
+        $.get("{{ watersheds_url }}", function(response) {
+            console.log( response);
+        });
+    </script>
 </head>
 <body>
     <header role="banner">
@@ -20,7 +27,7 @@
 
     <div class="wrap">
         <main role="main">
-        {{ mesg }}
+        {{ watersheds_url }}
         </main>
     </div>
 

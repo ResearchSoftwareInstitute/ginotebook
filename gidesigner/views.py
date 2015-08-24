@@ -1,9 +1,7 @@
 from django.shortcuts import render
-
-from django.http import HttpResponse
+from django.core.urlresolvers import reverse
 
 
 def index(request):
-    mesg = "Hello, world. You're at the gidesigner index."
-    context = {'mesg': mesg}
+    context = {'watersheds_url': '/api/watersheds/'}
     return render(request, 'gidesigner/index.html', context)
