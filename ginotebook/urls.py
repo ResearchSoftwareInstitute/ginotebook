@@ -9,7 +9,7 @@ urlpatterns = patterns('',
     # url(r'^$', 'ginotebook.views.home', name='home'),
     # url(r'^blog/', include('blog.urls')),
 
-    url(r'^$', 'gidesigner.views.index', name='index'),
+    url(r'^gidesigner/', include('gidesigner.urls')),
 
     url(r'^admin/', include(admin.site.urls)),
 

@@ -1,0 +1,32 @@
+{% load staticfiles %}
+<!DOCTYPE html> <!-- Adapted from: https://github.com/iandevlin/html5bones -->
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>GI Designer</title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="{% static 'css/normalize.css' %}" rel="stylesheet" media="all">
+    <link href="{% static 'css/styles.css' %}" rel="stylesheet" media="all">
+    <!--[if lt IE 9]><script src="{% static 'js/html5shiv-printshiv.js' %}" media="all"></script><![endif]-->
+</head>
+<body>
+    <header role="banner">
+        <h1>GI Designer</h1>
+        <nav role="navigation">
+
+        </nav>
+    </header>
+
+    <div class="wrap">
+        <main role="main">
+        {{ mesg }}
+        </main>
+    </div>
+
+    <footer role="contentinfo">
+        <!-- <small>Copyright &copy; <time datetime="2015">2015</time></small> -->
+    </footer>
+
+</body>
+</html>
