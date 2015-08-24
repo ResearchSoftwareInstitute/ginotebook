@@ -4,12 +4,20 @@ class Watershed(models.Model):
     name = models.CharField(max_length=64)
     model_url = models.URLField(max_length=1024)
     template_menu = models.ForeignKey('TemplatesForEcoClimate')
+    boundary = models.ForeignKey('WatershedBoundary', blank=True, null=True) # TODO: Make required
 
     def __unicode__(self):  # __str__ on Python 3
         return self.name
 
     class Meta:
         verbose_name = 'Watershed'
+
+class WatershedBoundary(models.Model):
+    name = models.CharField(max_length=64)
+    boundary = models.PolygonField()
+
+    def __unicode__(self):  # __str__ on Python 3
+        return self.name
 
 class GIInstance(models.Model):
     watershed = models.ForeignKey('Watershed')
