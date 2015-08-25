@@ -11,8 +11,12 @@
     <link href="{% static 'css/styles.css' %}" rel="stylesheet" media="all">
 
     <style>
+      body, html {
+        height: 100%;
+      }
       .controls {
         width: 140px;
+        height: 100%;
         padding: 5px;
         float: left;
       }
@@ -27,12 +31,12 @@
       .content {
         padding: 5px;
         float: left;
-        border: none;
       }
       iframe.content {
         frameborder: 0;
-        height: 600px;
-        width: 800px;
+        border: 1px solid lightgrey;
+        height: 768px;
+        width: 1024px;
       }
     </style>
 
@@ -53,13 +57,13 @@
             Design<br>
               <ul class="nav">
                 <li><a class="nav" href="#">Bird-view editor</a></li>
-                <li><a class="nav" href="http://researchsoftwareinstitute.github.io/gi-studio_test/editor/" target="content_iframe">Street-view editor</a></li>
+                <li><a class="nav" target="content_iframe" href="http://researchsoftwareinstitute.github.io/gi-studio_test/editor/">Street-view editor</a></li>
               </ul>
             <br>
             Evaluate<br>
               <ul class="nav">
                 <li><a class="nav" href="#">Run models</a></li>
-                <li><a class="nav" href="#">View results</a></li>
+                <li><a class="nav" target="content_iframe" href="{% static 'perf_report_mock.png' %}">View results</a></li>
               </ul>
             </div>
             <div id="content" class="content">
