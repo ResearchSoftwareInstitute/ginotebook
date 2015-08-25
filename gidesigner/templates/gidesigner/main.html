@@ -1,0 +1,78 @@
+{% load staticfiles %}
+<!DOCTYPE html> <!-- Adapted from: https://github.com/iandevlin/html5bones -->
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>GI Designer</title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link href="{% static 'css/normalize.css' %}" rel="stylesheet" media="all">
+    <link href="{% static 'css/styles.css' %}" rel="stylesheet" media="all">
+
+    <style>
+      .controls {
+        width: 140px;
+        padding: 5px;
+        float: left;
+      }
+      a.nav {
+        display: block;
+        width: 130px;
+      }
+      ul.nav {
+        list-style-type: none;
+        padding-left: 0px;
+      }
+      .content {
+        padding: 5px;
+        float: left;
+        border: none;
+      }
+      iframe.content {
+        frameborder: 0;
+        height: 600px;
+        width: 800px;
+      }
+    </style>
+
+    <script src="{% static 'js/jquery-2.1.4.js' %}" media="all"></script>
+
+    <!--[if lt IE 9]><script src="{% static 'js/html5shiv-printshiv.js' %}" media="all"></script><![endif]-->
+</head>
+<body>
+    <header role="banner">
+        <nav role="navigation">
+          <a href="{% url 'gidesigner:index' %}">GI Designer</a>&nbsp;&gt;&nbsp;{{ watershed_name }}
+        </nav>
+    </header>
+
+    <div class="wrap">
+        <main role="main">
+            <div id="controls" class="controls">
+            Design<br>
+              <ul class="nav">
+                <li><a class="nav" href="#">Bird-view editor</a></li>
+                <li><a class="nav" href="http://researchsoftwareinstitute.github.io/gi-studio_test/editor/" target="content_iframe">Street-view editor</a></li>
+              </ul>
+            <br>
+            Evaluate<br>
+              <ul class="nav">
+                <li><a class="nav" href="#">Run models</a></li>
+                <li><a class="nav" href="#">View results</a></li>
+              </ul>
+            </div>
+            <div id="content" class="content">
+                <iframe class="content" name="content_iframe" id="content_iframe">
+                  <p>Your browser does not support iframes.</p>
+                </iframe>
+            </div>
+        </main>
+    </div>
+
+    <footer role="contentinfo">
+        <!-- <small>Copyright &copy; <time datetime="2015">2015</time></small> -->
+    </footer>
+
+</body>
+</html>
