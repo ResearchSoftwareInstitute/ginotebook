@@ -17,7 +17,7 @@ var editInfrastructureControl;
 var draw;
 var receivers = null;
 var restServer="http://127.0.0.1:5000";
-var restServer2="https://ginotebook.renci.org/api";
+var restServer2="http://ginotebook.renci.org/api";
 var getFlowTableControl = null;
 var donor = null;
 var infrTypes = null;
@@ -417,7 +417,6 @@ function finishPolygon(evt)
 
 	var geometry = evt.feature.getGeometry();
 	console.log(geometry);
-	return;
 	var type = $('#infrastructure_type .dd-selected-value').val();
 
 	// creating point feature
