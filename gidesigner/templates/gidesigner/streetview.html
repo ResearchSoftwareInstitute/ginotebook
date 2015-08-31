@@ -1,0 +1,263 @@
+{% load staticfiles %}
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<title>CyberSEES GI Studio</title>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+		<!-- link rel='shortcut icon' type='image/x-icon' href='favicon.ico' /> -->
+    <script type="text/javascript">
+      STREETVIEW_CSS_ROOT = "{% static 'css/streetview/' %}"
+    </script>
+	</head>
+	<body>
+		<link href="{% static 'css/streetview/types.css' %}" rel="stylesheet" />
+		<link id="theme" href="{% static 'css/streetview/light.css' %}" rel="stylesheet" />
+
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+		<script src="https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=false&libraries=places"></script>
+    <script src="{% static 'js/streetview/jquery.base64.min.js' %}" type="text/javascript"></script>
+		<script src='http://underscorejs.org/underscore-min.js' type="text/javascript"></script>
+		<script src='http://backbonejs.org/backbone-min.js' type="text/javascript"></script>
+		<script src="{% static 'js/streetview/zpipe.min.js' %}" type="text/javascript"></script>
+				
+		<script src="{% static 'js/streetview/three.js' %}"></script>
+		
+		<script src="{% static 'js/streetview/from_examples/libs/system.min.js' %}"></script>
+		<script src="{% static 'js/streetview/from_examples/controls/EditorControls.js' %}"></script>
+		<script src="{% static 'js/streetview/from_examples/controls/TransformControls.js' %}"></script>
+
+		<script src="{% static 'js/streetview/from_examples/loaders/BabylonLoader.js' %}"></script>
+		<script src="{% static 'js/streetview/from_examples/loaders/ColladaLoader.js' %}"></script>
+		<script src="{% static 'js/streetview/from_examples/loaders/OBJLoader.js' %}"></script>
+		<script src="{% static 'js/streetview/from_examples/loaders/PLYLoader.js' %}"></script>
+		<script src="{% static 'js/streetview/from_examples/loaders/STLLoader.js' %}"></script>
+		<script src="{% static 'js/streetview/from_examples/loaders/UTF8Loader.js' %}"></script>
+		<script src="{% static 'js/streetview/from_examples/loaders/VRMLLoader.js' %}"></script>
+		<script src="{% static 'js/streetview/from_examples/loaders/VTKLoader.js' %}"></script>
+		<script src="{% static 'js/streetview/from_examples/loaders/ctm/lzma.js' %}"></script>
+		<script src="{% static 'js/streetview/from_examples/loaders/ctm/ctm.js' %}"></script>
+		<script src="{% static 'js/streetview/from_examples/loaders/ctm/CTMLoader.js' %}"></script>
+
+		<script src="{% static 'js/streetview/from_examples/exporters/SceneExporter.js' %}"></script>
+		<script src="{% static 'js/streetview/from_examples/exporters/OBJExporter.js' %}"></script>
+    <script src="{% static 'js/streetview/from_examples/exporters/BufferGeometryExporter.js' %}"></script>
+		<script src="{% static 'js/streetview/from_examples/exporters/Geometry2Exporter.js' %}"></script>
+		<script src="{% static 'js/streetview/from_examples/exporters/GeometryExporter.js' %}"></script>
+		<script src="{% static 'js/streetview/from_examples/exporters/MaterialExporter.js' %}"></script>
+		<script src="{% static 'js/streetview/from_examples/exporters/ObjectExporter.js' %}"></script>
+
+		<script src="{% static 'js/streetview/from_examples/renderers/SoftwareRenderer.js' %}"></script>
+		<script src="{% static 'js/streetview/from_examples/renderers/SVGRenderer.js' %}"></script>
+    <script src="{% static 'js/streetview/from_examples/renderers/WebGLRenderer3.js' %}"></script>
+
+		<!-- WIP -->
+
+		<script src="{% static 'js/streetview/from_examples/BufferGeometryUtils.js' %}"></script>
+
+		<script src="{% static 'js/streetview/libs/signals.min.js' %}"></script>
+		<script src="{% static 'js/streetview/libs/ui.js' %}"></script>
+		<script src="{% static 'js/streetview/libs/ui.three.js' %}"></script>
+
+		<script src="{% static 'js/streetview/Storage.js' %}"></script>
+
+		<script src="{% static 'js/streetview/Editor.js' %}"></script>
+		<script src="{% static 'js/streetview/Config.js' %}"></script>
+		<script src="{% static 'js/streetview/Loader.js' %}"></script>
+    <!-- Note sure we need the menubar, so these can be removed -->
+		<script src="{% static 'js/streetview/Menubar.js' %}"></script>
+		<script src="{% static 'js/streetview/Menubar.File.js' %}"></script>
+		<script src="{% static 'js/streetview/Menubar.Edit.js' %}"></script>
+    <script src="{% static 'js/streetview/Menubar.View.js' %}"></script>
+		<script src="{% static 'js/streetview/Menubar.Help.js' %}"></script>
+		<script src="{% static 'js/streetview/Sidebar.js' %}"></script>
+		<script src="{% static 'js/streetview/Sidebar.Vegetation.js' %}"></script>
+		<script src="{% static 'js/streetview/Sidebar.Add.js' %}"></script>
+		<script src="{% static 'js/streetview/Sidebar.Scene.js' %}"></script>
+		<script src="{% static 'js/streetview/Sidebar.Object3D.js' %}"></script>
+		<script src="{% static 'js/streetview/Sidebar.Geometry.js' %}"></script>
+		<script src="{% static 'js/streetview/Sidebar.Animation.js' %}"></script>
+		<script src="{% static 'js/streetview/Sidebar.Geometry.BoxGeometry.js' %}"></script>
+		<script src="{% static 'js/streetview/Sidebar.Geometry.CircleGeometry.js' %}"></script>
+		<script src="{% static 'js/streetview/Sidebar.Geometry.CylinderGeometry.js' %}"></script>
+		<script src="{% static 'js/streetview/Sidebar.Geometry.IcosahedronGeometry.js' %}"></script>
+		<script src="{% static 'js/streetview/Sidebar.Geometry.PlaneGeometry.js' %}"></script>
+		<script src="{% static 'js/streetview/Sidebar.Geometry.SphereGeometry.js' %}"></script>
+		<script src="{% static 'js/streetview/Sidebar.Geometry.TorusGeometry.js' %}"></script>
+		<script src="{% static 'js/streetview/Sidebar.Geometry.TorusKnotGeometry.js' %}"></script>
+		<script src="{% static 'js/streetview/Sidebar.Material.js' %}"></script>
+		<script src="{% static 'js/streetview/Toolbar.js' %}"></script>
+		<script src="{% static 'js/streetview/Viewport.js' %}"></script>
+
+		<!-- Rhessys -->
+		<script src="{% static 'js/streetview/Rhessys.js' %}"></script>
+		
+		<!-- longitude and latitude stuff -->
+		<script src="{% static 'js/streetview/get_latlng.js' %}" type="text/javascript"></script>
+		
+		<!-- convex Hull -->
+		<script src="{% static 'js/streetview/ConvexHull.js' %}" type="text/javascript"></script>
+		
+		<!-- Panorama stuff -->
+		<script src="{% static 'js/streetview/GSVPanoClick.js' %}"></script>
+
+		<script>
+
+			window.URL = window.URL || window.webkitURL;
+			window.BlobBuilder = window.BlobBuilder || window.WebKitBlobBuilder || window.MozBlobBuilder;
+
+			var cur_available_streetview_lat = 0, cur_available_streetview_lng = 0;
+			var cur_panoId = null;
+			//variable to store the current latitude, longitude and panoID.
+			var editor = new Editor(STREETVIEW_CSS_ROOT);
+
+			var viewport = new Viewport( editor ).setId( 'viewport' );
+			document.body.appendChild( viewport.dom );
+
+			var toolbar = new Toolbar( editor ).setId( 'toolbar' )
+			document.body.appendChild( toolbar.dom );
+
+			var menubar = new Menubar( editor ).setId( 'menubar' );
+			document.body.appendChild( menubar.dom );
+
+			var sidebar = new Sidebar( editor ).setId( 'sidebar' );
+			document.body.appendChild( sidebar.dom );
+
+			//
+
+			toolbar.init( '1220 Black Friars Road, Woodlawn, Maryland' );
+
+			editor.setTheme( editor.config.getKey( 'theme' ) );
+
+			editor.storage.init( function () {
+
+				editor.storage.get( function ( state ) {
+
+					if ( state !== undefined ) {
+                        // avoid messing with three.js, for resetting maps
+                        var index;
+                        var meshList = [];
+                        for (index = 0; index < state.object.children.length; index++){
+                            var obj = state.object.children[index];
+                            if (obj.type === "Mesh") {
+                                if (obj.name !== "ground") {
+                                    var tuple = {uuid: obj.uuid, file: obj.file};
+                                    meshList.push(tuple);
+                                }
+                            }
+                        }
+
+						var loader = new THREE.ObjectLoader();
+						var scene = loader.parse( state );
+
+                        for (var index = 0; index < scene.children.length; index++){
+                            obj = scene.children[index];
+                            for (var j = 0; j < meshList.length; j++){
+                                var tup = meshList[j];
+                                if(obj.uuid === tup.uuid){
+                                    obj.file = tup.file;
+
+                                    // reset mesh's map based on its file
+                                    // TODO choose wheter to pull from media/ground, or elsewhere
+                                    var diffuseTex = THREE.ImageUtils.loadTexture( "{% static 'media/streetview/allMesh/' %}" + meshList[j].file + '/diffuse.png' );
+                                    diffuseTex.anisotropy = editor.config.getKey( 'maxAnisotropy' );
+                                    diffuseTex.minFilter = THREE.LinearFilter;
+                                    diffuseTex.magFilter = THREE.LinearFilter;
+
+                                    obj.material.map = diffuseTex;
+                                }
+                            }
+                        }
+
+						editor.setScene( scene );
+
+					} else {
+
+						createLightAtPos( -256, 512, -128 );
+						//loadTreeAtPos( 128, -64, 256 );
+						createGround();
+
+					}
+
+					var selected = editor.config.getKey( 'selected' );
+
+					if ( selected !== undefined ) {
+
+						editor.selectByUuid( selected );
+
+					}
+
+				} );
+
+				//
+
+				var timeout;
+				var exporter = new THREE.ObjectExporter();
+
+				var saveState = function ( scene ) {
+
+					clearTimeout( timeout );
+
+					timeout = setTimeout( function () {
+
+						editor.storage.set( exporter.parse( editor.scene ) );
+
+					}, 1000 );
+
+				};
+
+				var signals = editor.signals;
+
+				signals.objectAdded.add( saveState );
+				signals.objectChanged.add( saveState );
+				signals.objectRemoved.add( saveState );
+				signals.materialChanged.add( saveState );
+				signals.sceneGraphChanged.add( saveState );
+
+			} );
+
+			//
+
+			document.addEventListener( 'dragover', function ( event ) {
+
+				event.preventDefault();
+				event.dataTransfer.dropEffect = 'copy';
+
+			}, false );
+
+			document.addEventListener( 'drop', function ( event ) {
+
+				event.preventDefault();
+				editor.loader.loadFile( event.dataTransfer.files[ 0 ] );
+
+			}, false );
+
+			document.addEventListener( 'keydown', function ( event ) {
+
+				switch ( event.keyCode ) {
+
+					case 8: // prevent browser back 
+						event.preventDefault();
+						break;
+					case 46: // delete
+						editor.removeObject( editor.selected );
+						editor.deselect();
+						break;
+
+				}
+
+			}, false );
+
+			var onWindowResize = function ( event ) {
+
+				editor.signals.windowResize.dispatch();
+
+			};
+
+			window.addEventListener( 'resize', onWindowResize, false );
+
+			onWindowResize();
+
+		</script>
+	</body>
+</html>

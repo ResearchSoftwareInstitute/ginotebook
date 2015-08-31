@@ -19,3 +19,9 @@ def birdview(request, watershed_id):
     context = {'watershed_id': watershed_id,
                'watershed_name': watershed_name }
     return render(request, 'gidesigner/birdview.html', context)
+
+def streetview(request, watershed_id):
+    watershed_name = Watershed.objects.get(pk=watershed_id)
+    context = {'watershed_id': watershed_id,
+               'watershed_name': watershed_name }
+    return render(request, 'gidesigner/streetview.html', context)

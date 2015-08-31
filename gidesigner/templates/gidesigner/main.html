@@ -35,8 +35,8 @@
       iframe.content {
         frameborder: 0;
         border: 1px solid lightgrey;
-        height: 600px;
-        width: 800px;
+        height: 768px;
+        width: 1024px;
       }
     </style>
 
@@ -57,7 +57,7 @@
             Design<br>
               <ul class="nav">
                 <li><a class="nav" target="content_iframe" href="{% url 'gidesigner:birdview' watershed_id=watershed_id %}">Bird-view editor</a></li>
-                <li><a class="nav" target="content_iframe" href="http://researchsoftwareinstitute.github.io/gi-studio_test/editor/">Street-view editor</a></li>
+                <li><a class="nav" target="content_iframe" href="{% url 'gidesigner:streetview' watershed_id=watershed_id %}">Street-view editor</a></li>
               </ul>
             <br>
             Evaluate<br>
