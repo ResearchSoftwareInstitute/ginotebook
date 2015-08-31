@@ -16,6 +16,8 @@ var Toolbar = function ( editor ) {
             		lng: results[0].geometry.location.lng()
             	};
 
+				console.log(coords);
+
 				cur_lat = coords.lat;
 				cur_lng = coords.lng;
 				//get the longitude and latitude of the current location
@@ -93,8 +95,8 @@ var Toolbar = function ( editor ) {
             	};
 
             	// hack for demo...
-            	coords.lat = 39.29533;
-            	coords.lng = -76.74360;
+            	coords.lat = 39.292891;
+            	coords.lng = -76.743471;
 
             	editor.setLocation( coords );
 
