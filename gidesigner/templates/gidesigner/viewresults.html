@@ -1,0 +1,95 @@
+{% load staticfiles %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>GI Designer</title>
+  <meta name="description" content="">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <link href="{% static 'css/normalize.css' %}" rel="stylesheet" media="all">
+  <link href="{% static 'css/styles.css' %}" rel="stylesheet" media="all">
+
+  <style>
+    table.modelresults {
+      display: block;
+      overflow-y: auto;
+      overflow-x: auto;
+      height: 80px;
+    }
+    tr.resultsheader {
+      background: #f5e79e;
+    }
+    tr.modelresults:nth-child(even) { background: #ccc;
+    }
+    tr.modelresults:nth-child(odd) { background: #fff;
+    }
+    td.modelresults {
+      padding: 6px;
+    }
+
+  </style>
+
+  <script src="{% static 'js/jquery-2.1.4.js' %}" media="all"></script>
+
+  <script language="JavaScript">
+      function viewResults() {
+        $("#results").html('<img src="{% static 'perf_report_mock.png' %}">');
+      }
+  </script>
+
+</head>
+<body>
+  <div class="wrap">
+      <main role="main">
+          <div id="controls" class="controls"></div>
+          <div id="content" class="content">
+            <table class="modelresults">
+              <thead>
+                <tr class="resultsheader">
+                  <th class="modelresults">Scenario</th>
+                  <th class="modelresults">Status</th>
+                  <th class="modelresults">Time started</th>
+                  <th class="modelresults">Time finished</th>
+                  <th class="modelresults">Action</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr class="modelresults">
+                  <td class="modelresults">Street tree planting</td>
+                  <td class="modelresults">Finished</td>
+                  <td class="modelresults">September 7, 2015 1:08 PM (EST)</td>
+                  <td class="modelresults">September 7, 2015 1:21 PM (EST)</td>
+                  <td class="modelresults"><a href="#" onclick="viewResults()">View results</a></td>
+                </tr>
+                <tr class="modelresults">
+                  <td class="modelresults">Rain garden test</td>
+                  <td class="modelresults">Finished</td>
+                  <td class="modelresults">September 8, 2015 3:30 PM (EST)</td>
+                  <td class="modelresults">September 8, 2015 3:45 PM (EST)</td>
+                  <td class="modelresults"><a href="#" onclick="viewResults()">View results</a></td>
+                </tr>
+                <tr class="modelresults">
+                  <td class="modelresults">Rain garden test</td>
+                  <td class="modelresults">Running</td>
+                  <td class="modelresults">September 9, 2015 10:17 PM (EST)</td>
+                  <td class="modelresults"></td>
+                  <td class="modelresults"></td>
+                </tr>
+              </tbody>
+            </table>
+
+            <hr>
+
+            <div id="results" class="results">
+
+            </div>
+          </div>
+      </main>
+  </div>
+
+  <footer role="contentinfo">
+      <!-- <small>Copyright &copy; <time datetime="2015">2015</time></small> -->
+  </footer>
+</body>
+</html>

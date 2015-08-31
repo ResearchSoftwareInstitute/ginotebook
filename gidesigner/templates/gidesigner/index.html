@@ -86,8 +86,7 @@
                             //console.log(response);
                             map.addLayer(new ol.layer.Vector({
                                 source: new ol.source.Vector({
-                                    object: response.boundary,
-                                    format: new ol.format.GeoJSON()
+                                    features: new ol.format.GeoJSON().readFeature(response.boundary)
                                 })
                             }));
                         });

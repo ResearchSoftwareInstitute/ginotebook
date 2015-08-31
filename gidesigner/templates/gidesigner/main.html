@@ -62,8 +62,8 @@
             <br>
             Evaluate<br>
               <ul class="nav">
-                <li><a class="nav" href="#">Run models</a></li>
-                <li><a class="nav" target="content_iframe" href="{% static 'perf_report_mock.png' %}">View results</a></li>
+                <li><a class="nav" target="content_iframe" href="{% url 'gidesigner:runmodel' watershed_id=watershed_id %}">New model run</a></li>
+                <li><a class="nav" target="content_iframe" href="{% url 'gidesigner:viewresults' watershed_id=watershed_id %}">View results</a></li>
               </ul>
             </div>
             <div id="content" class="content">
