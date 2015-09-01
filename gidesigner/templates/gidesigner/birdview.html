@@ -107,6 +107,34 @@
 				</a>
 				<a class = "btn btn-lg btn-outline accordion-toogle collapsed" id = "EditInfrastructure"> Edit Infrastructures</a>
 				<a class = "btn btn-lg btn-outline accordion-toogle collapsed" id = "ShowAllInfrastructures" onclick="return getAllGIInstances();"> Show All Infrastructures</a>
+
+        <!-- layer control widget -->
+        <div class="well well-sm">
+					<h4>Layers</h4>
+					<div class="checkbox">
+	    				<label>
+	      					<input type="checkbox" id="saturatedLayer" checked> Saturated Conditions
+	    				</label>
+	  				</div>
+	  				<input id="saturatedOpacity" type="range" min="0" max="1" step="0.1" value="0.5" />
+            <img src="{% static 'images/saturated-legend-sm.png' %}">
+
+					<div class="checkbox">
+	    				<label>
+	      					<input type="checkbox" id="imperviousLayer" checked> Impervious
+	    				</label>
+	  				</div>
+					<input id="imperviousOpacity" type="range" min="0" max="1" step="0.1" value="0.5" />
+
+					<div class="checkbox">
+	    				<label>
+	      					<input type="checkbox" id="landcoverLayer" checked> Landcover
+	    				</label>
+	  				</div>
+	  				<input id="landcoverOpacity" type="range" min="0" max="1" step="0.1" value="0.5" />
+
+        </div>
+
 <!-- 				<a class = "btn btn-default btn-xs accordion-toogle collapsed" id = "SelectPatches"> Flowtable View </a> -->
 			</div>
 			<div class = "span12 col-sm-9 col-md-10">
@@ -135,6 +163,7 @@
 	<script src="{% static 'js/birdview/collections/representation2dcollection.js' %}"></script>
 	<script src="{% static 'js/birdview/views/patchediting.js' %}"></script>
 	<script src="{% static 'js/birdview/main.js' %}"></script>
+  <script src="{% static 'js/birdview/layers.js' %}"></script>
 	    <script id='sidebar-patch-template' type="text/template">
         <td><button class="btn btn-xs btn-danger remove"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></button></td>
         <td><%= patchId %></td>

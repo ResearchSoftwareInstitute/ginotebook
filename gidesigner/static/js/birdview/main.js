@@ -266,6 +266,36 @@ var map = new ol.Map({
 	})
 });
 
+// add wms layers
+var landcover = new ol.layer.Tile({
+    source: new ol.source.TileWMS({
+      url: 'http://wssi.ncsa.illinois.edu:8080/geoserver/wms',
+      params: {'LAYERS': 'wssi:landcover', 'TILED': true},
+      serverType: 'geoserver'
+    }),
+    opacity: 0.5
+  });
+map.addLayer(landcover);
+
+var impervious = new ol.layer.Tile({
+    source: new ol.source.TileWMS({
+      url: 'http://wssi.ncsa.illinois.edu:8080/geoserver/wms',
+      params: {'LAYERS': 'wssi:impervious', 'TILED': true},
+      serverType: 'geoserver'
+    }),
+    opacity: 0.5
+  });
+map.addLayer(impervious);
+
+var saturated = new ol.layer.Tile({
+    source: new ol.source.TileWMS({
+      url: 'http://wssi.ncsa.illinois.edu:8080/geoserver/wms',
+      params: {'LAYERS': 'wssi:saturated', 'TILED': true},
+      serverType: 'geoserver'
+    }),
+    opacity: 0.5
+  });
+map.addLayer(saturated);
 
 // ading snapping point layer
 var vectorSource = new ol.source.Vector({
@@ -274,7 +304,7 @@ var vectorSource = new ol.source.Vector({
         'version=1.1.0&request=GetFeature&typename=wssi:grid_center&' +
         'outputFormat=text/javascript&format_options=callback:loadFeatures' +
         '&srsname=EPSG:3857&bbox=' + extent.join(',') + ',EPSG:3857';
-    console.log(url);
+    //console.log(url);
     $.ajax({url: url, dataType: 'jsonp', jsonp: false});
   },
   strategy: ol.loadingstrategy.tile(new ol.tilegrid.XYZ({
@@ -520,8 +550,8 @@ function delete_infr(evt) {
 				featureOverlay.removeFeature(dataMap[id][3]);
 				pointOverlay.removeFeature(dataMap[id][4]);
 				map.removeControl(editInfrastructureControl);
-				$('#EditInfrastructure').click();
 				delete dataMap[id];
+				$('#EditInfrastructure').click();
 			},
 			error: function(result) {
 				console.log('Failed to delete infrastructure: ' + id + result.statusText);
@@ -548,6 +578,8 @@ function onEditSelect() {
 	});
 	map.addControl(addInfrastructureControl);
 	$('#infrastructure_type').ddslick();
+	$('#ed_select').val([]);
+	$('#ed_select #'+geom_id).prop('selected', true);
 };
 
 function saveInfrastructure(geom_id) {
@@ -622,6 +654,8 @@ map.on("dblclick", function(e) {
 			$('#infrastructure_type').ddslick();
 			var obj = dataMap[geom_id];
 			$('#infrastructure_type').val(obj[0]);
+			$('#ed_select').val([]);
+			$('#ed_select #'+geom_id).prop('selected', true);
 	})
 	// }
 	
