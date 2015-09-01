@@ -20,9 +20,22 @@
         padding: 5px;
         float: left;
       }
+      span.breadcrumb {
+        font-size: x-large;
+        font-weight: bold;
+        padding-bottom: 12pt;
+      }
+      a.breadcrumb {
+        color: #337ab7;
+        text-decoration: none;
+      }
       a.nav {
         display: block;
         width: 130px;
+        font-size: 14pt;
+        padding-bottom: 6px;
+        color: #337ab7;
+        text-decoration: none;
       }
       ul.nav {
         list-style-type: none;
@@ -38,6 +51,15 @@
         height: 768px;
         width: 1024px;
       }
+      .menu-heading {
+        color: #9d9d9d;
+        background: #333;
+        display: block;
+        font-size: large;
+        border-color: #101010;
+        padding: 4px;
+        border-radius:3px 3px 3px 3px;
+      }
     </style>
 
     <script src="{% static 'js/jquery-2.1.4.js' %}" media="all"></script>
@@ -47,20 +69,21 @@
 <body>
     <header role="banner">
         <nav role="navigation">
-          <b><a href="{% url 'gidesigner:index' %}">GI Designer</a>&nbsp;&gt;&nbsp;{{ watershed_name }}</b>
+          <span class="breadcrumb"><a class="breadcrumb" href="{% url 'gidesigner:index' %}">GI Designer</a>&nbsp;&gt;&nbsp;{{ watershed_name }}</span>
+          <br>
         </nav>
     </header>
 
     <div class="wrap">
         <main role="main">
             <div id="controls" class="controls">
-            Design<br>
+            <span class="menu-heading">Design</span>
               <ul class="nav">
                 <li><a class="nav" target="content_iframe" href="{% url 'gidesigner:birdview' watershed_id=watershed_id %}">Bird-view editor</a></li>
                 <li><a class="nav" target="content_iframe" href="{% url 'gidesigner:streetview' watershed_id=watershed_id %}">Street-view editor</a></li>
               </ul>
             <br>
-            Evaluate<br>
+            <span class="menu-heading">Evaluate</span>
               <ul class="nav">
                 <li><a class="nav" target="content_iframe" href="{% url 'gidesigner:runmodel' watershed_id=watershed_id %}">New model run</a></li>
                 <li><a class="nav" target="content_iframe" href="{% url 'gidesigner:viewresults' watershed_id=watershed_id %}">View results</a></li>
