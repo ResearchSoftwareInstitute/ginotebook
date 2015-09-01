@@ -68,6 +68,14 @@
                     color: 'rgba(255, 0, 0, 0.25)'
                   })
                 })],
+                'Point': [new ol.style.Style({
+                  image: new ol.style.Circle({
+                    radius: 5,
+                    fill: new ol.style.Fill({
+                      color: 'red'
+                    })
+                  }),
+                })],
               }
               var styleFunction = function(feature, resolution) {
                 return styles[feature.getGeometry().getType()];
@@ -102,9 +110,10 @@
                         var vectorSource = new ol.source.Vector();
                         vectorSource.addFeature(feature);
 
-                        var vectorLayer = new ol.layer.Vector({
+                        var polyLayer = new ol.layer.Vector({
                           source: vectorSource,
-                          style: styleFunction
+                          style: styleFunction,
+                          maxResolution: 2000
                         });
 
                         new_extent = geometry.getExtent();
@@ -115,7 +124,22 @@
                         }
                         ws_center[ws.id] = ol.extent.getCenter(new_extent);
 
-                        ws_layers.push(vectorLayer);
+                        ws_layers.push(polyLayer);
+
+                        // Make point layer
+                        var ptFeature = new ol.Feature({
+                          geometry: new ol.geom.Point(ws_center[ws.id])
+                        });
+                        var ptSource = new ol.source.Vector();
+                        ptSource.addFeature(ptFeature);
+                        var ptLayer = new ol.layer.Vector({
+                          source: ptSource,
+                          style: styleFunction,
+                          maxResolution: 250000,
+                          minResolution: 2000
+                        });
+
+                        ws_layers.push(ptLayer);
                       }
                     });
                   }
