@@ -11,13 +11,14 @@
   <link href="{% static 'css/styles.css' %}" rel="stylesheet" media="all">
 
   <script src="{% static 'js/jquery-2.1.4.js' %}" media="all"></script>
+
 </head>
 <body>
   <div class="wrap">
       <main role="main">
           <div id="controls" class="controls"></div>
           <div id="content" class="content">
-            <form action="#" method="post">
+            <form action='{% url "gidesigner:viewresults" watershed_id=watershed_id %}' method="get">
               {% csrf_token %}
               Available scenarios:<br>
               <select name="scenario" id="scenario" size="5">
@@ -26,7 +27,7 @@
               </select>
               <br>
               <input type="submit" value="Run model">
-                </form>
+            </form>
           </div>
       </main>
   </div>
