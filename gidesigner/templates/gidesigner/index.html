@@ -19,7 +19,7 @@
         padding-bottom: 12pt;
       }
       .map {
-        height: 400px;
+        height: 600px;
         width: 95%;
         float: left;
       }
@@ -70,7 +70,7 @@
                 })],
                 'Point': [new ol.style.Style({
                   image: new ol.style.Circle({
-                    radius: 5,
+                    radius: 8,
                     fill: new ol.style.Fill({
                       color: 'red'
                     })
@@ -113,7 +113,7 @@
                         var polyLayer = new ol.layer.Vector({
                           source: vectorSource,
                           style: styleFunction,
-                          maxResolution: 2000
+                          maxResolution: 1000
                         });
 
                         new_extent = geometry.getExtent();
@@ -136,7 +136,7 @@
                           source: ptSource,
                           style: styleFunction,
                           maxResolution: 250000,
-                          minResolution: 2000
+                          minResolution: 1000
                         });
 
                         ws_layers.push(ptLayer);
@@ -157,7 +157,7 @@
                   layers: layers,
                   view: new ol.View({
                     center: ol.extent.getCenter(extent),
-                    zoom: 6
+                    zoom: 7
                   })
               });
 
