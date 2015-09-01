@@ -149,6 +149,12 @@
               layers = [
                     new ol.layer.Tile({
                       source: new ol.source.OSM()
+{#                      source: new ol.source.TileWMS(({#}
+{#                        url: 'http://basemap.nationalmap.gov/arcgis/services/USGSTopo/MapServer/WMSServer',#}
+{#                        params: {#}
+{#                            'LAYERS': 0#}
+{#                        }#}
+{#                      }))#}
                     })
               ].concat(ws_layers);
 
