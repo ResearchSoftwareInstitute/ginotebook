@@ -275,6 +275,7 @@ var landcover = new ol.layer.Tile({
     }),
     opacity: 0.5
   });
+landcover.setVisible(false);
 map.addLayer(landcover);
 
 var impervious = new ol.layer.Tile({
@@ -285,6 +286,7 @@ var impervious = new ol.layer.Tile({
     }),
     opacity: 0.5
   });
+impervious.setVisible(false);
 map.addLayer(impervious);
 
 var saturated = new ol.layer.Tile({
