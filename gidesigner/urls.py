@@ -9,4 +9,5 @@ urlpatterns = [
     url(r'^streetview/(?P<watershed_id>[0-9]+)/$', views.streetview, name='streetview'),
     url(r'^runmodel/(?P<watershed_id>[0-9]+)/$', views.runmodel, name='runmodel'),
     url(r'^viewresults/(?P<watershed_id>[0-9]+)/$', views.viewresults, name='viewresults'),
+    url(r'^report/(?P<watershed_id>[0-9]+)/$', views.report, name='report'),
 ]

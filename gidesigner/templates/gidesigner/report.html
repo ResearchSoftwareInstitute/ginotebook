@@ -1,0 +1,971 @@
+{% load staticfiles %}
+<!DOCTYPE html>
+<html ng-app="RadarChart">
+<head>
+  <meta charset="utf-8">
+
+  <style>
+
+    select {
+      font-size: 14px;
+      /*border: 0;*/
+      -webkit-appearance: none;
+      -moz-appearance: none;
+      /*background: transparent;*/
+      border: 1px solid #ccc;
+      text-align: center;
+      /* Styles */
+      background: #fff;
+      border-radius: 7px;
+      border: 1px solid rgba(0, 0, 0, 0.15);
+      box-shadow: 0 1px 1px rgba(50, 50, 50, 0.1);
+      cursor: pointer;
+      outline: none;
+
+      /* Font settings */
+      font-weight: bold;
+      color: #8AA8BD;
+    }
+
+    div.vertical-line {
+      position: absolute;
+      width: 3px; /* Line width */
+
+      height: 100%; /* Override in-line if you want specific height. */
+      margin-left: 13cm;
+      margin-top: 0cm;
+      background-color: silver;
+
+    }
+
+    .container {
+      position: absolute;
+      margin-top: 0cm;
+      margin-left: 0cm;
+
+    }
+
+    .containerb {
+      position: absolute;
+      margin-top: 0.3cm;
+      margin-left: 14cm;
+      margin-right: 30cm;
+      width: 380px;
+    }
+
+    .containerc {
+      position: absolute;
+      margin-left: 13.5cm;
+      margin-top: 17cm;
+      margin-right: 30cm;
+      width: 380px;
+    }
+
+    .containerd {
+      position: absolute;
+      margin-left: 14cm;
+      margin-top: 14cm;
+      margin-right: 30cm;
+      width: 380px;
+      font color: #000000;
+    }
+
+    .containerd h3 {
+      margin-left: 1cm;
+    }
+
+    .selected {
+      stroke: red;
+      fill: red;
+      opacity: 1;
+      stroke-width: 2px;
+    }
+
+    .box {
+      font: 15px sans-serif;
+    }
+
+    .box line,
+    .box rect,
+    .box circle {
+      fill: white;
+      stroke: #000;
+      stroke-width: 1px;
+    }
+
+    .box .center {
+      stroke-dasharray: 3, 3;
+    }
+
+    .box .outlier {
+      fill: none;
+      stroke: #000;
+    }
+
+    .axis {
+      font: 15px sans-serif;
+    }
+
+    .axis path,
+    .axis line {
+      fill: none;
+      stroke: #000;
+      shape-rendering: crispEdges;
+    }
+
+    .x.axis path {
+      fill: none;
+      stroke: #000;
+      shape-rendering: crispEdges;
+    }
+
+    body {
+      background: #f8f8f8;
+      font-family: 'PT Sans', Helvetica, Arial, sans-serif;
+      text-align: center;
+      color: #fff;
+    }
+
+    .page-container {
+      overflow: hidden;
+      /*width: 550px;*/
+      padding-bottom: 60px;
+      margin-top: 0.3cm;
+      margin-left: 0.3cm;
+    }
+
+    .pricing-table {
+      float: left;
+      /*width: 550px;
+      margin: 5px 14px 0 0px;*/
+      background: #f8f8f8;
+      -moz-border-radius: 6px;
+      -webkit-border-radius: 6px;
+      border-radius: 6px;
+
+    }
+
+    .pricing-table strong {
+      font-weight: 700;
+      color: #3d3d3d;
+    }
+
+    .pricing-table-header {
+      padding: 0 0 0 0;
+      background: #3d3d3d;
+      border-radius: 6px 6px 6px 6px;
+{#      background-image: -webkit-gradient(linear, left top, left bottom, from(#494949), to(#3e3e3e));#}
+{#      background-image: -webkit-linear-gradient(top, #494949, #3e3e3e);#}
+{#      background-image: -moz-linear-gradient(top, #494949, #3e3e3e);#}
+{#      background-image: -o-linear-gradient(top, #494949, #3e3e3e);#}
+{#      background-image: -ms-linear-gradient(top, #494949, #3e3e3e);#}
+{#      background-image: linear-gradient(to bottom, #494949, #3e3e3e);#}
+    }
+
+    .pricing-table-header h2 {
+      font-size: 18pt;
+      font-weight: bold;
+      margin: 2px 2px 2px 2px;
+      /*text-shadow: 0 -2px 0 rgba(0, 0, 0, .25);*/
+    }
+
+    .pricing-table-header h3 {
+      margin-top: 10px;
+      font-size: 14pt;
+      font-weight: bold;
+      /*text-shadow: 0 -2px 0 rgba(0, 0, 0, .25);*/
+    }
+
+    .pricing-table-space {
+      height: 4px;
+    }
+
+    .pricing-table-text {
+      margin: 5px 30px 0 10px;
+      padding: 0 0px 1px 0px;
+      border-bottom: 1px solid #ddd;
+      text-align: center;
+      line-height: 5px;
+      font-size: 20px;
+      color: #888;
+      font-weight: bold;
+    }
+
+    .pricing-table-features {
+      /*margin: 5px 30px 0 20px;
+      padding: 0 0px 5px 0px;*/
+      text-align: left;
+      /*line-height: 20px;*/
+      font-size: 12pt;
+      color: #888888;
+      font-weight: bold;
+    }
+
+    /* Highlighted table */
+
+    .pricing-table-highlighted {
+      margin-top: 0;
+    }
+
+    .pricing-table-highlighted .pricing-table-header {
+      background: #628842;
+      background-image: -webkit-gradient(linear, left top, left bottom, from(#76a04f), to(#648a43));
+      background-image: -webkit-linear-gradient(top, #76a04f, #648a43);
+      background-image: -moz-linear-gradient(top, #76a04f, #648a43);
+      background-image: -o-linear-gradient(top, #76a04f, #648a43);
+      background-image: -ms-linear-gradient(top, #76a04f, #648a43);
+      background-image: linear-gradient(to bottom, #76a04f, #648a43);
+    }
+
+    circle {
+      opacity: 0.2;
+      stroke: none;
+      shape-rendering: crispEdges;
+      stroke-width: 5px;
+    }
+
+    .box circle:hover {
+      stroke: red;
+      fill: red;
+      opacity: 1;
+      stroke-width: 5px;
+    }
+
+    h4 {
+      text-align: center;
+    }
+
+    h3 {
+      font-weight: bold;
+      color: #000;
+    }
+
+    .bar {
+      stroke: white;
+      fill: #D0D0D0;
+      shape-rendering: crispEdges;
+    }
+
+    .axis path, .axis line {
+      fill: none;
+      stroke: #000;
+      shape-rendering: crispEdges;
+    }
+
+  </style>
+
+  <style>
+    .radar-chart .area {
+      fill-opacity: 0.7;
+    }
+
+    .radar-chart.focus .area {
+      fill-opacity: 0.3;
+    }
+
+    .radar-chart.focus .area.focused {
+      fill-opacity: 0.9;
+    }
+
+    .area.scenario1, .scenario1 .circle {
+      fill: #7FFF00;
+      stroke: none;
+    }
+
+    .area.argentina, .argentina .circle {
+      fill: #ADD8E6;
+      stroke: none;
+    }
+  </style>
+
+  <script src="{% static 'js/report/angular.js' %}"></script>
+  <script src="{% static 'js/report/app.js' %}"></script>
+  <script src="{% static 'js/report/radar.js' %}"></script>
+  <script src="{% static 'js/report/radarDraw.js' %}"></script>
+
+  <script src="{% static 'js/report/d3.v3.min.js' %}"></script>
+  <script src="{% static 'js/report/d3.min.js' %}"></script>
+  <script src="{% static 'js/report/boxb.js' %}"></script>
+
+  <script src="{% static 'js/report/jquery.min.js' %}"></script>
+  <script src="{% static 'js/report/jquery.csv.js' %}"></script>
+
+</head>
+
+<body class="container" ng-controller="MainCtrl as radar">
+<title>GI Report MuckUp</title>
+<meta charset="utf-8">
+
+<script>
+
+  var DATA_URL = "{% static 'report/' %}";
+
+  function changediv() {
+    var obj = document.getElementById("benefits");
+    var svg = d3.select("#area2");
+    svg.selectAll("*").remove();
+
+    if (obj.options[obj.selectedIndex].value == "humanpref") {
+
+
+      d3.csv("{% static 'report/datahum.csv' %}", function (data) {
+
+        data.forEach(function (d) {
+          d.value = parseInt(d.value);
+        });
+
+        var margin = {top: 40, right: 10, bottom: 20, left: 75},
+            selectorHeight = 20
+        width = 600 - margin.left - margin.right,
+            height = 400 - margin.top - margin.bottom - selectorHeight,
+            barWidth = 45;
+
+        var numBars = Math.round(width / barWidth);
+
+        var xscale = d3.scale.ordinal()
+                .domain(data.slice(0, numBars).map(function (d) {
+                  return d.label;
+                }))
+                .rangeBands([0, width]),
+            yscale = d3.scale.linear()
+                .domain([0, d3.max(data, function (d) {
+                  return d.value;
+                })])
+                .range([height, 0]);
+
+        var xAxis = d3.svg.axis().scale(xscale).orient("bottom"),
+            yAxis = d3.svg.axis().scale(yscale).orient("left");
+
+        var svg = d3.select("#area2").append("svg")
+            .attr("width", width + margin.left + margin.right)
+            .attr("height", height + margin.top + margin.bottom + selectorHeight);
+
+        var diagram = svg.append("g")
+            .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+
+        diagram.append("g")
+            .attr("class", "x axis")
+            .attr("transform", "translate(0, " + height + ")")
+            .call(xAxis);
+
+        // diagram.append("g")
+        //         .attr("class", "y axis")
+        //        .call(yAxis);
+
+        var bars = diagram.append("g");
+
+        bars.selectAll("rect")
+            .data(data.slice(0, numBars), function (d) {
+              return d.label;
+            })
+            .enter().append("rect")
+            .attr("class", "bar")
+            .attr("x", function (d) {
+              return xscale(d.label);
+            })
+            .attr("y", function (d) {
+              return yscale(d.value);
+            })
+            .attr("width", xscale.rangeBand())
+            .attr("height", function (d) {
+              return height - yscale(d.value);
+            });
+
+        bars.selectAll("text")
+            .data(data.slice(0, numBars), function (d) {
+              return d.label;
+            })
+            .enter().append("text")
+            .attr("x", function (d) {
+              return xscale(d.label);
+            })
+            .attr("y", function (d) {
+              return yscale(d.value - 3);
+            })
+            .attr("text-anchor", "middle")
+            .attr("font-family", "sans-serif")
+            .attr("font-size", "18px")
+            .text(function (d) {
+              return d.value;
+            })
+            .attr("fill", "white")
+            .attr("dx", 42)
+            .attr("dy", ".5em");
+
+        // add a title
+        diagram.append("text")
+            .attr("x", (width / 2))
+            .attr("y", -22)
+            .attr("text-anchor", "middle")
+            .style("font-size", "23px")
+            .style("font-weight", "bold")
+          //.style("text-decoration", "underline")
+            .text("Human preference scores");
+
+        var displayed = d3.scale.quantize()
+            .domain([0, width])
+            .range(d3.range(data.length));
+
+
+      });
+
+    } else if (obj.options[obj.selectedIndex].value == "costs") {
+
+      var labels = true; // show the text labels beside individual boxplots?
+
+      var margin = {top: 30, right: 50, bottom: 70, left: 50};
+      var width = 650 - margin.left - margin.right;
+      var height = 400 - margin.top - margin.bottom;
+
+
+      var min = Infinity,
+          max = -Infinity;
+
+// parse in the data	
+      d3.csv("{% static 'report/datacosts.csv' %}", function (error, csv) {
+        // using an array of arrays with
+        // data[n][2]
+        // where n = number of columns in the csv file
+        // data[i][0] = name of the ith column
+        // data[i][1] = array of values of ith column
+
+        var data = [];
+        data[0] = [];
+        data[1] = [];
+        data[2] = [];
+        data[3] = [];
+        // add more rows if your csv file has more columns
+
+        // add here the header of the csv file
+        data[0][0] = "Construction";
+        data[1][0] = "Initial";
+        data[2][0] = "Maintenance";
+        data[3][0] = "Life cycle";
+        // add more rows if your csv file has more columns
+
+        data[0][1] = [];
+        data[1][1] = [];
+        data[2][1] = [];
+        data[3][1] = [];
+
+        csv.forEach(function (x) {
+          var v1 = Math.floor(x.Q1) / 1000000,
+              v2 = Math.floor(x.Q2) / 1000000,
+              v3 = Math.floor(x.Q3) / 1000000,
+              v4 = Math.floor(x.Q4) / 1000000;
+          // add more variables if your csv file has more columns
+
+          var rowMax = Math.max(v1, Math.max(v2, Math.max(v3, v4)));
+          var rowMin = Math.min(v1, Math.min(v2, Math.min(v3, v4)));
+
+          data[0][1].push(v1);
+          data[1][1].push(v2);
+          data[2][1].push(v3);
+          data[3][1].push(v4);
+          // add more rows if your csv file has more columns
+
+          if (rowMax > max) max = rowMax;
+          if (rowMin < min) min = rowMin;
+        });
+
+        var chart = d3.box()
+            .whiskers(iqr(1.5))
+            .height(height)
+            .domain([min, 30])
+            .showLabels(labels);
+
+        var svg = d3.select("#area2").append("svg")
+            .attr("width", width + margin.left + margin.right)
+            .attr("height", height + margin.top + margin.bottom)
+            .attr("class", "box")
+            .append("g")
+            .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+
+        // the x-axis
+        var x = d3.scale.ordinal()
+            .domain(data.map(function (d) {
+              console.log(d);
+              return d[0]
+            }))
+            .rangeRoundBands([0, width], 0.7, 0.3);
+
+        var xAxis = d3.svg.axis()
+            .scale(x)
+            .orient("bottom");
+
+        // the y-axis
+        var y = d3.scale.linear()
+            .domain([min, 30])
+            .range([height + margin.top, 0 + margin.top]);
+
+        var yAxis = d3.svg.axis()
+            .scale(y)
+            .orient("left");
+
+        // draw the boxplots
+        svg.selectAll(".box")
+            .data(data)
+            .enter().append("g")
+            .attr("transform", function (d) {
+              return "translate(" + x(d[0]) + "," + margin.top + ")";
+            })
+            .call(chart.width(x.rangeBand()));
+
+
+        // add a title
+        svg.append("text")
+            .attr("x", (width / 2))
+            .attr("y", 0 + (margin.top / 2))
+            .attr("text-anchor", "middle")
+            .style("font-size", "23px")
+            .style("font-weight", "bold")
+          //.style("text-decoration", "underline")
+            .text("Costs");
+
+        // draw y axis
+        svg.append("g")
+            .attr("class", "y axis")
+            .call(yAxis)
+            .append("text") // and text1
+            .attr("transform", "rotate(-90)")
+            .attr("y", 6)
+            .attr("dy", ".71em")
+            .style("text-anchor", "end")
+            .style("font-size", "16px")
+            .text("US Dollars (M $ of 2015)");
+
+        // draw x axis
+        svg.append("g")
+            .attr("class", "x axis")
+            .attr("transform", "translate(0," + (height + margin.top + 10) + ")")
+            .call(xAxis)
+            .append("text")             // text label for the x axis
+            .attr("x", (width / 2))
+            .attr("y", 10)
+            .attr("dy", "1.2em")
+            .style("text-anchor", "middle")
+            .style("font-size", "16px");
+        //.text("Cost"); 
+      });
+
+
+// Returns a function to compute the interquartile range.
+      function iqr(k) {
+        return function (d, i) {
+          var q1 = d.quartiles[0],
+              q3 = d.quartiles[2],
+              iqr = (q3 - q1) * k,
+              i = -1,
+              j = d.length;
+          while (d[++i] < q1 - iqr);
+          while (d[--j] > q3 + iqr);
+          return [i, j];
+        };
+      }
+
+//add random jitter to points around midline
+      function random_jitter() {
+        if (Math.round(Math.random() * 1) == 0)
+          var seed = -10;
+        else
+          var seed = 10;
+        return Math.floor((Math.random() * seed) + 1);
+      }
+
+      function type(d) {
+        d.value = +d.value; // coerce to number
+        d.date = d.date;
+        return d;
+      }
+
+    } else if (obj.options[obj.selectedIndex].value == "airpol") {
+
+      var labels = true; // show the text labels beside individual boxplots?
+
+      var marginair = {top: 30, right: 50, bottom: 70, left: 30};
+      var widthair = 650 - marginair.left - marginair.right;
+      var heightair = 400 - marginair.top - marginair.bottom;
+
+      var mina = Infinity,
+          maxa = -Infinity;
+
+// parse in the data	
+      d3.csv("{% static 'report/dataair.csv' %}", function (error, csv) {
+        // using an array of arrays with
+        // data[n][2]
+        // where n = number of columns in the csv file
+        // data[i][0] = name of the ith column
+        // data[i][1] = array of values of ith column
+
+        var data = [];
+        data[0] = [];
+        data[1] = [];
+        data[2] = [];
+        data[3] = [];
+        data[4] = [];
+        data[5] = [];
+        // add more rows if your csv file has more columns
+
+        // add here the header of the csv file
+        data[0][0] = "O3";
+        data[1][0] = "PM10";
+        data[2][0] = "NO2";
+        data[3][0] = "SO2";
+        data[4][0] = "CO";
+        data[5][0] = "C";
+        // add more rows if your csv file has more columns
+
+        data[0][1] = [];
+        data[1][1] = [];
+        data[2][1] = [];
+        data[3][1] = [];
+        data[4][1] = [];
+        data[5][1] = [];
+
+        csv.forEach(function (x) {
+          var v1 = x.Q1,
+              v2 = x.Q2,
+              v3 = x.Q3,
+              v4 = x.Q4;
+          v5 = x.Q5;
+          v6 = x.Q6;
+          // add more variables if your csv file has more columns
+
+          var rowMax = Math.max(v1, Math.max(v2, Math.max(v3, Math.max(v4, Math.max(v5, v6)))));
+          var rowMin = Math.min(v1, Math.min(v2, Math.min(v3, Math.min(v4, Math.min(v5, v6)))));
+
+          data[0][1].push(v1);
+          data[1][1].push(v2);
+          data[2][1].push(v3);
+          data[3][1].push(v4);
+          data[4][1].push(v5);
+          data[5][1].push(v6);
+          // add more rows if your csv file has more columns
+
+          if (rowMax > maxa) maxa = rowMax;
+          if (rowMin < mina) mina = rowMin;
+        });
+
+        var chart = d3.box()
+            .whiskers(iqr(1.5))
+            .height(heightair)
+            .domain([mina + 1.2, maxa])
+            .showLabels(labels);
+
+        var svg = d3.select("#area2").append("svg")
+            .attr("width", widthair + marginair.left + marginair.right)
+            .attr("height", heightair + marginair.top + marginair.bottom)
+            .attr("class", "box")
+            .append("g")
+            .attr("transform", "translate(" + marginair.left + "," + marginair.top + ")");
+
+        // the x-axis
+        var x = d3.scale.ordinal()
+            .domain(data.map(function (d) {
+              console.log(d);
+              return d[0]
+            }))
+            .rangeRoundBands([0, widthair], 0.7, 0.3);
+
+        var xAxis = d3.svg.axis()
+            .scale(x)
+            .orient("bottom");
+
+        // the y-axis
+        var y = d3.scale.linear()
+            .domain([mina + 1.2, maxa])
+            .range([heightair + marginair.top, 0 + marginair.top]);
+
+        var yAxis = d3.svg.axis()
+            .scale(y)
+            .orient("left");
+
+        // draw the boxplots
+        svg.selectAll(".box")
+            .data(data)
+            .enter().append("g")
+            .attr("transform", function (d) {
+              return "translate(" + x(d[0]) + "," + marginair.top + ")";
+            })
+            .call(chart.width(x.rangeBand()));
+
+
+        // add a title
+        svg.append("text")
+            .attr("x", (widthair / 2))
+            .attr("y", 0 + (marginair.top / 2))
+            .attr("text-anchor", "middle")
+            .style("font-size", "23px")
+            .style("font-weight", "bold")
+          //.style("text-decoration", "underline")
+            .text("Air Pollution Uptake");
+
+        // draw y axis
+        svg.append("g")
+            .attr("class", "y axis")
+            .call(yAxis)
+            .append("text") // and text1
+            .attr("transform", "rotate(-90)")
+            .attr("y", 6)
+            .attr("dy", ".71em")
+            .style("text-anchor", "end")
+            .style("font-size", "16px")
+            .text("Log(lb)");
+
+        // draw x axis
+        svg.append("g")
+            .attr("class", "x axis")
+            .attr("transform", "translate(0," + (heightair + marginair.top + 10) + ")")
+            .call(xAxis)
+            .append("text")             // text label for the x axis
+            .attr("x", (width / 2))
+            .attr("y", 10)
+            .attr("dy", "1.2em")
+            .style("text-anchor", "middle")
+            .style("font-size", "16px")
+            .style("font-weight", "bold");
+        //.text("Cost"); 
+      });
+
+
+// Returns a function to compute the interquartile range.
+      function iqr(k) {
+        return function (d, i) {
+          var q1 = d.quartiles[0],
+              q3 = d.quartiles[2],
+              iqr = (q3 - q1) * k,
+              i = -1,
+              j = d.length;
+          while (d[++i] < q1 - iqr);
+          while (d[--j] > q3 + iqr);
+          return [i, j];
+        };
+      }
+
+//add random jitter to points around midline
+      function random_jitter() {
+        if (Math.round(Math.random() * 1) == 0)
+          var seed = -10;
+        else
+          var seed = 10;
+        return Math.floor((Math.random() * seed) + 1);
+      }
+
+      function type(d) {
+        d.value = +d.value; // coerce to number
+        d.date = d.date;
+        return d;
+      }
+
+    } else if (obj.options[obj.selectedIndex].value == "pvi") {
+
+      var labels = true; // show the text labels beside individual boxplots?
+
+      var margin = {top: 30, right: 50, bottom: 70, left: 50};
+      var width = 650 - margin.left - margin.right;
+      var height = 400 - margin.top - margin.bottom;
+
+      var minpvi = Infinity,
+          maxpvi = -Infinity;
+
+// parse in the data	
+      d3.csv("{% static 'report/datapvi.csv' %}", function (error, csv) {
+        // using an array of arrays with
+        // data[n][2]
+        // where n = number of columns in the csv file
+        // data[i][0] = name of the ith column
+        // data[i][1] = array of values of ith column
+
+        var data = [];
+        data[0] = [];
+
+        // add more rows if your csv file has more columns
+
+        // add here the header of the csv file
+        data[0][0] = "Property Value Increase";
+
+        // add more rows if your csv file has more columns
+
+        data[0][1] = [];
+
+
+        csv.forEach(function (x) {
+          var v1 = Math.floor(x.Q1) / 1000000;
+          // add more variables if your csv file has more columns
+
+          var rowMax = Math.max(v1);
+          var rowMin = Math.min(v1);
+
+          data[0][1].push(v1);
+
+          // add more rows if your csv file has more columns
+
+          if (rowMax > maxpvi) maxpvi = rowMax;
+          if (rowMin < minpvi) minpvi = rowMin;
+        });
+
+        var chart = d3.box()
+            .whiskers(iqr(1.5))
+            .height(height)
+            .domain([minpvi, maxpvi])
+            .showLabels(labels);
+
+        var svg = d3.select("#area2").append("svg")
+            .attr("width", width + margin.left + margin.right)
+            .attr("height", height + margin.top + margin.bottom)
+            .attr("class", "box")
+            .append("g")
+            .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+
+        // the x-axis
+        var x = d3.scale.ordinal()
+            .domain(data.map(function (d) {
+              console.log(d);
+              return d[0]
+            }))
+            .rangeRoundBands([0, width], 0.7, 0.3);
+
+        var xAxis = d3.svg.axis()
+            .scale(x)
+            .orient("bottom");
+
+        // the y-axis
+        var y = d3.scale.linear()
+            .domain([minpvi, maxpvi])
+            .range([height + margin.top, 0 + margin.top]);
+
+        var yAxis = d3.svg.axis()
+            .scale(y)
+            .orient("left");
+
+        // draw the boxplots
+        svg.selectAll(".box")
+            .data(data)
+            .enter().append("g")
+            .attr("transform", function (d) {
+              return "translate(" + x(d[0]) + "," + margin.top + ")";
+            })
+            .call(chart.width(x.rangeBand()));
+
+
+        // add a title
+        svg.append("text")
+            .attr("x", (width / 2))
+            .attr("y", 0 + (-0.5 * margin.top / 2))
+            .attr("text-anchor", "middle")
+            .style("font-size", "23px")
+            .style("font-weight", "bold")
+          //.style("text-decoration", "underline")
+            .text("Property value increase (PVI)");
+
+        // draw y axis
+        svg.append("g")
+            .attr("class", "y axis")
+            .call(yAxis)
+            .append("text") // and text1
+            .attr("transform", "rotate(-90)")
+            .attr("y", 6)
+            .attr("dy", ".71em")
+            .style("text-anchor", "end")
+            .style("font-size", "16px")
+            .text("US Dollars (M $ of 2015)");
+
+
+      });
+
+
+// Returns a function to compute the interquartile range.
+      function iqr(k) {
+        return function (d, i) {
+          var q1 = d.quartiles[0],
+              q3 = d.quartiles[2],
+              iqr = (q3 - q1) * k,
+              i = -1,
+              j = d.length;
+          while (d[++i] < q1 - iqr);
+          while (d[--j] > q3 + iqr);
+          return [i, j];
+        };
+      }
+
+//add random jitter to points around midline
+      function random_jitter() {
+        if (Math.round(Math.random() * 1) == 0)
+          var seed = -10;
+        else
+          var seed = 10;
+        return Math.floor((Math.random() * seed) + 1);
+      }
+
+      function type(d) {
+        d.value = +d.value; // coerce to number
+        d.date = d.date;
+        return d;
+      }
+
+    }
+  }
+</script>
+
+
+<script>
+  $.get("{% static 'report/Perf_reportB.csv' %}", function (data) {
+    var html = '<div class="pricing-table-header">';
+    html += '<h2>Performance Report</h2>';
+    html += '</div>';
+    html += '<div class="pricing-table-space"></div>';
+    var rows = data.split(/\r\n|\n/);
+    var counter = 0;
+    rows.forEach(function getvalues(ourrow) {
+      var columns = ourrow.split(",");
+      if (counter == 0 | counter == 6 | counter == 9) {
+        html += '<div class ="pricing-table-text">';
+        html += "<p><strong>" + columns[0] + "&nbsp;&nbsp;" + columns[1] + "</strong></p>";
+        html += "</div>";
+        html += '<div class ="pricing-table-features">';
+      } else {
+        html += "<p><strong>" + columns[0] + "</strong>&nbsp;&nbsp;" + columns[1] + "</p>";
+      }
+
+      if (counter == 5 | counter == 8) {
+        html += "</div>";
+      }
+      counter += 1;
+    })
+    var theDiv = document.getElementById("demorept");
+    theDiv.innerHTML = html;
+  });
+
+</script>
+
+<div class="containerb" id="area1">
+  <h3>Normalized (%) performance of GI design</h3>
+  <radar csv="radar.csv" config="radar.config"></radar>
+</div>
+
+
+<div class="containerd">
+  <h3>Select co-benefit to explore distribution of benefits/costs</h3>
+
+  <form>
+    <select id="benefits" onchange="changediv()">
+      <option value="">None</option>
+      <option value="costs">Costs</option>
+      <option value="humanpref">Human preference</option>
+      <option value="airpol">Air pollutant</option>
+      <option value="pvi">Property value increase</option>
+    </select>
+  </form>
+
+</div>
+
+<div class="containerc" id="area2"></div>
+
+<div class="page-container">
+  <div class="pricing-table pricing-table-highlighted" id="demorept"></div>
+
+  <div class="vertical-line" style="height: 1140px;"/>
+</div>
+
+</body>
+</html>

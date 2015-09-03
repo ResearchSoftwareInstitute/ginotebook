@@ -37,3 +37,9 @@ def viewresults(request, watershed_id):
     context = {'watershed_id': watershed_id,
                'watershed_name': watershed_name }
     return render(request, 'gidesigner/viewresults.html', context)
+
+def report(request, watershed_id):
+    watershed_name = Watershed.objects.get(pk=watershed_id)
+    context = {'watershed_id': watershed_id,
+               'watershed_name': watershed_name }
+    return render(request, 'gidesigner/report.html', context)

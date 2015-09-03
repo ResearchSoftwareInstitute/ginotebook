@@ -16,17 +16,28 @@
       overflow-y: auto;
       overflow-x: auto;
       height: 80px;
+      width: 100%;
     }
     tr.resultsheader {
       background: #f5e79e;
     }
-    tr.modelresults:nth-child(even) { background: #ccc;
+    tr.modelresults:nth-child(even) {
+      background: #ccc;
     }
-    tr.modelresults:nth-child(odd) { background: #fff;
+    tr.modelresults:nth-child(odd) {
+      background: #fff;
     }
     td.modelresults {
       padding: 6px;
     }
+
+    iframe.results {
+        frameborder: 0;
+        border: 0px solid lightgrey;
+        /*height: 100%;*/
+        height: 925px;
+        width: 100%;
+      }
 
   </style>
 
@@ -60,14 +71,14 @@
                   <td class="modelresults">Finished</td>
                   <td class="modelresults">September 7, 2015 1:08 PM (EST)</td>
                   <td class="modelresults">September 7, 2015 1:21 PM (EST)</td>
-                  <td class="modelresults"><a href="#" onclick="viewResults()">View results</a></td>
+                  <td class="modelresults"><a href="{% url 'gidesigner:report' watershed_id=watershed_id %}" target="results_iframe">View results</a></td>
                 </tr>
                 <tr class="modelresults">
                   <td class="modelresults">Rain garden test</td>
                   <td class="modelresults">Finished</td>
                   <td class="modelresults">September 8, 2015 3:30 PM (EST)</td>
                   <td class="modelresults">September 8, 2015 3:45 PM (EST)</td>
-                  <td class="modelresults"><a href="#" onclick="viewResults()">View results</a></td>
+                  <td class="modelresults"><a href="{% url 'gidesigner:report' watershed_id=watershed_id %}" target="results_iframe">View results</a></td>
                 </tr>
                 <tr class="modelresults">
                   <td class="modelresults">Rain garden test</td>
@@ -82,7 +93,9 @@
             <hr>
 
             <div id="results" class="results">
-
+              <iframe class="results" name="results_iframe" id="results_iframe">
+                  <p>Your browser does not support iframes.</p>
+              </iframe>
             </div>
           </div>
       </main>
