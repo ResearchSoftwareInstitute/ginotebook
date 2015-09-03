@@ -275,7 +275,7 @@ var landcover = new ol.layer.Tile({
     }),
     opacity: 0.5
   });
-landcover.setVisible(false);
+landcover.setVisible(true);
 map.addLayer(landcover);
 
 var impervious = new ol.layer.Tile({
@@ -297,6 +297,7 @@ var saturated = new ol.layer.Tile({
     }),
     opacity: 0.5
   });
+saturated.setVisible(false);
 map.addLayer(saturated);
 
 // ading snapping point layer
