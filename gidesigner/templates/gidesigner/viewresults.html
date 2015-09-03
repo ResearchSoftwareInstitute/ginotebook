@@ -19,7 +19,8 @@
       width: 100%;
     }
     tr.resultsheader {
-      background: #f5e79e;
+      background: #628842;
+      color: #fff;
     }
     tr.modelresults:nth-child(even) {
       background: #ccc;
@@ -71,14 +72,20 @@
                   <td class="modelresults">Finished</td>
                   <td class="modelresults">September 7, 2015 1:08 PM (EST)</td>
                   <td class="modelresults">September 7, 2015 1:21 PM (EST)</td>
-                  <td class="modelresults"><a href="{% url 'gidesigner:report' watershed_id=watershed_id %}" target="results_iframe">View results</a></td>
+                  <td class="modelresults">
+                    <a href="{% url 'gidesigner:report' watershed_id=watershed_id %}" target="results_iframe">Summary Report</a>&nbsp;
+                    <a href="{% static 'images/ExampleHydroGraph-baselineVraingarden.png' %}" target="results_iframe">Hydrograph comparison</a>
+                  </td>
                 </tr>
                 <tr class="modelresults">
                   <td class="modelresults">Rain garden test</td>
                   <td class="modelresults">Finished</td>
                   <td class="modelresults">September 8, 2015 3:30 PM (EST)</td>
                   <td class="modelresults">September 8, 2015 3:45 PM (EST)</td>
-                  <td class="modelresults"><a href="{% url 'gidesigner:report' watershed_id=watershed_id %}" target="results_iframe">View results</a></td>
+                  <td class="modelresults">
+                    <a href="{% url 'gidesigner:report' watershed_id=watershed_id %}" target="results_iframe">Summary Report</a>&nbsp;
+                    <a href="{% static 'images/ExampleHydroGraph-baselineVraingarden.png' %}" target="results_iframe">Hydrograph comparison</a>
+                  </td>
                 </tr>
                 <tr class="modelresults">
                   <td class="modelresults">Rain garden test</td>
