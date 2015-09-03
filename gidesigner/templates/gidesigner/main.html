@@ -51,9 +51,18 @@
         height: 1050px;
         width: 1175px;
       }
-      .menu-heading {
-        color: #9d9d9d;
+      .menu-heading-design {
+        color: #fff;
         background: #333;
+        display: block;
+        font-size: large;
+        border-color: #101010;
+        padding: 4px;
+        border-radius:3px 3px 3px 3px;
+      }
+      .menu-heading-eval {
+        color: #fff;
+        background: #628842;
         display: block;
         font-size: large;
         border-color: #101010;
@@ -77,13 +86,13 @@
     <div class="wrap">
         <main role="main">
             <div id="controls" class="controls">
-            <span class="menu-heading">Design</span>
+            <span class="menu-heading-design">Design</span>
               <ul class="nav">
                 <li><a class="nav" target="content_iframe" href="{% url 'gidesigner:birdview' watershed_id=watershed_id %}">Bird-view editor</a></li>
                 <li><a class="nav" target="content_iframe" href="{% url 'gidesigner:streetview' watershed_id=watershed_id %}">Street-view editor</a></li>
               </ul>
             <br>
-            <span class="menu-heading">Evaluate</span>
+            <span class="menu-heading-eval">Evaluate</span>
               <ul class="nav">
                 <li><a class="nav" target="content_iframe" href="{% url 'gidesigner:runmodel' watershed_id=watershed_id %}">New model run</a></li>
                 <li><a class="nav" target="content_iframe" href="{% url 'gidesigner:viewresults' watershed_id=watershed_id %}">View results</a></li>
