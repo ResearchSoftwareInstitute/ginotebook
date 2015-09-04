@@ -116,12 +116,20 @@
         <!-- layer control widget -->
         <div class="well well-sm">
 					<h4>Layers</h4>
-					<div class="checkbox">
+          <div class="checkbox">
 	    				<label>
-	      					<input type="checkbox" id="saturatedLayer"> % of Year Saturated
+	      					<input type="checkbox" id="saturatedLayer-rg"> % of Year Saturated - Rain garden test
 	    				</label>
 	  				</div>
-	  				<input id="saturatedOpacity" type="range" min="0" max="1" step="0.1" value="0.5" />
+	  				<input id="saturatedOpacity-rg" type="range" min="0" max="1" step="0.1" value="0.5" />
+            <img src="{% static 'images/saturated-legend-sm.png' %}">
+
+					<div class="checkbox">
+	    				<label>
+	      					<input type="checkbox" id="saturatedLayer-base"> % of Year Saturated - baseline
+	    				</label>
+	  				</div>
+	  				<input id="saturatedOpacity-base" type="range" min="0" max="1" step="0.1" value="0.5" />
             <img src="{% static 'images/saturated-legend-sm.png' %}">
 
 					<div class="checkbox">

@@ -300,6 +300,17 @@ var saturated = new ol.layer.Tile({
 saturated.setVisible(false);
 map.addLayer(saturated);
 
+var saturated2 = new ol.layer.Tile({
+    source: new ol.source.TileWMS({
+      url: 'http://wssi.ncsa.illinois.edu:8080/geoserver/wms',
+      params: {'LAYERS': 'wssi:saturation', 'TILED': true},
+      serverType: 'geoserver'
+    }),
+    opacity: 0.5
+  });
+saturated2.setVisible(false);
+map.addLayer(saturated2);
+
 // ading snapping point layer
 var vectorSource = new ol.source.Vector({
   loader: function(extent, resolution, projection) {

@@ -18,11 +18,20 @@ $('#imperviousOpacity').change(function(){
 });
 
 
-$('#saturatedLayer').click(function() {
+$('#saturatedLayer-base').click(function() {
 	var onoff = $(this).is(':checked');
 	saturated.setVisible(onoff);
 });
-$('#saturatedOpacity').change(function(){
+$('#saturatedOpacity-base').change(function(){
 	var opacity = $(this).val();
 	saturated.setOpacity(opacity);
+});
+
+$('#saturatedLayer-rg').click(function() {
+	var onoff = $(this).is(':checked');
+	saturated2.setVisible(onoff);
+});
+$('#saturatedLayer-rg').change(function(){
+	var opacity = $(this).val();
+	saturated2.setOpacity(opacity);
 });
