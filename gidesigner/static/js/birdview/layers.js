@@ -31,7 +31,7 @@ $('#saturatedLayer-rg').click(function() {
 	var onoff = $(this).is(':checked');
 	saturated2.setVisible(onoff);
 });
-$('#saturatedLayer-rg').change(function(){
+$('#saturatedOpacity-rg').change(function(){
 	var opacity = $(this).val();
 	saturated2.setOpacity(opacity);
 });
