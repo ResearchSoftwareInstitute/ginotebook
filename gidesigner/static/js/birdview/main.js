@@ -270,6 +270,19 @@ var map = new ol.Map({
 	})
 });
 
+// need to add this layer with single image
+// tried with tiled layer then it crashes geoserver
+var vul = new ol.layer.Image({
+    source: new ol.source.ImageWMS({
+      url: 'http://wssi.ncsa.illinois.edu:8080/geoserver/wms',
+      params: {'LAYERS': 'wssi:vul_ws'},
+      serverType: 'geoserver'
+    }),
+    opacity: 0.5
+  });
+vul.setVisible(false);
+map.addLayer(vul);
+
 // add wms layers
 var landcover = new ol.layer.Tile({
     source: new ol.source.TileWMS({

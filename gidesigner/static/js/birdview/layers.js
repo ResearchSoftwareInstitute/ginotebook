@@ -1,3 +1,13 @@
+$('#vulLayer').click(function(){
+	var onoff = $(this).is(':checked');
+	vul.setVisible(onoff);
+});
+
+$('#vulOpacity').change(function(){
+	var opacity = $(this).val();
+	vul.setOpacity(opacity);
+});
+
 $('#landcoverLayer').click(function(){
 	var onoff = $(this).is(':checked');
 	landcover.setVisible(onoff);
