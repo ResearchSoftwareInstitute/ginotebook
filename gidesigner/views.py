@@ -1,5 +1,6 @@
 from django.shortcuts import render
 from django.http import HttpResponse
+from django.core.context_processors import csrf
 
 from gidb.models import Watershed
 
@@ -18,6 +19,7 @@ def birdview(request, watershed_id):
     watershed_name = Watershed.objects.get(pk=watershed_id)
     context = {'watershed_id': watershed_id,
                'watershed_name': watershed_name }
+    context.update(csrf(request))
     return render(request, 'gidesigner/birdview.html', context)
 
 def streetview(request, watershed_id):

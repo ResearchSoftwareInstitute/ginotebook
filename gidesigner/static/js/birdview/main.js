@@ -33,9 +33,13 @@ var prj = {
 var raster = new ol.layer.Tile({
 	source: new ol.source.OSM()
 });
+
 $.ajaxSetup({
-    headers: { 'Authorization' :'Token 16a2133de2cc2a9c5d5b6c589262e0774f077bda' }
+    headers: { 'Authorization': 'Token 16a2133de2cc2a9c5d5b6c589262e0774f077bda',
+		       'X-CSRFToken': $.cookie('csrftoken')
+	}
 });
+// TODO Refactor as per: https://docs.djangoproject.com/en/1.7/ref/contrib/csrf/
 
 window.app = {};
 var app = window.app;
