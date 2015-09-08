@@ -80,25 +80,7 @@ function createLightAtPos( x, y, z ) {
     // some problem with directional light creating empty objects visible in 
     // the editor list of objects...
     var dlight = new THREE.DirectionalLight( 0xffffff );
-    dlight.position.set( x, y, z );        
-    
-    dlight.castShadow = true;
-    dlight.shadowDarkness = 0.5;
-    dlight.shadowMapWidth = 2048;
-    dlight.shadowMapHeight = 2048;
-
-    var d = 512;
-
-    dlight.shadowCameraLeft = -d;
-    dlight.shadowCameraRight = d;
-    dlight.shadowCameraTop = d;
-    dlight.shadowCameraBottom = -d;
-
-    dlight.shadowCameraFar = 1000;
-    //dlight.shadowCameraVisible = true;
-    
-    dlight.target.name = "lightTarget";
-    dlight.target.position.set( 0, 0, 0 );
+    dlight.position.set( x, y, z );
 
     dlight.name = "light";
     dlight.intensity = 1;
