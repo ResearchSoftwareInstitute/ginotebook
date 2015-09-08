@@ -199,7 +199,7 @@ function loadPanorama() {
     // 1 is very fuzzy, 2 is fuzzy, 3 is the highest resolution available.  
     // 4 errors occur, possibly because 4 panels don't have resolution 3 available
     loader.setZoom( 3 );
-    loader.load( new google.maps.LatLng( 39.292891, -76.743471 ) );
+    loader.load( new google.maps.LatLng( 39.2936551, -76.7442977 ) );
 
 }
 

@@ -95,8 +95,8 @@ var Toolbar = function ( editor ) {
             	};
 
             	// hack for demo...
-            	coords.lat = 39.292891;
-            	coords.lng = -76.743471;
+            	coords.lat = 39.2936551;
+            	coords.lng = -76.7442977;
 
             	editor.setLocation( coords );
 
