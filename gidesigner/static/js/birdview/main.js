@@ -354,6 +354,7 @@ var snapping = new ol.layer.Vector({
   opacity: 0.1
 });
 
+snapping.setVisible(false);
 map.addLayer(snapping);
 
 var pointOverlay = new ol.FeatureOverlay({
@@ -434,6 +435,7 @@ $('#EditInfrastructure').click(function() {
 
 
 function addInteraction() {
+	snapping.setVisible(true);
 	draw = new ol.interaction.Draw({
 		features: featureOverlay.getFeatures(),
 		type: 'Polygon', //(typeSelect.value)
@@ -462,7 +464,7 @@ function closeEditFunction() {
 
 function finishPolygon(evt)
 {
-
+	snapping.setVisible(false);
 	var geometry = evt.feature.getGeometry();
 	console.log(geometry);
 	var type = $('#infrastructure_type .dd-selected-value').val();
