@@ -85,32 +85,38 @@
               var ws_center = {};
               var ws_layers = [];
               var extent = undefined;
+
+              var map = new ol.Map({
+                  target: 'map',
+                  layers: [new ol.layer.Tile({
+                    source: new ol.source.OSM()
+                  })],
+                  view: new ol.View({
+                    center: [-8664297.894314386, 4532763.481814224],
+                    zoom: 7
+                  })
+              });
               $.ajax({
-                async: false,
                 url: "{{ watersheds_url }}",
                 success: function(response) {
-                  console.log(response);
                   for (i = 0; i < response.results.length; i++) {
                     var ws = response.results[i];
-                    console.log(ws.name);
                     $.ajax({
-                      async: false,
+                      ws: ws,
                       url: ws.boundary,
                       success: function (response) {
-                        //console.log(JSON.stringify(response.boundary));
-
                         var geometry = (new ol.format.GeoJSON()).readGeometry(response.boundary,
                             {dataProjection: ol.proj.get('EPSG:4326'),
                              featureProjection: ol.proj.get('EPSG:3857')});
                         var feature = new ol.Feature({
                           geometry: geometry,
-                          name: ws.name
+                          name: this.ws.name
                         });
 
                         var vectorSource = new ol.source.Vector();
                         vectorSource.addFeature(feature);
 
-                        var polyLayer = new ol.layer.Vector({
+                        polyLayer = new ol.layer.Vector({
                           source: vectorSource,
                           style: styleFunction,
                           maxResolution: 1000
@@ -122,49 +128,27 @@
                         } else {
                           ol.extent.extend(extent, new_extent);
                         }
-                        ws_center[ws.id] = ol.extent.getCenter(new_extent);
-
-                        ws_layers.push(polyLayer);
+                        ws_center[this.ws.id] = ol.extent.getCenter(new_extent);
+                        console.log(this.ws.id + ", " + ws_center[this.ws.id]);
+                        map.addLayer(polyLayer);
 
                         // Make point layer
                         var ptFeature = new ol.Feature({
-                          geometry: new ol.geom.Point(ws_center[ws.id])
+                          geometry: new ol.geom.Point(ws_center[this.ws.id])
                         });
                         var ptSource = new ol.source.Vector();
                         ptSource.addFeature(ptFeature);
-                        var ptLayer = new ol.layer.Vector({
+                        ptLayer = new ol.layer.Vector({
                           source: ptSource,
                           style: styleFunction,
                           maxResolution: 250000,
                           minResolution: 1000
                         });
-
-                        ws_layers.push(ptLayer);
+                        map.addLayer(ptLayer);
                       }
                     });
                   }
                 }
-              });
-
-              layers = [
-                    new ol.layer.Tile({
-                      source: new ol.source.OSM()
-{#                      source: new ol.source.TileWMS(({#}
-{#                        url: 'http://basemap.nationalmap.gov/arcgis/services/USGSTopo/MapServer/WMSServer',#}
-{#                        params: {#}
-{#                            'LAYERS': 0#}
-{#                        }#}
-{#                      }))#}
-                    })
-              ].concat(ws_layers);
-
-              var map = new ol.Map({
-                  target: 'map',
-                  layers: layers,
-                  view: new ol.View({
-                    center: ol.extent.getCenter(extent),
-                    zoom: 7
-                  })
               });
 
               function zoomToWatershed(watershed_id) {
