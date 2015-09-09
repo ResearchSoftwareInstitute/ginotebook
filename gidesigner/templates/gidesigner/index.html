@@ -151,6 +151,17 @@
                 }
               });
 
+              var vulIndex = new ol.layer.Image({
+                source: new ol.source.ImageWMS({
+                  url: 'http://wssi.ncsa.illinois.edu:8080/geoserver/wms',
+                  params: {'LAYERS': 'wssi:vul_county'},
+                  serverType: 'geoserver'
+                }),
+                opacity: 0.5
+              });
+
+              map.addLayer(vulIndex);
+
               function zoomToWatershed(watershed_id) {
                 newView = new ol.View({
                   center: ws_center[watershed_id],
