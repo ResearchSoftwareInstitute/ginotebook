@@ -7,6 +7,16 @@ $('#contourOpacity').change(function() {
   contour.setOpacity(opacity);
 });
 
+$('#rankLayer').click(function() {
+  var onoff = $(this).is(':checked');
+  rank.setVisible(onoff);
+});
+$('#rankOpacity').change(function() {
+  var opacity = $(this).val();
+  rank.setOpacity(opacity);
+});
+
+
 $('#vulLayer').click(function() {
   var onoff = $(this).is(':checked');
   vul.setVisible(onoff);
