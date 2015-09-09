@@ -191,8 +191,8 @@
     }
 
     .pricing-table-text {
-      margin: 5px 30px 0 10px;
-      padding: 0 0px 1px 0px;
+      margin: 5px 30px 10px 10px;
+      padding: 0 0px 0px 0px;
       border-bottom: 1px solid #ddd;
       text-align: center;
       line-height: 5px;
@@ -940,11 +940,11 @@
       var columns = ourrow.split(",");
       if (counter == 0 | counter == 6 | counter == 9) {
         html += '<div class ="pricing-table-text">';
-        html += "<p><strong>" + columns[0] + "&nbsp;&nbsp;" + columns[1] + "</strong></p>";
+        html += "<strong><p>" + columns[0] + "&nbsp;&nbsp;" + columns[1] + "</strong></p>";
         html += "</div>";
         html += '<div class ="pricing-table-features">';
       } else {
-        html += "<p><strong>" + columns[0] + "</strong>&nbsp;&nbsp;" + columns[1] + "</p>";
+        html += "<strong>" + columns[0] + "</strong>&nbsp;&nbsp;" + columns[1] + "<br>";
       }
 
       if (counter == 5 | counter == 8) {
