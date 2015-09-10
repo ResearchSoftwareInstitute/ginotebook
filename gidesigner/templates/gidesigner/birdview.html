@@ -185,6 +185,15 @@
 	  		<img src="http://wssi.ncsa.illinois.edu:8080/geoserver/wssi/wms?REQUEST=GetLegendGraphic&VERSION=1.0.0&FORMAT=image/png&WIDTH=20&HEIGHT=20&STRICT=false&style=line">
 		  </div>
 
+          <div class="checkbox">
+            <label>
+              <input type="checkbox" id="osmLayer" checked> Open Street Map <a class="btn btn-default btn-xs" role="button" data-toggle="collapse" href="#osmLegend" aria-expanded="false" aria-controls="osmLegend">Legend</a>
+            </label>
+		  </div>
+		  <div class="collapse" id="osmLegend">
+	  		<input id="osmOpacity" type="range" min="0" max="1" step="0.1" value="1" />
+		  </div>
+
       </div>
 
 <!-- 				<a class = "btn btn-default btn-xs accordion-toogle collapsed" id = "SelectPatches"> Flowtable View </a> -->

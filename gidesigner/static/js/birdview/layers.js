@@ -1,3 +1,12 @@
+$('#osmLayer').click(function() {
+  var onoff = $(this).is(':checked');
+  raster.setVisible(onoff);
+});
+$('#osmOpacity').change(function() {
+  var opacity = $(this).val();
+  raster.setOpacity(opacity);
+});
+
 $('#contourLayer').click(function() {
   var onoff = $(this).is(':checked');
   contour.setVisible(onoff);
