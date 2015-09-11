@@ -1,0 +1,39 @@
+{% load staticfiles %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>GI Designer</title>
+  <meta name="description" content="">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <link href="{% static 'css/normalize.css' %}" rel="stylesheet" media="all">
+  <link href="{% static 'css/styles.css' %}" rel="stylesheet" media="all">
+
+  <script src="{% static 'js/jquery-2.1.4.js' %}" media="all"></script>
+
+</head>
+<body>
+  <div class="wrap">
+      <main role="main">
+          <div id="controls" class="controls"></div>
+          <div id="content" class="content">
+            <form action='{% url "gidesigner:viewresults" watershed_id=watershed_id %}' method="get">
+              {% csrf_token %}
+              Available scenarios:<br>
+              <select name="scenario" id="scenario" size="5">
+                <option value="1">Rain garden test</option>
+                <option value="2">Street tree planting</option>
+              </select>
+              <br>
+              <input type="submit" value="Run model">
+            </form>
+          </div>
+      </main>
+  </div>
+
+  <footer role="contentinfo">
+      <!-- <small>Copyright &copy; <time datetime="2015">2015</time></small> -->
+  </footer>
+</body>
+</html>

@@ -5,3 +5,9 @@
 .idea/
 db.sqlite3
 *~
+ginotebook/static
+config/ginotebook-config.sh
+config/ginotebook-config.yaml
+nginx/config-files/ginb-nginx.conf
+docker-compose.yml
+media_files/

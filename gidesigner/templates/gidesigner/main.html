@@ -1,0 +1,114 @@
+{% load staticfiles %}
+<!DOCTYPE html> <!-- Adapted from: https://github.com/iandevlin/html5bones -->
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>GI Designer</title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link href="{% static 'css/normalize.css' %}" rel="stylesheet" media="all">
+    <link href="{% static 'css/styles.css' %}" rel="stylesheet" media="all">
+
+    <style>
+      body, html {
+        height: 100%;
+      }
+      .controls {
+        width: 140px;
+        height: 100%;
+        padding: 5px;
+        float: left;
+      }
+      span.breadcrumb {
+        font-size: x-large;
+        font-weight: bold;
+        padding-bottom: 12pt;
+      }
+      a.breadcrumb {
+        color: #337ab7;
+        text-decoration: none;
+      }
+      a.nav {
+        display: block;
+        width: 130px;
+        font-size: 14pt;
+        padding-bottom: 6px;
+        color: #337ab7;
+        text-decoration: none;
+      }
+      ul.nav {
+        list-style-type: none;
+        padding-left: 0px;
+      }
+      .content {
+        padding: 5px;
+        float: left;
+      }
+      iframe.content {
+        frameborder: 0;
+        border: 1px solid lightgrey;
+        height: 1050px;
+        width: 1175px;
+      }
+      .menu-heading-design {
+        color: #fff;
+        background: #333;
+        display: block;
+        font-size: large;
+        border-color: #101010;
+        padding: 4px;
+        border-radius:3px 3px 3px 3px;
+      }
+      .menu-heading-eval {
+        color: #fff;
+        background: #628842;
+        display: block;
+        font-size: large;
+        border-color: #101010;
+        padding: 4px;
+        border-radius:3px 3px 3px 3px;
+      }
+    </style>
+
+    <script src="{% static 'js/jquery-2.1.4.js' %}" media="all"></script>
+
+    <!--[if lt IE 9]><script src="{% static 'js/html5shiv-printshiv.js' %}" media="all"></script><![endif]-->
+</head>
+<body>
+    <header role="banner">
+        <nav role="navigation">
+          <span class="breadcrumb"><a class="breadcrumb" href="{% url 'gidesigner:index' %}">GI Designer</a>&nbsp;&gt;&nbsp;{{ watershed_name }}</span>
+          <br>
+        </nav>
+    </header>
+
+    <div class="wrap">
+        <main role="main">
+            <div id="controls" class="controls">
+            <span class="menu-heading-design">Design</span>
+              <ul class="nav">
+                <li><a class="nav" target="content_iframe" href="{% url 'gidesigner:birdview' watershed_id=watershed_id %}">Bird-view</a></li>
+                <li><a class="nav" target="content_iframe" href="{% url 'gidesigner:streetview' watershed_id=watershed_id %}">Street-view</a></li>
+              </ul>
+            <br>
+            <span class="menu-heading-eval">Evaluate</span>
+              <ul class="nav">
+                <li><a class="nav" target="content_iframe" href="{% url 'gidesigner:runmodel' watershed_id=watershed_id %}">New model run</a></li>
+                <li><a class="nav" target="content_iframe" href="{% url 'gidesigner:viewresults' watershed_id=watershed_id %}">View results</a></li>
+              </ul>
+            </div>
+            <div id="content" class="content">
+                <iframe class="content" name="content_iframe" id="content_iframe" src="{% url 'gidesigner:birdview' watershed_id=watershed_id %}">
+                  <p>Your browser does not support iframes.</p>
+                </iframe>
+            </div>
+        </main>
+    </div>
+
+    <footer role="contentinfo">
+        <!-- <small>Copyright &copy; <time datetime="2015">2015</time></small> -->
+    </footer>
+
+</body>
+</html>

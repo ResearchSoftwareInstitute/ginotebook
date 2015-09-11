@@ -1,0 +1,6 @@
+group, axis, value, description
+Rain gardens, Cost, 20, % of potnetial max. mean life cycle cost
+Rain gardens, Human preference, 20, Mean human preference scores (Max. 5)
+Rain gardens, Volume reduction (MGal/yr/ac), 5, Mean volume reduction per treated area as compared to curent land cover (MGal/yr/ac)
+Rain gardens, Air pollutant, 8, % of max. monetized mean air pollutant reduction saving  
+Rain gardens, PVI, 40, % of max. mean property value increase
