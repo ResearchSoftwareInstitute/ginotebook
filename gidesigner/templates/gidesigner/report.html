@@ -150,6 +150,16 @@
       color: #3d3d3d;
     }
 
+    .design-table-header {
+      padding: 0 0 0 0;
+      background: rgb(51, 51, 51);
+      border-radius: 6px 6px 6px 6px;
+    }
+
+    .design-table-header h2 {
+      margin-top: 0;
+    }
+
     .pricing-table-header {
       padding: 0 0 0 0;
       background: #3d3d3d;
@@ -181,8 +191,8 @@
     }
 
     .pricing-table-text {
-      margin: 5px 30px 0 10px;
-      padding: 0 0px 1px 0px;
+      margin: 5px 30px 10px 10px;
+      padding: 0 0px 0px 0px;
       border-bottom: 1px solid #ddd;
       text-align: center;
       line-height: 5px;
@@ -236,6 +246,7 @@
     }
 
     h3 {
+      margin-top: 0;
       font-weight: bold;
       color: #000;
     }
@@ -907,10 +918,19 @@
   }
 </script>
 
-
 <script>
   $.get("{% static 'report/Perf_reportB.csv' %}", function (data) {
-    var html = '<div class="pricing-table-header">';
+    // Hack design summary
+    var html = '<div class="design-table-header"><h2 class="design-table-header">GI Design Summary</h2></div><div class="pricing-table-space"></div>';
+    html += '<div class ="pricing-table-features">';
+    html += "<strong>Watershed drainage area (acres)</strong>&nbsp;&nbsp;394<br>";
+    html += "<strong>Number of GI features added (no. 3-m patches)</strong>&nbsp;&nbsp;1,566 (2,850)<br>";
+    html += "<strong>Area of GI features added (acres; %)</strong>&nbsp;&nbsp;6.2 (1.6%)<br>";
+    html += "<strong>Impervious area treated (acres)</strong>&nbsp;&nbsp;25.75";
+    html += "</div>";
+    html += '<div class="pricing-table-space"></div>';
+
+    html += '<div class="pricing-table-header">';
     html += '<h2>Performance Report</h2>';
     html += '</div>';
     html += '<div class="pricing-table-space"></div>';
@@ -920,11 +940,11 @@
       var columns = ourrow.split(",");
       if (counter == 0 | counter == 6 | counter == 9) {
         html += '<div class ="pricing-table-text">';
-        html += "<p><strong>" + columns[0] + "&nbsp;&nbsp;" + columns[1] + "</strong></p>";
+        html += "<strong><p>" + columns[0] + "&nbsp;&nbsp;" + columns[1] + "</strong></p>";
         html += "</div>";
         html += '<div class ="pricing-table-features">';
       } else {
-        html += "<p><strong>" + columns[0] + "</strong>&nbsp;&nbsp;" + columns[1] + "</p>";
+        html += "<strong>" + columns[0] + "</strong>&nbsp;&nbsp;" + columns[1] + "<br>";
       }
 
       if (counter == 5 | counter == 8) {

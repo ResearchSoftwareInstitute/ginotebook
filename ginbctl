@@ -146,7 +146,7 @@ rebuild_ginb() {
     sleep 1s
     echo "*** REMOVE: all ginotebook docker images  ***"
     for f in "${GINB_DOCKER_IMAGES[@]}"; do
-        CHECK_GINB_DOCKER_IMG=`docker ps images | tr -s ' ' | grep ${f} | cut -d ' ' -f 1`
+        CHECK_GINB_DOCKER_IMG=`docker images | tr -s ' ' | grep ${f} | cut -d ' ' -f 1`
         if [[ -n "${CHECK_GINB_DOCKER_IMG}" ]]; then
             docker rmi -f $f;
         fi

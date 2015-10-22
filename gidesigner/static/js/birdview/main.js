@@ -272,6 +272,17 @@ var map = new ol.Map({
 
 // need to add this layer with single image
 // tried with tiled layer then it crashes geoserver
+// add wms layers
+var contour = new ol.layer.Tile({
+    source: new ol.source.TileWMS({
+      url: 'http://wssi.ncsa.illinois.edu:8080/geoserver/wms',
+      params: {'LAYERS': 'wssi:dr5_contour', 'TILED': true},
+      serverType: 'geoserver'
+    }),
+    opacity: 0.5
+  });
+map.addLayer(contour);
+
 var vul = new ol.layer.Image({
     source: new ol.source.ImageWMS({
       url: 'http://wssi.ncsa.illinois.edu:8080/geoserver/wms',
@@ -282,6 +293,17 @@ var vul = new ol.layer.Image({
   });
 vul.setVisible(false);
 map.addLayer(vul);
+
+var rank = new ol.layer.Image({
+    source: new ol.source.ImageWMS({
+      url: 'http://wssi.ncsa.illinois.edu:8080/geoserver/wms',
+      params: {'LAYERS': 'wssi:siterank'},
+      serverType: 'geoserver'
+    }),
+    opacity: 0.5
+  });
+rank.setVisible(false);
+map.addLayer(rank);
 
 // add wms layers
 var landcover = new ol.layer.Tile({
