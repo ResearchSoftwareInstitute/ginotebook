@@ -1,5 +1,7 @@
 from rest_framework import authentication, permissions, viewsets
 
+from rest_framework_gis.filters import DistanceToPointFilter
+
 from ..models import Watershed
 from ..serializers import WatershedSerializer
 from ..models import WatershedBoundary
@@ -65,6 +67,9 @@ class GIInstanceViewSet(DefaultsMixin, viewsets.ModelViewSet):
 
     queryset = GIInstance.objects.all()
     serializer_class = GIInstanceSerializer
+    distance_filter_field = 'placement_poly'
+    filter_backends = (DistanceToPointFilter,)
+    distance_filter_convert_meters = True
 
 
 class HumanPrefImageViewSet(DefaultsMixin, viewsets.ModelViewSet):
