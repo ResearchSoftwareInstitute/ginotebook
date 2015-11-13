@@ -13,6 +13,7 @@ ginotebook:
     PGPASSWORD: postgres
   volumes:
     - "GINB_SHARED_VOLUME:/home/docker/ginotebook"
+    - "/home/ginotebook/www:/home/docker/www"
   ports:
     - "1338:22"
     - "8000:8000"

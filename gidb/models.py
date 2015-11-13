@@ -1,7 +1,14 @@
 from django.contrib.gis.db import models
 
+
+class Region(models.Model):
+    name = models.CharField(max_length=64)
+    # TODO add representation of associated GIS datasets
+
+
 class Watershed(models.Model):
     name = models.CharField(max_length=64)
+    region = models.ForeignKey('Region', related_name='watersheds')
     model_url = models.URLField(max_length=1024)
     template_menu = models.ForeignKey('TemplatesForEcoClimate')
     boundary = models.ForeignKey('WatershedBoundary', blank=True, null=True) # TODO: Make required
@@ -12,6 +19,7 @@ class Watershed(models.Model):
     class Meta:
         verbose_name = 'Watershed'
 
+
 class WatershedBoundary(models.Model):
     name = models.CharField(max_length=64)
     boundary = models.PolygonField()
@@ -19,7 +27,13 @@ class WatershedBoundary(models.Model):
     def __unicode__(self):  # __str__ on Python 3
         return self.name
 
+
+class GIScenario(models.Model):
+    name = models.CharField(max_length=64)
+
+
 class GIInstance(models.Model):
+    scenario = models.ForeignKey('GIScenario', related_name='giinstances')
     watershed = models.ForeignKey('Watershed')
     template = models.ForeignKey('GITemplate')
     placement_poly = models.PolygonField()
@@ -31,6 +45,7 @@ class GIInstance(models.Model):
     class Meta:
         verbose_name = 'Green infrastructure instance'
 
+
 class HumanPrefImage(models.Model):
     name = models.CharField(max_length=64)
     gi_instance = models.ForeignKey('GIInstance')
@@ -41,6 +56,7 @@ class HumanPrefImage(models.Model):
 
     class Meta:
         verbose_name = 'Human preference image'
+
 
 class GIVegGrowthState(models.Model):
     gi_instance = models.ForeignKey('GIInstance')
@@ -55,6 +71,7 @@ class GIVegGrowthState(models.Model):
     class Meta:
         verbose_name = 'Green infrastructure growth state'
 
+
 class TemplatesForEcoClimate(models.Model):
     name = models.CharField(max_length=64, unique=True)
     templates = models.ManyToManyField('GITemplate')
@@ -64,6 +81,7 @@ class TemplatesForEcoClimate(models.Model):
 
     class Meta:
         verbose_name = 'Eco-climate GI template'
+
 
 class GITemplate(models.Model):
     name = models.CharField(max_length=64, unique=True)
@@ -76,6 +94,7 @@ class GITemplate(models.Model):
 
     class Meta:
         verbose_name = 'Green infrastructure template'
+
 
 class GIElement(models.Model):
     name = models.CharField(max_length=64, blank=False)
@@ -92,6 +111,7 @@ class GIElement(models.Model):
     class Meta:
         verbose_name = 'Green infrastructure element'
 
+
 class RHESSysStratumType(models.Model):
     name = models.CharField(max_length=64, unique=True)
     rhessys_default_id = models.CharField(max_length=8, unique=True)
@@ -101,6 +121,7 @@ class RHESSysStratumType(models.Model):
 
     class Meta:
         verbose_name = 'RHESSys stratum type'
+
 
 class RHESSysSoilType(models.Model):
     name = models.CharField(max_length=64, unique=True)
@@ -112,6 +133,7 @@ class RHESSysSoilType(models.Model):
     class Meta:
         verbose_name = 'RHESSys soil type'
 
+
 class Representation2D(models.Model):
     name = models.CharField(max_length=64, unique=True)
     rep_file = models.FileField()
@@ -122,6 +144,7 @@ class Representation2D(models.Model):
 
     class Meta:
         verbose_name ='2D visual representation'
+
 
 class Representation3D(models.Model):
     name = models.CharField(max_length=64, unique=True)
