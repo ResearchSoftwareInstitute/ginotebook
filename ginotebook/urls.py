@@ -11,8 +11,8 @@ urlpatterns = patterns('',
 
     #url(r'^gidesigner/', include('gidesigner.urls', namespace='gidesigner')),
 
-    url(r'admin/', include(admin.site.urls)),
+    url(r'ginotebook/admin/', include(admin.site.urls)),
 
-    url(r'api/', include(router.urls)),
+    url(r'ginotebook/api/', include(router.urls)),
 
 )
