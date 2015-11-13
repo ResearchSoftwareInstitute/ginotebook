@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
 
-from django.db import models, migrations
+from django.db import migrations, models
 import django.contrib.gis.db.models.fields
 
 
@@ -16,6 +16,8 @@ class Migration(migrations.Migration):
             fields=[
                 ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
                 ('name', models.CharField(max_length=64)),
+                ('major_axis', models.FloatField(null=True, blank=True)),
+                ('minor_axis', models.FloatField(null=True, blank=True)),
             ],
             options={
                 'verbose_name': 'Green infrastructure element',
@@ -29,6 +31,16 @@ class Migration(migrations.Migration):
             ],
             options={
                 'verbose_name': 'Green infrastructure instance',
+            },
+        ),
+        migrations.CreateModel(
+            name='GIScenario',
+            fields=[
+                ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
+                ('name', models.CharField(max_length=64)),
+            ],
+            options={
+                'verbose_name': 'Scenario',
             },
         ),
         migrations.CreateModel(
@@ -67,6 +79,13 @@ class Migration(migrations.Migration):
             options={
                 'verbose_name': 'Human preference image',
             },
+        ),
+        migrations.CreateModel(
+            name='Region',
+            fields=[
+                ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
+                ('name', models.CharField(max_length=64)),
+            ],
         ),
         migrations.CreateModel(
             name='Representation2D',
@@ -131,11 +150,33 @@ class Migration(migrations.Migration):
                 ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
                 ('name', models.CharField(max_length=64)),
                 ('model_url', models.URLField(max_length=1024)),
-                ('template_menu', models.ForeignKey(to='gidb.TemplatesForEcoClimate')),
             ],
             options={
                 'verbose_name': 'Watershed',
             },
+        ),
+        migrations.CreateModel(
+            name='WatershedBoundary',
+            fields=[
+                ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
+                ('name', models.CharField(max_length=64)),
+                ('boundary', django.contrib.gis.db.models.fields.PolygonField(srid=4326)),
+            ],
+        ),
+        migrations.AddField(
+            model_name='watershed',
+            name='boundary',
+            field=models.ForeignKey(blank=True, to='gidb.WatershedBoundary', null=True),
+        ),
+        migrations.AddField(
+            model_name='watershed',
+            name='region',
+            field=models.ForeignKey(related_name='watersheds', to='gidb.Region'),
+        ),
+        migrations.AddField(
+            model_name='watershed',
+            name='template_menu',
+            field=models.ForeignKey(to='gidb.TemplatesForEcoClimate'),
         ),
         migrations.AddField(
             model_name='gitemplate',
@@ -146,6 +187,11 @@ class Migration(migrations.Migration):
             model_name='gitemplate',
             name='model_planview',
             field=models.ForeignKey(to='gidb.Representation2D'),
+        ),
+        migrations.AddField(
+            model_name='giinstance',
+            name='scenario',
+            field=models.ForeignKey(related_name='giinstances', to='gidb.GIScenario'),
         ),
         migrations.AddField(
             model_name='giinstance',
@@ -160,21 +206,21 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='gielement',
             name='model_3d',
-            field=models.ForeignKey(to='gidb.Representation3D', null=True),
+            field=models.ForeignKey(blank=True, to='gidb.Representation3D', null=True),
         ),
         migrations.AddField(
             model_name='gielement',
             name='model_planview',
-            field=models.ForeignKey(to='gidb.Representation2D', null=True),
+            field=models.ForeignKey(blank=True, to='gidb.Representation2D', null=True),
         ),
         migrations.AddField(
             model_name='gielement',
             name='soil_type',
-            field=models.ForeignKey(to='gidb.RHESSysSoilType', null=True),
+            field=models.ForeignKey(blank=True, to='gidb.RHESSysSoilType', null=True),
         ),
         migrations.AddField(
             model_name='gielement',
             name='stratum_type',
-            field=models.ForeignKey(to='gidb.RHESSysStratumType', null=True),
+            field=models.ForeignKey(blank=True, to='gidb.RHESSysStratumType', null=True),
         ),
     ]
