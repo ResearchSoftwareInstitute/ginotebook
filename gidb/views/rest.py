@@ -2,10 +2,14 @@ from rest_framework import authentication, permissions, viewsets
 
 from rest_framework_gis.filters import DistanceToPointFilter
 
+from ..models import Region
+from ..serializers import RegionSerializer
 from ..models import Watershed
 from ..serializers import WatershedSerializer
 from ..models import WatershedBoundary
 from ..serializers import WatershedBoundarySerializer
+from ..models import GIScenario
+from ..serializers import GIScenarioSerializer
 from ..models import GIInstance
 from ..serializers import GIInstanceSerializer
 from ..models import HumanPrefImage
@@ -45,6 +49,14 @@ class DefaultsMixin(object):
     max_paginate_by = 1000
 
 
+class RegionViewSet(DefaultsMixin, viewsets.ModelViewSet):
+    """ API endpoint for Region CRUD operations
+    """
+
+    queryset = Region.objects.all()
+    serializer_class = RegionSerializer
+
+
 class WatershedViewSet(DefaultsMixin, viewsets.ModelViewSet):
     """ API endpoint for Watershed CRUD operations
     """
@@ -59,6 +71,14 @@ class WatershedBoundaryViewSet(DefaultsMixin, viewsets.ModelViewSet):
 
     queryset = WatershedBoundary.objects.all()
     serializer_class = WatershedBoundarySerializer
+
+
+class GIScenarioViewSet(DefaultsMixin, viewsets.ModelViewSet):
+    """ API endpoint for GIScenario CRUD operations
+    """
+
+    queryset = GIScenario.objects.all()
+    serializer_class = GIScenarioSerializer
 
 
 class GIInstanceViewSet(DefaultsMixin, viewsets.ModelViewSet):

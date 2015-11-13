@@ -31,6 +31,9 @@ class WatershedBoundary(models.Model):
 class GIScenario(models.Model):
     name = models.CharField(max_length=64)
 
+    class Meta:
+        verbose_name = 'Scenario'
+
 
 class GIInstance(models.Model):
     scenario = models.ForeignKey('GIScenario', related_name='giinstances')
