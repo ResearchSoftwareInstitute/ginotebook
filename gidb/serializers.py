@@ -1,7 +1,9 @@
 from rest_framework import serializers
 
+from .models import Region
 from .models import Watershed
 from .models import WatershedBoundary
+from .models import GIScenario
 from .models import GIInstance
 from .models import HumanPrefImage
 from .models import GIVegGrowthState
@@ -12,6 +14,14 @@ from .models import RHESSysStratumType
 from .models import RHESSysSoilType
 from .models import Representation2D
 from .models import Representation3D
+
+
+class RegionSerializer(serializers.HyperlinkedModelSerializer):
+    watersheds = serializers.HyperlinkedRelatedField(many=True, read_only=True, view_name='watershed-detail')
+
+    class Meta:
+        model = Region
+        fields = ('url', 'id', 'name', 'watersheds')
 
 
 class WatershedBoundarySerializer(serializers.HyperlinkedModelSerializer):
@@ -26,6 +36,14 @@ class WatershedSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = Watershed
         fields = ('url', 'id', 'name', 'model_url', 'template_menu', 'boundary')
+
+
+class GIScenarioSerializer(serializers.HyperlinkedModelSerializer):
+    gi_instances = serializers.HyperlinkedRelatedField(many=True, read_only=True, view_name='giinstance-detail')
+
+    class Meta:
+        model = Region
+        fields = ('url', 'id', 'name', 'gi_instances')
 
 
 class GIInstanceSerializer(serializers.HyperlinkedModelSerializer):

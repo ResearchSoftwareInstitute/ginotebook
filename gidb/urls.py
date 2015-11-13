@@ -3,8 +3,10 @@ from rest_framework.routers import DefaultRouter
 from views import rest
 
 router = DefaultRouter()
+router.register(r'regions', rest.RegionViewSet, 'region')
 router.register(r'watersheds', rest.WatershedViewSet, 'watershed')
 router.register(r'watersheds_boundaries', rest.WatershedBoundaryViewSet, 'watershedboundary')
+router.register(r'gi_scenarios', rest.GIScenarioViewSet, 'giscenario')
 router.register(r'gi_instances', rest.GIInstanceViewSet, 'giinstance')
 router.register(r'human_pref_images', rest.HumanPrefImageViewSet, 'humanprefimage')
 router.register(r'gi_veg_growth_states', rest.GIVegGrowthStateViewSet, 'giveggrowthstate')
