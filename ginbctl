@@ -28,13 +28,15 @@ PROD_SERVER='uwsgi --socket :8001 --ini uwsgi.ini'
 
 display_usage() {
 	echo "*** ginotebook Control script ***"
-	echo "usage: $0 deploy      # deletes all database and container contents and deploys from scratch"
-	echo "usage: $0 loaddb      # loads database specified in ginotebook-config.yaml into running container"
+	echo "usage: $0 deploy [clean] # deletes all database and container contents and deploys from scratch"
+	echo "usage: $0 loaddb [clean] # loads database specified in ginotebook-config.yaml into running container"
 	echo "usage: $0 loadmedia   # loads media directory specified in ginotebook-config.yaml into running container"
 	echo "usage: $0 rebuild     # deletes ginotebook container contents only and deploys using exsiting database"
 	echo "usage: $0 restart     # restarts the ginotebook container without rebuilding"
 	echo "usage: $0 start       # attempts to start all containers"
 	echo "usage: $0 stop        # stops all running containers"
+	echo ""
+	echo "Note: if 'clean' argument is specified database will be deleted and re-created, but no data will be loaded"
 }
 
 start_nginx() {
@@ -169,7 +171,9 @@ rebuild_ginb() {
 
 loaddb_ginb() {
     echo "*** ${1^^} ***"
-    echo "*** load clean ${GINB_DATABASE} database from the running ginotebook container ***"
+    if [[ $# -lt 2 ]]; then
+        echo "*** load clean ${GINB_DATABASE} database from the running ginotebook container ***"
+    fi
     CID=$(docker ps -a | grep ginotebook_ginotebook_1 | cut -d ' ' -f 1)
     echo "*** drop existing database ***"
     docker exec $CID dropdb -U postgres -h postgis postgres
@@ -177,8 +181,10 @@ loaddb_ginb() {
     docker exec $CID createdb -U postgres -h postgis postgres --encoding UNICODE --template=template0
     echo "*** create POSTGIS extension ***"
     docker exec $CID psql -U postgres -h postgis -w -c 'create extension postgis;'
-    echo "*** load database with contents of ${GINB_DATABASE} ***"
-    docker exec $CID psql -U postgres -h postgis -f ${GINB_DATABASE}
+    if [[ $# -lt 2 ]]; then
+        echo "*** load database with contents of ${GINB_DATABASE} ***"
+        docker exec $CID psql -U postgres -h postgis -f ${GINB_DATABASE}
+    fi
     echo "*** mangae.py collectstatic ***"
     docker exec $CID python manage.py collectstatic -v0 --noinput
     #echo "*** manage.py makemigrations ***"
@@ -244,23 +250,23 @@ deploy_ginb() {
     done
     echo
     loadmedia_ginb LOADMEDIA
-    loaddb_ginb LOADDB
+    loaddb_ginb LOADDB $2
     if [ "${USE_NGINX,,}" = true ]; then
         start_nginx
     fi
 }
 
 ### Display usage if exactly one argument is not provided ###
-if [  $# -ne 1 ]
+if [ $# -gt 2 ]
 then
     display_usage
     exit 1
 fi
 
 case "$1" in
-    deploy) deploy_ginb $1
+    deploy) deploy_ginb $1 $2
         ;;
-    loaddb) loaddb_ginb $1
+    loaddb) loaddb_ginb $1 $2
         ;;
     loadmedia) loadmedia_ginb $1
         ;;
