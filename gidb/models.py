@@ -8,7 +8,7 @@ class Region(models.Model):
 
 class Watershed(models.Model):
     name = models.CharField(max_length=64)
-    region = models.ForeignKey('Region')
+    region = models.ForeignKey('Region', related_name='watersheds')
     model_url = models.URLField(max_length=1024)
     template_menu = models.ForeignKey('TemplatesForEcoClimate')
     boundary = models.ForeignKey('WatershedBoundary', blank=True, null=True) # TODO: Make required
@@ -28,7 +28,12 @@ class WatershedBoundary(models.Model):
         return self.name
 
 
+class GIScenario(models.Model):
+    name = models.CharField(max_length=64)
+
+
 class GIInstance(models.Model):
+    scenario = models.ForeignKey('GIScenario', related_name='giinstances')
     watershed = models.ForeignKey('Watershed')
     template = models.ForeignKey('GITemplate')
     placement_poly = models.PolygonField()
