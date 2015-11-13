@@ -49,8 +49,7 @@ INSTALLED_APPS = (
     'rest_framework.authtoken',
     'rest_framework_gis',
     'corsheaders',
-    'gidb',
-    'gidesigner'
+    'gidb'
 )
 
 MIDDLEWARE_CLASSES = (
