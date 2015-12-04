@@ -5,6 +5,10 @@ from .models import Watershed
 from .models import WatershedBoundary
 from .models import GIScenario
 from .models import GIInstance
+from .models import GIRoutes
+from .models import GIRoutingVertexToGIInstance
+from .models import GIRoutingVertexFromPatch
+from .models import GIRoutingVertexToPatch
 from .models import HumanPrefImage
 from .models import GIVegGrowthState
 from .models import TemplatesForEcoClimate
@@ -21,6 +25,10 @@ admin.site.register(Watershed)
 admin.site.register(WatershedBoundary)
 admin.site.register(GIScenario)
 admin.site.register(GIInstance, admin.GeoModelAdmin)
+admin.site.register(GIRoutes)
+admin.site.register(GIRoutingVertexToGIInstance)
+admin.site.register(GIRoutingVertexFromPatch)
+admin.site.register(GIRoutingVertexToPatch)
 admin.site.register(HumanPrefImage)
 admin.site.register(GIVegGrowthState)
 admin.site.register(TemplatesForEcoClimate)

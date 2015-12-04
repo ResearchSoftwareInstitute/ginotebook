@@ -49,6 +49,74 @@ class GIInstance(models.Model):
         verbose_name = 'Green infrastructure instance'
 
 
+class GIRoutes(models.Model):
+    instance = models.ForeignKey('GIInstance', related_name='routes')
+    from_patch = models.ManyToManyField('GIRoutingVertexFromPatch', related_name='route_list')
+    to_gi = models.ManyToManyField('GIRoutingVertexToGIInstance', related_name='route_list')
+    to_patch = models.ManyToManyField('GIRoutingVertexToPatch', related_name='route_list')
+
+    def __unicode__(self):  # __str__ on Python 3
+        return "Routes for GI instance".format(instance=self.instance)
+
+    class Meta:
+        verbose_name = 'Green infrastructure route'
+
+
+class GIRoutingVertex(models.Model):
+    flow_proportion = models.DecimalField(max_digits=2, decimal_places=2)
+
+    class Meta:
+        abstract = True
+
+
+class GIRoutingVertexToGIInstance(GIRoutingVertex):
+    """
+    Describes a connection between two GIInstances
+    """
+    to_instance = models.ForeignKey('GIInstance', related_name='receives_from_gi')
+
+    def __unicode__(self):  # __str__ on Python 3
+        return "From GI instance {from_instance} to GI instance {to_instance}" \
+               " with proportion {prop}".format(from_instance=str(self.route_list.first().instance),
+                                                to_instance=str(self.to_instance),
+                                                prop=str(self.flow_proportion))
+
+    class Meta:
+        verbose_name = 'Green infrastructure to green infrastructure connection'
+
+
+class GIRoutingVertexFromPatch(GIRoutingVertex):
+    """
+    Describes a connection from a patch to a GIInstance
+    """
+    from_patch = models.CharField(max_length=32)
+
+    def __unicode__(self):  # __str__ on Python 3
+        return "From patch {from_patch} to GI instance {to_instance}" \
+               " with proportion {prop}".format(from_patch=str(self.from_patch),
+                                                to_instance=str(self.route_list.first().instance),
+                                                prop=str(self.flow_proportion))
+
+    class Meta:
+        verbose_name = 'Patch to green infrastructure connection'
+
+
+class GIRoutingVertexToPatch(GIRoutingVertex):
+    """
+    Describes a connection from a GIInstance to a patch
+    """
+    to_patch = models.CharField(max_length=32)
+
+    def __unicode__(self):  # __str__ on Python 3
+        return "From GI instance {from_instance} to patch {to_patch}" \
+               " with proportion {prop}".format(from_instance=str(self.route_list.first().instance),
+                                                to_patch=str(self.to_patch),
+                                                prop=str(self.flow_proportion))
+
+    class Meta:
+        verbose_name = 'Green infrastructure to patch connection'
+
+
 class HumanPrefImage(models.Model):
     name = models.CharField(max_length=64)
     gi_instance = models.ForeignKey('GIInstance')
