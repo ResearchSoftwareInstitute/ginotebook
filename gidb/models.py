@@ -56,7 +56,7 @@ class GIRoutes(models.Model):
     to_patch = models.ManyToManyField('GIRoutingVertexToPatch', related_name='route_list')
 
     def __unicode__(self):  # __str__ on Python 3
-        return "Routes for GI instance".format(instance=self.instance)
+        return "Routes for GI {instance}".format(instance=self.instance)
 
     class Meta:
         verbose_name = 'Green infrastructure route'
