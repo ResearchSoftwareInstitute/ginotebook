@@ -1,19 +1,6 @@
 from rest_framework import serializers
 
-from .models import Region
-from .models import Watershed
-from .models import WatershedBoundary
-from .models import GIScenario
-from .models import GIInstance
-from .models import HumanPrefImage
-from .models import GIVegGrowthState
-from .models import TemplatesForEcoClimate
-from .models import GITemplate
-from .models import GIElement
-from .models import RHESSysStratumType
-from .models import RHESSysSoilType
-from .models import Representation2D
-from .models import Representation3D
+from .models import *
 
 
 class RegionSerializer(serializers.HyperlinkedModelSerializer):
@@ -35,22 +22,23 @@ class WatershedSerializer(serializers.HyperlinkedModelSerializer):
 
     class Meta:
         model = Watershed
-        fields = ('url', 'id', 'name', 'model_url', 'template_menu', 'boundary')
+        fields = ('url', 'id', 'name', 'region', 'model_url', 'template_menu', 'boundary')
 
 
 class GIScenarioSerializer(serializers.HyperlinkedModelSerializer):
     gi_instances = serializers.HyperlinkedRelatedField(many=True, read_only=True, view_name='giinstance-detail')
 
     class Meta:
-        model = Region
+        model = GIScenario
         fields = ('url', 'id', 'name', 'gi_instances')
 
 
 class GIInstanceSerializer(serializers.HyperlinkedModelSerializer):
+    routes = serializers.HyperlinkedRelatedField(many=True, read_only=True, view_name='routes-detail')
 
     class Meta:
         model = GIInstance
-        fields = ('url', 'id', 'watershed', 'template', 'placement_poly')
+        fields = ('url', 'id', 'watershed', 'template', 'placement_poly', 'routes')
 
 
 class HumanPrefImageSerializer(serializers.HyperlinkedModelSerializer):
@@ -115,3 +103,37 @@ class Representation3DSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = Representation3D
         fields = ('url', 'id', 'rep_file', 'rep_thumbnail')
+
+
+class GIRoutesSerializer(serializers.HyperlinkedModelSerializer):
+
+    class Meta:
+        model = GIRoutes
+        fields = ('url', 'id', 'instance', 'from_patch', 'to_gi', 'to_patch')
+
+
+class GIRoutingVertexSerializer(serializers.HyperlinkedModelSerializer):
+    route = serializers.HyperlinkedRelatedField(many=True, read_only=True, view_name='route_list-detail')
+
+    class Meta:
+        abstract = True
+
+class GIRoutingVertexToGIInstanceSerializer(GIRoutingVertexSerializer):
+
+    class Meta:
+        model = GIRoutingVertexToGIInstance
+        fields = ('url', 'id', 'route', 'to_instance', 'flow_proportion')
+
+
+class GIRoutingVertexFromPatchSerializer(GIRoutingVertexSerializer):
+
+    class Meta:
+        model = GIRoutingVertexFromPatch
+        fields = ('url', 'id', 'route', 'from_patch', 'flow_proportion')
+
+
+class GIRoutingVertexToPatchSerializer(GIRoutingVertexSerializer):
+
+    class Meta:
+        model = GIRoutingVertexToPatch
+        fields = ('url', 'id', 'route', 'to_patch', 'flow_proportion')

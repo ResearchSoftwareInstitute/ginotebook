@@ -2,34 +2,8 @@ from rest_framework import authentication, permissions, viewsets
 
 from rest_framework_gis.filters import DistanceToPointFilter
 
-from ..models import Region
-from ..serializers import RegionSerializer
-from ..models import Watershed
-from ..serializers import WatershedSerializer
-from ..models import WatershedBoundary
-from ..serializers import WatershedBoundarySerializer
-from ..models import GIScenario
-from ..serializers import GIScenarioSerializer
-from ..models import GIInstance
-from ..serializers import GIInstanceSerializer
-from ..models import HumanPrefImage
-from ..serializers import HumanPrefImageSerializer
-from ..models import GIVegGrowthState
-from ..serializers import GIVegGrowthStateSerializer
-from ..models import TemplatesForEcoClimate
-from ..serializers import TemplatesForEcoClimateSerializer
-from ..models import GITemplate
-from ..serializers import GITemplateSerializer
-from ..models import GIElement
-from ..serializers import GIElementSerializer
-from ..models import RHESSysStratumType
-from ..serializers import RHESSysStratumTypeSerializer
-from ..models import RHESSysSoilType
-from ..serializers import RHESSysSoilTypeSerializer
-from ..models import Representation2D
-from ..serializers import Representation2DSerializer
-from ..models import Representation3D
-from ..serializers import Representation3DSerializer
+from ..models import *
+from ..serializers import *
 
 
 class DefaultsMixin(object):
@@ -162,3 +136,35 @@ class Representation3DViewSet(DefaultsMixin, viewsets.ModelViewSet):
 
     queryset = Representation3D.objects.all()
     serializer_class = Representation3DSerializer
+
+
+class GIRoutesViewSet(DefaultsMixin, viewsets.ModelViewSet):
+    """ API endpoint for GIRoutes CRUD operations
+    """
+
+    queryset = GIRoutes.objects.all()
+    serializer_class = GIRoutesSerializer
+
+
+class GIRoutingVertexToGIInstanceViewSet(DefaultsMixin, viewsets.ModelViewSet):
+    """ API endpoint for GIRoutingVertexToGIInstance CRUD operations
+    """
+
+    queryset = GIRoutingVertexToGIInstance.objects.all()
+    serializer_class = GIRoutingVertexToGIInstanceSerializer
+
+
+class GIRoutingVertexFromPatchViewSet(DefaultsMixin, viewsets.ModelViewSet):
+    """ API endpoint for GIRoutingVertexFromPatch CRUD operations
+    """
+
+    queryset = GIRoutingVertexFromPatch.objects.all()
+    serializer_class = GIRoutingVertexFromPatchSerializer
+
+
+class GIRoutingVertexToPatchViewSet(DefaultsMixin, viewsets.ModelViewSet):
+    """ API endpoint for GIRoutingVertexToPatch CRUD operations
+    """
+
+    queryset = GIRoutingVertexToPatch.objects.all()
+    serializer_class = GIRoutingVertexToPatchSerializer
