@@ -98,11 +98,16 @@ stop_ginb() {
 preflight_ginb() {
     yes | cp -rf ${GINB_PATH}/docker-compose.template ${GINB_PATH}/docker-compose.yml
     sed -i 's!GINB_SHARED_VOLUME!'${GINB_PATH}'!g' ${GINB_PATH}/docker-compose.yml
+    sed -i 's!GINB_LOG_FILES!'${GINB_LOG_FILES}'!g' ${GINB_PATH}/docker-compose.yml
     if [ "${USE_NGINX,,}" = true ]; then
         echo "*** Using nginx: USE_NGINX = ${USE_NGINX} ***"
         if [[ ! -d ${SSL_HOST_DIR} ]]; then
             echo "*** creating directory: ${SSL_HOST_DIR} ***"
             mkdir ${SSL_HOST_DIR};
+        fi
+        if [[ ! -d ${GINB_LOG_FILES} ]]; then
+            echo "*** creating directory: ${GINB_LOG_FILES} ***"
+            mkdir ${GINB_LOG_FILES};
         fi
         # generate nginx configuration file
         if [ "${USE_SSL,,}" = true ]; then

@@ -3,6 +3,7 @@ GINB_PATH: /home/ginotebook/ginotebook
 GINB_BACKUP_DIR: /home/ginotebook/ginotebook/files
 GINB_DATABASE: pg.ginotebook.sql
 GINB_MEDIA: media.ginotebook.tar.gz
+GINB_LOG_FILES: /home/ginotebook/ginotebook/log
 
 ### Deployment Options ###
 USE_NGINX: false
