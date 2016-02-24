@@ -26,11 +26,11 @@ class WatershedSerializer(serializers.HyperlinkedModelSerializer):
 
 
 class GIScenarioSerializer(serializers.HyperlinkedModelSerializer):
-    gi_instances = serializers.HyperlinkedRelatedField(many=True, read_only=True, view_name='giinstance-detail')
+    giinstances = serializers.HyperlinkedRelatedField(many=True, read_only=True, view_name='giinstance-detail')
 
     class Meta:
         model = GIScenario
-        fields = ('url', 'id', 'name', 'gi_instances')
+        fields = ('url', 'id', 'name', 'watershed', 'giinstances')
 
 
 class GIInstanceSerializer(serializers.HyperlinkedModelSerializer):
