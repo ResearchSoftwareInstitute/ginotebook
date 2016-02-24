@@ -32,6 +32,9 @@ class GIScenario(models.Model):
     name = models.CharField(max_length=64)
     watershed = models.ForeignKey('Watershed')
 
+    def __unicode__(self):  # __str__ on Python 3
+        return self.name
+
     class Meta:
         verbose_name = 'Scenario'
 
