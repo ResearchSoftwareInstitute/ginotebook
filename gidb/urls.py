@@ -17,10 +17,10 @@ router.register(r'rhessys_stratum_types', rest.RHESSysStratumTypeViewSet, 'rhess
 router.register(r'rhessys_soil_types', rest.RHESSysSoilTypeViewSet, 'rhessyssoiltype')
 router.register(r'representation_2d', rest.Representation2DViewSet, 'representation2d')
 router.register(r'representation_3d', rest.Representation3DViewSet, 'representation3d')
-router.register(r'gi_routes', rest.GIRoutesViewSet, 'giroutes')
-router.register(r'gi_route_vertex_to_gi_instace', rest.GIRoutingVertexToGIInstanceViewSet,
-                'giroutevertextogiinstace')
+router.register(r'gi_route', rest.GIRouteViewSet, 'giroute')
+router.register(r'gi_route_vertex_to_gi_instance', rest.GIRoutingVertexToGIInstanceViewSet,
+                'giroutingvertextogiinstance')
 router.register(r'gi_route_vertex_from_patch', rest.GIRoutingVertexFromPatchViewSet,
-                'giroutevertexfrompatch')
+                'giroutingvertexfrompatch')
 router.register(r'gi_route_vertex_to_patch', rest.GIRoutingVertexToPatchViewSet,
-                'giroutevertextopatch')
+                'giroutingvertextopatch')

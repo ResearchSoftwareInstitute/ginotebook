@@ -14,6 +14,8 @@ ginotebook:
   volumes:
     - "GINB_SHARED_VOLUME:/home/docker/ginotebook"
     - "/home/ginotebook/www:/home/docker/www"
+    # pycharm debugging
+    - "/home/ginotebook/pycharm-debug:/home/docker/pycharm-debug"
     # log files
     - "GINB_LOG_FILES:/var/log/ginb"
   ports:

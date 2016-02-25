@@ -53,11 +53,8 @@ class GIInstance(models.Model):
         verbose_name = 'Green infrastructure instance'
 
 
-class GIRoutes(models.Model):
+class GIRoute(models.Model):
     instance = models.ForeignKey('GIInstance', related_name='routes')
-    from_patch = models.ManyToManyField('GIRoutingVertexFromPatch', related_name='route_list')
-    to_gi = models.ManyToManyField('GIRoutingVertexToGIInstance', related_name='route_list')
-    to_patch = models.ManyToManyField('GIRoutingVertexToPatch', related_name='route_list')
 
     def __unicode__(self):  # __str__ on Python 3
         return "Routes for GI {instance}".format(instance=self.instance)
@@ -77,12 +74,13 @@ class GIRoutingVertexToGIInstance(GIRoutingVertex):
     """
     Describes a connection between two GIInstances
     """
-    to_instance = models.ForeignKey('GIInstance', related_name='receives_from_gi')
+    route = models.ForeignKey('GIRoute', related_name='vertices_to_instances')
+    instance = models.ForeignKey('GIInstance', related_name='vertex_from')
 
     def __unicode__(self):  # __str__ on Python 3
-        return "From GI instance {from_instance} to GI instance {to_instance}" \
-               " with proportion {prop}".format(from_instance=str(self.route_list.first().instance),
-                                                to_instance=str(self.to_instance),
+        return "{route}: to GI instance {instance}" \
+               " with proportion {prop}".format(route=str(self.route),
+                                                instance=str(self.instance),
                                                 prop=str(self.flow_proportion))
 
     class Meta:
@@ -93,12 +91,13 @@ class GIRoutingVertexFromPatch(GIRoutingVertex):
     """
     Describes a connection from a patch to a GIInstance
     """
-    from_patch = models.CharField(max_length=32)
+    route = models.ForeignKey('GIRoute', related_name='vertices_from_patches')
+    patch = models.CharField(max_length=32)
 
     def __unicode__(self):  # __str__ on Python 3
-        return "From patch {from_patch} to GI instance {to_instance}" \
-               " with proportion {prop}".format(from_patch=str(self.from_patch),
-                                                to_instance=str(self.route_list.first().instance),
+        return "{route}: from patch {from_patch}" \
+               " with proportion {prop}".format(route=str(self.route),
+                                                from_patch=str(self.patch),
                                                 prop=str(self.flow_proportion))
 
     class Meta:
@@ -109,12 +108,13 @@ class GIRoutingVertexToPatch(GIRoutingVertex):
     """
     Describes a connection from a GIInstance to a patch
     """
-    to_patch = models.CharField(max_length=32)
+    route = models.ForeignKey('GIRoute', related_name='vertices_to_patches')
+    patch = models.CharField(max_length=32)
 
     def __unicode__(self):  # __str__ on Python 3
-        return "From GI instance {from_instance} to patch {to_patch}" \
-               " with proportion {prop}".format(from_instance=str(self.route_list.first().instance),
-                                                to_patch=str(self.to_patch),
+        return "{route}: to patch {patch}" \
+               " with proportion {prop}".format(route=str(self.route),
+                                                patch=str(self.patch),
                                                 prop=str(self.flow_proportion))
 
     class Meta:

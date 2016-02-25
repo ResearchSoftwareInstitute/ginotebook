@@ -5,7 +5,7 @@ from .models import Watershed
 from .models import WatershedBoundary
 from .models import GIScenario
 from .models import GIInstance
-from .models import GIRoutes
+from .models import GIRoute
 from .models import GIRoutingVertexToGIInstance
 from .models import GIRoutingVertexFromPatch
 from .models import GIRoutingVertexToPatch
@@ -25,7 +25,7 @@ admin.site.register(Watershed)
 admin.site.register(WatershedBoundary)
 admin.site.register(GIScenario)
 admin.site.register(GIInstance, admin.GeoModelAdmin)
-admin.site.register(GIRoutes)
+admin.site.register(GIRoute)
 admin.site.register(GIRoutingVertexToGIInstance)
 admin.site.register(GIRoutingVertexFromPatch)
 admin.site.register(GIRoutingVertexToPatch)

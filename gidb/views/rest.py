@@ -138,12 +138,12 @@ class Representation3DViewSet(DefaultsMixin, viewsets.ModelViewSet):
     serializer_class = Representation3DSerializer
 
 
-class GIRoutesViewSet(DefaultsMixin, viewsets.ModelViewSet):
-    """ API endpoint for GIRoutes CRUD operations
+class GIRouteViewSet(DefaultsMixin, viewsets.ModelViewSet):
+    """ API endpoint for GIRoute CRUD operations
     """
 
-    queryset = GIRoutes.objects.all()
-    serializer_class = GIRoutesSerializer
+    queryset = GIRoute.objects.all()
+    serializer_class = GIRouteSerializer
 
 
 class GIRoutingVertexToGIInstanceViewSet(DefaultsMixin, viewsets.ModelViewSet):

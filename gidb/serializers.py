@@ -105,35 +105,28 @@ class Representation3DSerializer(serializers.HyperlinkedModelSerializer):
         fields = ('url', 'id', 'rep_file', 'rep_thumbnail')
 
 
-class GIRoutesSerializer(serializers.HyperlinkedModelSerializer):
-
+class GIRouteSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
-        model = GIRoutes
-        fields = ('url', 'id', 'instance', 'from_patch', 'to_gi', 'to_patch')
+        model = GIRoute
+        fields = ('url', 'id', 'instance', 'vertices_to_instances', 'vertices_from_patches', 'vertices_to_patches')
 
 
-class GIRoutingVertexSerializer(serializers.HyperlinkedModelSerializer):
-    route = serializers.HyperlinkedRelatedField(many=True, read_only=True, view_name='route_list-detail')
-
-    class Meta:
-        abstract = True
-
-class GIRoutingVertexToGIInstanceSerializer(GIRoutingVertexSerializer):
+class GIRoutingVertexToGIInstanceSerializer(serializers.HyperlinkedModelSerializer):
 
     class Meta:
         model = GIRoutingVertexToGIInstance
-        fields = ('url', 'id', 'route', 'to_instance', 'flow_proportion')
+        fields = ('url', 'id', 'route', 'instance', 'flow_proportion')
 
 
-class GIRoutingVertexFromPatchSerializer(GIRoutingVertexSerializer):
+class GIRoutingVertexFromPatchSerializer(serializers.HyperlinkedModelSerializer):
 
     class Meta:
         model = GIRoutingVertexFromPatch
-        fields = ('url', 'id', 'route', 'from_patch', 'flow_proportion')
+        fields = ('url', 'id', 'route', 'patch', 'flow_proportion')
 
 
-class GIRoutingVertexToPatchSerializer(GIRoutingVertexSerializer):
+class GIRoutingVertexToPatchSerializer(serializers.HyperlinkedModelSerializer):
 
     class Meta:
         model = GIRoutingVertexToPatch
-        fields = ('url', 'id', 'route', 'to_patch', 'flow_proportion')
+        fields = ('url', 'id', 'route', 'patch', 'flow_proportion')
