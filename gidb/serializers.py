@@ -19,10 +19,11 @@ class WatershedBoundarySerializer(serializers.HyperlinkedModelSerializer):
 
 
 class WatershedSerializer(serializers.HyperlinkedModelSerializer):
+    scenarios = serializers.HyperlinkedRelatedField(many=True, read_only=True, view_name='giscenario-detail')
 
     class Meta:
         model = Watershed
-        fields = ('url', 'id', 'name', 'region', 'model_url', 'template_menu', 'boundary')
+        fields = ('url', 'id', 'name', 'region', 'model_url', 'template_menu', 'boundary', 'scenarios')
 
 
 class GIScenarioSerializer(serializers.HyperlinkedModelSerializer):
