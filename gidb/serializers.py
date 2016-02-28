@@ -35,7 +35,7 @@ class GIScenarioSerializer(serializers.HyperlinkedModelSerializer):
 
 
 class GIInstanceSerializer(serializers.HyperlinkedModelSerializer):
-    routes = serializers.HyperlinkedRelatedField(many=True, read_only=True, view_name='routes-detail')
+    routes = serializers.HyperlinkedRelatedField(many=True, read_only=True, view_name='giroute-detail')
 
     class Meta:
         model = GIInstance
