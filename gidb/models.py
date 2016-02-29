@@ -30,6 +30,7 @@ class WatershedBoundary(models.Model):
 
 class GIScenario(models.Model):
     name = models.CharField(max_length=64)
+    description = models.TextField(blank=True, null=True)
     immutable = models.BooleanField()
     watershed = models.ForeignKey('Watershed', related_name='scenarios')
 

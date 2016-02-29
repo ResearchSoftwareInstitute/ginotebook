@@ -31,7 +31,7 @@ class GIScenarioSerializer(serializers.HyperlinkedModelSerializer):
 
     class Meta:
         model = GIScenario
-        fields = ('url', 'id', 'name', 'immutable', 'watershed', 'giinstances')
+        fields = ('url', 'id', 'name', 'description', 'immutable', 'watershed', 'giinstances')
 
 
 class GIInstanceSerializer(serializers.HyperlinkedModelSerializer):
