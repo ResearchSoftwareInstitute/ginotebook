@@ -42,7 +42,6 @@ class GIScenario(models.Model):
 
 class GIInstance(models.Model):
     scenario = models.ForeignKey('GIScenario', related_name='giinstances')
-    watershed = models.ForeignKey('Watershed')
     template = models.ForeignKey('GITemplate')
     placement_poly = models.PolygonField()
 

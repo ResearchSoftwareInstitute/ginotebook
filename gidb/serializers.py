@@ -39,7 +39,7 @@ class GIInstanceSerializer(serializers.HyperlinkedModelSerializer):
 
     class Meta:
         model = GIInstance
-        fields = ('url', 'id', 'watershed', 'template', 'placement_poly', 'routes')
+        fields = ('url', 'id', 'scenario', 'template', 'placement_poly', 'routes')
 
 
 class HumanPrefImageSerializer(serializers.HyperlinkedModelSerializer):
