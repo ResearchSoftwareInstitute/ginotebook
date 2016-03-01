@@ -1,23 +1,6 @@
 from django.contrib.gis import admin
 
-from .models import Region
-from .models import Watershed
-from .models import WatershedBoundary
-from .models import GIScenario
-from .models import GIInstance
-from .models import GIRoute
-from .models import GIRoutingVertexToGIInstance
-from .models import GIRoutingVertexFromPatch
-from .models import GIRoutingVertexToPatch
-from .models import HumanPrefImage
-from .models import GIVegGrowthState
-from .models import TemplatesForEcoClimate
-from .models import GITemplate
-from .models import GIElement
-from .models import RHESSysStratumType
-from .models import RHESSysSoilType
-from .models import Representation2D
-from .models import Representation3D
+from .models import *
 
 
 admin.site.register(Region, admin.OSMGeoAdmin)
@@ -34,6 +17,7 @@ admin.site.register(GIVegGrowthState)
 admin.site.register(TemplatesForEcoClimate)
 admin.site.register(GITemplate)
 admin.site.register(GIElement)
+admin.site.register(GIType)
 
 
 class RHESSysStratumTypeAdmin(admin.ModelAdmin):

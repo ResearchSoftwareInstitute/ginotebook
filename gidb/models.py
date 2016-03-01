@@ -167,6 +167,7 @@ class TemplatesForEcoClimate(models.Model):
 
 
 class GITemplate(models.Model):
+    gi_type = models.ForeignKey('GIType', blank=True, null=True)
     name = models.CharField(max_length=64, unique=True)
     model_3d = models.ForeignKey('Representation3D')
     model_planview = models.ForeignKey('Representation2D')
@@ -193,6 +194,16 @@ class GIElement(models.Model):
 
     class Meta:
         verbose_name = 'Green infrastructure element'
+
+
+class GIType(models.Model):
+    name = models.CharField(max_length=64, blank=False)
+
+    def __unicode__(self):  # __str__ on Python 3
+        return self.name
+
+    class Meta:
+        verbose_name = 'Green infrastructure type'
 
 
 class RHESSysStratumType(models.Model):
