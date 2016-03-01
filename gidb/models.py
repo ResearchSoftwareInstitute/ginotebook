@@ -209,6 +209,8 @@ class GIElement(models.Model):
     model_planview = models.ForeignKey('Representation2D', blank=True, null=True)
     stratum_type = models.ForeignKey('RHESSysStratumType', blank=True, null=True)
     soil_type = models.ForeignKey('RHESSysSoilType', blank=True, null=True)
+    soil_depth = models.FloatField(blank=True, null=True)
+    ponding_depth = models.FloatField(blank=True, null=True)
     major_axis = models.FloatField(blank=True, null=True)
     minor_axis = models.FloatField(blank=True, null=True)
 
