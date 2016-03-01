@@ -55,6 +55,14 @@ class GIScenarioViewSet(DefaultsMixin, viewsets.ModelViewSet):
     serializer_class = GIScenarioSerializer
 
 
+class GITypeViewSet(DefaultsMixin, viewsets.ModelViewSet):
+    """ API endpoint for GIType CRUD operations
+    """
+
+    queryset = GIType.objects.all()
+    serializer_class = GITypeSerializer
+
+
 class GIInstanceViewSet(DefaultsMixin, viewsets.ModelViewSet):
     """ API endpoint for GIInstance CRUD operations
     """

@@ -67,7 +67,7 @@ class GITemplateSerializer(serializers.HyperlinkedModelSerializer):
 
     class Meta:
         model = GITemplate
-        fields = ('url', 'id', 'name', 'model_3d', 'model_planview', 'gi_elements')
+        fields = ('url', 'id', 'gi_type', 'name', 'model_3d', 'model_planview', 'gi_elements')
 
 
 class GIElementSerializer(serializers.HyperlinkedModelSerializer):
@@ -76,6 +76,13 @@ class GIElementSerializer(serializers.HyperlinkedModelSerializer):
         model = GIElement
         fields = ('url', 'id', 'name', 'model_3d', 'model_planview',
                   'stratum_type', 'soil_type', 'major_axis', 'minor_axis')
+
+
+class GITypeSerializer(serializers.HyperlinkedModelSerializer):
+
+    class Meta:
+        model = GIType
+        fields = ('url', 'id', 'name')
 
 
 class RHESSysStratumTypeSerializer(serializers.HyperlinkedModelSerializer):
