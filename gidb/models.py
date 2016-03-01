@@ -13,10 +13,33 @@ class Region(models.Model):
         verbose_name = 'Region'
 
 
+class ModelType(models.Model):
+    name = models.CharField(max_length=64)
+    code = models.CharField(max_length=16)
+
+    def __unicode__(self):  # __str__ on Python 3
+        return self.name
+
+    class Meta:
+        verbose_name = 'Model type'
+
+
+class WatershedModel(models.Model):
+    watershed = models.ForeignKey('Watershed', related_name='models')
+    model_type = models.ForeignKey('ModelType', related_name='models')
+    model_url = models.URLField(max_length=1024)
+
+    def __unicode__(self):  # __str__ on Python 3
+        return "{model_type} model for watershed {watershed}".format(model_type=self.model_type.name,
+                                                                     watershed=self.watershed.name)
+
+    class Meta:
+        verbose_name = 'Watershed model'
+
+
 class Watershed(models.Model):
     name = models.CharField(max_length=64)
     region = models.ForeignKey('Region', related_name='watersheds')
-    model_url = models.URLField(max_length=1024)
     template_menu = models.ForeignKey('TemplatesForEcoClimate')
     boundary = models.ForeignKey('WatershedBoundary', blank=True, null=True) # TODO: Make required
 

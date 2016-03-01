@@ -18,6 +18,8 @@ admin.site.register(TemplatesForEcoClimate)
 admin.site.register(GITemplate)
 admin.site.register(GIElement)
 admin.site.register(GIType)
+admin.site.register(ModelType)
+admin.site.register(WatershedModel)
 
 
 class RHESSysStratumTypeAdmin(admin.ModelAdmin):
