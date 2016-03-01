@@ -4,6 +4,8 @@ from views import rest
 
 router = DefaultRouter()
 router.register(r'regions', rest.RegionViewSet, 'region')
+router.register(r'model_types', rest.ModelTypeViewSet, 'modeltype')
+router.register(r'watershed_models', rest.WatershedModelViewSet, 'watershedmodel')
 router.register(r'watersheds', rest.WatershedViewSet, 'watershed')
 router.register(r'watersheds_boundaries', rest.WatershedBoundaryViewSet, 'watershedboundary')
 router.register(r'gi_scenarios', rest.GIScenarioViewSet, 'giscenario')

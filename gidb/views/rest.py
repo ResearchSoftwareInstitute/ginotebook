@@ -31,6 +31,22 @@ class RegionViewSet(DefaultsMixin, viewsets.ModelViewSet):
     serializer_class = RegionSerializer
 
 
+class ModelTypeViewSet(DefaultsMixin, viewsets.ModelViewSet):
+    """ API endpoint for ModelType CRUD operations
+    """
+
+    queryset = ModelType.objects.all()
+    serializer_class = ModelTypeSerializer
+
+
+class WatershedModelViewSet(DefaultsMixin, viewsets.ModelViewSet):
+    """ API endpoint for WatershedModel CRUD operations
+    """
+
+    queryset = WatershedModel.objects.all()
+    serializer_class = WatershedModelSerializer
+
+
 class WatershedViewSet(DefaultsMixin, viewsets.ModelViewSet):
     """ API endpoint for Watershed CRUD operations
     """

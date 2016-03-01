@@ -11,6 +11,21 @@ class RegionSerializer(serializers.HyperlinkedModelSerializer):
         fields = ('url', 'id', 'name', 'boundary', 'watersheds')
 
 
+class ModelTypeSerializer(serializers.HyperlinkedModelSerializer):
+    models = serializers.HyperlinkedRelatedField(many=True, read_only=True, view_name='watershedmodel-detail')
+
+    class Meta:
+        model = ModelType
+        fields = ('url', 'id', 'name', 'code', 'models')
+
+
+class WatershedModelSerializer(serializers.HyperlinkedModelSerializer):
+
+    class Meta:
+        model = WatershedModel
+        fields = ('url', 'id', 'watershed', 'model_type', 'model_url')
+
+
 class WatershedBoundarySerializer(serializers.HyperlinkedModelSerializer):
 
     class Meta:
@@ -20,10 +35,11 @@ class WatershedBoundarySerializer(serializers.HyperlinkedModelSerializer):
 
 class WatershedSerializer(serializers.HyperlinkedModelSerializer):
     scenarios = serializers.HyperlinkedRelatedField(many=True, read_only=True, view_name='giscenario-detail')
+    models = serializers.HyperlinkedRelatedField(many=True, read_only=True, view_name='watershedmodel-detail')
 
     class Meta:
         model = Watershed
-        fields = ('url', 'id', 'name', 'region', 'model_url', 'template_menu', 'boundary', 'scenarios')
+        fields = ('url', 'id', 'name', 'region', 'models', 'template_menu', 'boundary', 'scenarios')
 
 
 class GIScenarioSerializer(serializers.HyperlinkedModelSerializer):
