@@ -167,7 +167,7 @@ class TemplatesForEcoClimate(models.Model):
 
 
 class GITemplate(models.Model):
-    gi_type = models.ForeignKey('GIType', blank=True, null=True)
+    gi_type = models.ForeignKey('GIType')
     name = models.CharField(max_length=64, unique=True)
     model_3d = models.ForeignKey('Representation3D')
     model_planview = models.ForeignKey('Representation2D')
