@@ -20,11 +20,11 @@ from .models import Representation2D
 from .models import Representation3D
 
 
-admin.site.register(Region, admin.GeoModelAdmin)
+admin.site.register(Region, admin.OSMGeoAdmin)
 admin.site.register(Watershed)
 admin.site.register(WatershedBoundary)
 admin.site.register(GIScenario)
-admin.site.register(GIInstance, admin.GeoModelAdmin)
+admin.site.register(GIInstance, admin.OSMGeoAdmin)
 admin.site.register(GIRoute)
 admin.site.register(GIRoutingVertexToGIInstance)
 admin.site.register(GIRoutingVertexFromPatch)
