@@ -3,7 +3,14 @@ from django.contrib.gis.db import models
 
 class Region(models.Model):
     name = models.CharField(max_length=64)
+    boundary = models.PolygonField(blank=True, null=True)
     # TODO add representation of associated GIS datasets
+
+    def __unicode__(self):  # __str__ on Python 3
+        return self.name
+
+    class Meta:
+        verbose_name = 'Region'
 
 
 class Watershed(models.Model):

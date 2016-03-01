@@ -20,7 +20,7 @@ from .models import Representation2D
 from .models import Representation3D
 
 
-admin.site.register(Region)
+admin.site.register(Region, admin.GeoModelAdmin)
 admin.site.register(Watershed)
 admin.site.register(WatershedBoundary)
 admin.site.register(GIScenario)

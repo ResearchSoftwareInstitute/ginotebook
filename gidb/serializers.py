@@ -8,7 +8,7 @@ class RegionSerializer(serializers.HyperlinkedModelSerializer):
 
     class Meta:
         model = Region
-        fields = ('url', 'id', 'name', 'watersheds')
+        fields = ('url', 'id', 'name', 'boundary', 'watersheds')
 
 
 class WatershedBoundarySerializer(serializers.HyperlinkedModelSerializer):
