@@ -61,7 +61,7 @@ class WatershedBoundary(models.Model):
 class GIScenario(models.Model):
     name = models.CharField(max_length=64)
     description = models.TextField(blank=True, null=True)
-    immutable = models.BooleanField()
+    immutable = models.BooleanField(default=False)
     watershed = models.ForeignKey('Watershed', related_name='scenarios')
 
     def __unicode__(self):  # __str__ on Python 3
