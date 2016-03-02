@@ -15,10 +15,13 @@ ALTER TABLE ONLY public.gidb_gielement DROP CONSTRAINT stratum_type_id_2557b42e2
 ALTER TABLE ONLY public.gidb_gielement DROP CONSTRAINT model_planview_id_71a8de287a16e159_fk_gidb_representation2d_id;
 ALTER TABLE ONLY public.gidb_gitemplate DROP CONSTRAINT model_planview_id_163689dbb1860a70_fk_gidb_representation2d_id;
 ALTER TABLE ONLY public.gidb_watershed DROP CONSTRAINT gidb_watershed_region_id_3b3df8ce5dffd1c6_fk_gidb_region_id;
+ALTER TABLE ONLY public.gidb_watershedmodel DROP CONSTRAINT gidb_watersh_watershed_id_7b4718748d13a078_fk_gidb_watershed_id;
+ALTER TABLE ONLY public.gidb_watershedmodel DROP CONSTRAINT gidb_waters_model_type_id_49610ea8db14bb72_fk_gidb_modeltype_id;
 ALTER TABLE ONLY public.gidb_templatesforecoclimate_templates DROP CONSTRAINT gidb_templa_gitemplate_id_d3e12e34a744810_fk_gidb_gitemplate_id;
 ALTER TABLE ONLY public.gidb_humanprefimage DROP CONSTRAINT gidb_huma_gi_instance_id_1516ca13e8391f92_fk_gidb_giinstance_id;
 ALTER TABLE ONLY public.gidb_giveggrowthstate DROP CONSTRAINT gidb_givegg_gi_element_id_26b5e524613070c5_fk_gidb_gielement_id;
 ALTER TABLE ONLY public.gidb_giveggrowthstate DROP CONSTRAINT gidb_give_gi_instance_id_7de17f6cd09a0553_fk_gidb_giinstance_id;
+ALTER TABLE ONLY public.gidb_gitemplate DROP CONSTRAINT gidb_gitemplate_gi_type_id_62bcd0229c53e5f2_fk_gidb_gitype_id;
 ALTER TABLE ONLY public.gidb_gitemplate_gi_elements DROP CONSTRAINT gidb_gitempl_gielement_id_681e5c98b11569d2_fk_gidb_gielement_id;
 ALTER TABLE ONLY public.gidb_gitemplate_gi_elements DROP CONSTRAINT gidb_gitem_gitemplate_id_312eb370c172a8ab_fk_gidb_gitemplate_id;
 ALTER TABLE ONLY public.gidb_giscenario DROP CONSTRAINT gidb_giscena_watershed_id_317fac512ab51ebc_fk_gidb_watershed_id;
@@ -27,7 +30,6 @@ ALTER TABLE ONLY public.gidb_giroutingvertexfrompatch DROP CONSTRAINT gidb_girou
 ALTER TABLE ONLY public.gidb_giroutingvertextopatch DROP CONSTRAINT gidb_giroutingvert_route_id_3f310ab46b8fcd8d_fk_gidb_giroute_id;
 ALTER TABLE ONLY public.gidb_giroutingvertextogiinstance DROP CONSTRAINT gidb_girouting_instance_id_aac22b66c2783a_fk_gidb_giinstance_id;
 ALTER TABLE ONLY public.gidb_giroute DROP CONSTRAINT gidb_giroute_instance_id_3bcb6ecca8bf47b_fk_gidb_giinstance_id;
-ALTER TABLE ONLY public.gidb_giinstance DROP CONSTRAINT gidb_giinsta_watershed_id_76a4e105dadcb349_fk_gidb_watershed_id;
 ALTER TABLE ONLY public.gidb_giinstance DROP CONSTRAINT gidb_giinsta_template_id_4b242195a3e5c787_fk_gidb_gitemplate_id;
 ALTER TABLE ONLY public.gidb_giinstance DROP CONSTRAINT gidb_giinsta_scenario_id_52b5a4be86199bf7_fk_gidb_giscenario_id;
 ALTER TABLE ONLY public.gidb_gielement DROP CONSTRAINT gidb_g_soil_type_id_6362f68dfd6b4e96_fk_gidb_rhessyssoiltype_id;
@@ -46,6 +48,8 @@ ALTER TABLE ONLY public.auth_user_user_permissions DROP CONSTRAINT auth_user__pe
 ALTER TABLE ONLY public.auth_group_permissions DROP CONSTRAINT auth_group_permission_id_1f49ccbbdc69d2fc_fk_auth_permission_id;
 ALTER TABLE ONLY public.auth_group_permissions DROP CONSTRAINT auth_group_permissio_group_id_689710a9a73b7457_fk_auth_group_id;
 ALTER TABLE ONLY public.auth_permission DROP CONSTRAINT auth_content_type_id_508cf46651277a81_fk_django_content_type_id;
+DROP INDEX public.gidb_watershedmodel_fd6be7c6;
+DROP INDEX public.gidb_watershedmodel_b9ddc459;
 DROP INDEX public.gidb_watershedboundary_boundary_id;
 DROP INDEX public.gidb_watershed_eb01ad15;
 DROP INDEX public.gidb_watershed_74963935;
@@ -59,6 +63,7 @@ DROP INDEX public.gidb_rhessyssoiltype_rhessys_default_id_48a90f132337c8c5_like;
 DROP INDEX public.gidb_rhessyssoiltype_name_27c28007b22ae869_like;
 DROP INDEX public.gidb_representation3d_name_170845e7c93594fe_like;
 DROP INDEX public.gidb_representation2d_name_1a2dc9d9e4906ffb_like;
+DROP INDEX public.gidb_region_boundary_id;
 DROP INDEX public.gidb_humanprefimage_408976f3;
 DROP INDEX public.gidb_giveggrowthstate_8b2a9db7;
 DROP INDEX public.gidb_giveggrowthstate_408976f3;
@@ -67,6 +72,7 @@ DROP INDEX public.gidb_gitemplate_gi_elements_bdefbcb1;
 DROP INDEX public.gidb_gitemplate_gi_elements_55f75f3c;
 DROP INDEX public.gidb_gitemplate_a0e82500;
 DROP INDEX public.gidb_gitemplate_90375285;
+DROP INDEX public.gidb_gitemplate_11b05086;
 DROP INDEX public.gidb_giscenario_b9ddc459;
 DROP INDEX public.gidb_giroutingvertextopatch_b4347999;
 DROP INDEX public.gidb_giroutingvertextogiinstance_b4347999;
@@ -74,7 +80,6 @@ DROP INDEX public.gidb_giroutingvertextogiinstance_51afcc4f;
 DROP INDEX public.gidb_giroutingvertexfrompatch_b4347999;
 DROP INDEX public.gidb_giroute_51afcc4f;
 DROP INDEX public.gidb_giinstance_placement_poly_id;
-DROP INDEX public.gidb_giinstance_b9ddc459;
 DROP INDEX public.gidb_giinstance_adc0676c;
 DROP INDEX public.gidb_giinstance_74f53564;
 DROP INDEX public.gidb_gielement_e733fdfc;
@@ -95,6 +100,7 @@ DROP INDEX public.auth_permission_417f1b1c;
 DROP INDEX public.auth_group_permissions_8373b171;
 DROP INDEX public.auth_group_permissions_0e939a4f;
 DROP INDEX public.auth_group_name_253ae2a6331666e8_like;
+ALTER TABLE ONLY public.gidb_watershedmodel DROP CONSTRAINT gidb_watershedmodel_pkey;
 ALTER TABLE ONLY public.gidb_watershedboundary DROP CONSTRAINT gidb_watershedboundary_pkey;
 ALTER TABLE ONLY public.gidb_watershed DROP CONSTRAINT gidb_watershed_pkey;
 ALTER TABLE ONLY public.gidb_templatesforecoclimate_templates DROP CONSTRAINT gidb_templatesforecoclimate_templates_pkey;
@@ -112,8 +118,10 @@ ALTER TABLE ONLY public.gidb_representation3d DROP CONSTRAINT gidb_representatio
 ALTER TABLE ONLY public.gidb_representation2d DROP CONSTRAINT gidb_representation2d_pkey;
 ALTER TABLE ONLY public.gidb_representation2d DROP CONSTRAINT gidb_representation2d_name_key;
 ALTER TABLE ONLY public.gidb_region DROP CONSTRAINT gidb_region_pkey;
+ALTER TABLE ONLY public.gidb_modeltype DROP CONSTRAINT gidb_modeltype_pkey;
 ALTER TABLE ONLY public.gidb_humanprefimage DROP CONSTRAINT gidb_humanprefimage_pkey;
 ALTER TABLE ONLY public.gidb_giveggrowthstate DROP CONSTRAINT gidb_giveggrowthstate_pkey;
+ALTER TABLE ONLY public.gidb_gitype DROP CONSTRAINT gidb_gitype_pkey;
 ALTER TABLE ONLY public.gidb_gitemplate DROP CONSTRAINT gidb_gitemplate_pkey;
 ALTER TABLE ONLY public.gidb_gitemplate DROP CONSTRAINT gidb_gitemplate_name_key;
 ALTER TABLE ONLY public.gidb_gitemplate_gi_elements DROP CONSTRAINT gidb_gitemplate_gi_elements_pkey;
@@ -145,6 +153,7 @@ ALTER TABLE ONLY public.auth_group DROP CONSTRAINT auth_group_pkey;
 ALTER TABLE ONLY public.auth_group_permissions DROP CONSTRAINT auth_group_permissions_pkey;
 ALTER TABLE ONLY public.auth_group_permissions DROP CONSTRAINT auth_group_permissions_group_id_permission_id_key;
 ALTER TABLE ONLY public.auth_group DROP CONSTRAINT auth_group_name_key;
+ALTER TABLE public.gidb_watershedmodel ALTER COLUMN id DROP DEFAULT;
 ALTER TABLE public.gidb_watershedboundary ALTER COLUMN id DROP DEFAULT;
 ALTER TABLE public.gidb_watershed ALTER COLUMN id DROP DEFAULT;
 ALTER TABLE public.gidb_templatesforecoclimate_templates ALTER COLUMN id DROP DEFAULT;
@@ -154,8 +163,10 @@ ALTER TABLE public.gidb_rhessyssoiltype ALTER COLUMN id DROP DEFAULT;
 ALTER TABLE public.gidb_representation3d ALTER COLUMN id DROP DEFAULT;
 ALTER TABLE public.gidb_representation2d ALTER COLUMN id DROP DEFAULT;
 ALTER TABLE public.gidb_region ALTER COLUMN id DROP DEFAULT;
+ALTER TABLE public.gidb_modeltype ALTER COLUMN id DROP DEFAULT;
 ALTER TABLE public.gidb_humanprefimage ALTER COLUMN id DROP DEFAULT;
 ALTER TABLE public.gidb_giveggrowthstate ALTER COLUMN id DROP DEFAULT;
+ALTER TABLE public.gidb_gitype ALTER COLUMN id DROP DEFAULT;
 ALTER TABLE public.gidb_gitemplate_gi_elements ALTER COLUMN id DROP DEFAULT;
 ALTER TABLE public.gidb_gitemplate ALTER COLUMN id DROP DEFAULT;
 ALTER TABLE public.gidb_giscenario ALTER COLUMN id DROP DEFAULT;
@@ -175,6 +186,8 @@ ALTER TABLE public.auth_user ALTER COLUMN id DROP DEFAULT;
 ALTER TABLE public.auth_permission ALTER COLUMN id DROP DEFAULT;
 ALTER TABLE public.auth_group_permissions ALTER COLUMN id DROP DEFAULT;
 ALTER TABLE public.auth_group ALTER COLUMN id DROP DEFAULT;
+DROP SEQUENCE public.gidb_watershedmodel_id_seq;
+DROP TABLE public.gidb_watershedmodel;
 DROP SEQUENCE public.gidb_watershedboundary_id_seq;
 DROP TABLE public.gidb_watershedboundary;
 DROP SEQUENCE public.gidb_watershed_id_seq;
@@ -193,10 +206,14 @@ DROP SEQUENCE public.gidb_representation2d_id_seq;
 DROP TABLE public.gidb_representation2d;
 DROP SEQUENCE public.gidb_region_id_seq;
 DROP TABLE public.gidb_region;
+DROP SEQUENCE public.gidb_modeltype_id_seq;
+DROP TABLE public.gidb_modeltype;
 DROP SEQUENCE public.gidb_humanprefimage_id_seq;
 DROP TABLE public.gidb_humanprefimage;
 DROP SEQUENCE public.gidb_giveggrowthstate_id_seq;
 DROP TABLE public.gidb_giveggrowthstate;
+DROP SEQUENCE public.gidb_gitype_id_seq;
+DROP TABLE public.gidb_gitype;
 DROP SEQUENCE public.gidb_gitemplate_id_seq;
 DROP SEQUENCE public.gidb_gitemplate_gi_elements_id_seq;
 DROP TABLE public.gidb_gitemplate_gi_elements;
@@ -682,7 +699,9 @@ CREATE TABLE gidb_gielement (
     model_3d_id integer,
     model_planview_id integer,
     soil_type_id integer,
-    stratum_type_id integer
+    stratum_type_id integer,
+    ponding_depth double precision,
+    soil_depth double precision
 );
 
 
@@ -717,8 +736,7 @@ CREATE TABLE gidb_giinstance (
     id integer NOT NULL,
     placement_poly geometry(Polygon,4326) NOT NULL,
     scenario_id integer NOT NULL,
-    template_id integer NOT NULL,
-    watershed_id integer NOT NULL
+    template_id integer NOT NULL
 );
 
 
@@ -890,7 +908,9 @@ ALTER SEQUENCE gidb_giroutingvertextopatch_id_seq OWNED BY gidb_giroutingvertext
 CREATE TABLE gidb_giscenario (
     id integer NOT NULL,
     name character varying(64) NOT NULL,
-    watershed_id integer NOT NULL
+    watershed_id integer NOT NULL,
+    immutable boolean NOT NULL,
+    description text
 );
 
 
@@ -925,7 +945,8 @@ CREATE TABLE gidb_gitemplate (
     id integer NOT NULL,
     name character varying(64) NOT NULL,
     model_3d_id integer NOT NULL,
-    model_planview_id integer NOT NULL
+    model_planview_id integer NOT NULL,
+    gi_type_id integer NOT NULL
 );
 
 
@@ -984,6 +1005,39 @@ ALTER TABLE public.gidb_gitemplate_id_seq OWNER TO postgres;
 --
 
 ALTER SEQUENCE gidb_gitemplate_id_seq OWNED BY gidb_gitemplate.id;
+
+
+--
+-- Name: gidb_gitype; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE gidb_gitype (
+    id integer NOT NULL,
+    name character varying(64) NOT NULL
+);
+
+
+ALTER TABLE public.gidb_gitype OWNER TO postgres;
+
+--
+-- Name: gidb_gitype_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE gidb_gitype_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.gidb_gitype_id_seq OWNER TO postgres;
+
+--
+-- Name: gidb_gitype_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE gidb_gitype_id_seq OWNED BY gidb_gitype.id;
 
 
 --
@@ -1059,12 +1113,47 @@ ALTER SEQUENCE gidb_humanprefimage_id_seq OWNED BY gidb_humanprefimage.id;
 
 
 --
+-- Name: gidb_modeltype; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE gidb_modeltype (
+    id integer NOT NULL,
+    name character varying(64) NOT NULL,
+    code character varying(16) NOT NULL
+);
+
+
+ALTER TABLE public.gidb_modeltype OWNER TO postgres;
+
+--
+-- Name: gidb_modeltype_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE gidb_modeltype_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.gidb_modeltype_id_seq OWNER TO postgres;
+
+--
+-- Name: gidb_modeltype_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE gidb_modeltype_id_seq OWNED BY gidb_modeltype.id;
+
+
+--
 -- Name: gidb_region; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
 --
 
 CREATE TABLE gidb_region (
     id integer NOT NULL,
-    name character varying(64) NOT NULL
+    name character varying(64) NOT NULL,
+    boundary geometry(Polygon,4326)
 );
 
 
@@ -1303,7 +1392,6 @@ ALTER SEQUENCE gidb_templatesforecoclimate_templates_id_seq OWNED BY gidb_templa
 CREATE TABLE gidb_watershed (
     id integer NOT NULL,
     name character varying(64) NOT NULL,
-    model_url character varying(1024) NOT NULL,
     boundary_id integer,
     region_id integer NOT NULL,
     template_menu_id integer NOT NULL
@@ -1365,6 +1453,41 @@ ALTER TABLE public.gidb_watershedboundary_id_seq OWNER TO postgres;
 --
 
 ALTER SEQUENCE gidb_watershedboundary_id_seq OWNED BY gidb_watershedboundary.id;
+
+
+--
+-- Name: gidb_watershedmodel; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE gidb_watershedmodel (
+    id integer NOT NULL,
+    model_url character varying(1024) NOT NULL,
+    model_type_id integer NOT NULL,
+    watershed_id integer NOT NULL
+);
+
+
+ALTER TABLE public.gidb_watershedmodel OWNER TO postgres;
+
+--
+-- Name: gidb_watershedmodel_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE gidb_watershedmodel_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.gidb_watershedmodel_id_seq OWNER TO postgres;
+
+--
+-- Name: gidb_watershedmodel_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE gidb_watershedmodel_id_seq OWNED BY gidb_watershedmodel.id;
 
 
 --
@@ -1504,6 +1627,13 @@ ALTER TABLE ONLY gidb_gitemplate_gi_elements ALTER COLUMN id SET DEFAULT nextval
 -- Name: id; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
+ALTER TABLE ONLY gidb_gitype ALTER COLUMN id SET DEFAULT nextval('gidb_gitype_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
 ALTER TABLE ONLY gidb_giveggrowthstate ALTER COLUMN id SET DEFAULT nextval('gidb_giveggrowthstate_id_seq'::regclass);
 
 
@@ -1512,6 +1642,13 @@ ALTER TABLE ONLY gidb_giveggrowthstate ALTER COLUMN id SET DEFAULT nextval('gidb
 --
 
 ALTER TABLE ONLY gidb_humanprefimage ALTER COLUMN id SET DEFAULT nextval('gidb_humanprefimage_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY gidb_modeltype ALTER COLUMN id SET DEFAULT nextval('gidb_modeltype_id_seq'::regclass);
 
 
 --
@@ -1575,6 +1712,13 @@ ALTER TABLE ONLY gidb_watershed ALTER COLUMN id SET DEFAULT nextval('gidb_waters
 --
 
 ALTER TABLE ONLY gidb_watershedboundary ALTER COLUMN id SET DEFAULT nextval('gidb_watershedboundary_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY gidb_watershedmodel ALTER COLUMN id SET DEFAULT nextval('gidb_watershedmodel_id_seq'::regclass);
 
 
 --
@@ -1690,6 +1834,15 @@ COPY auth_permission (id, name, content_type_id, codename) FROM stdin;
 79	Can add Green infrastructure route	27	add_giroute
 80	Can change Green infrastructure route	27	change_giroute
 81	Can delete Green infrastructure route	27	delete_giroute
+82	Can add Green infrastructure type	28	add_gitype
+83	Can change Green infrastructure type	28	change_gitype
+84	Can delete Green infrastructure type	28	delete_gitype
+85	Can add Model type	29	add_modeltype
+86	Can change Model type	29	change_modeltype
+87	Can delete Model type	29	delete_modeltype
+88	Can add Watershed	30	add_watershedmodel
+89	Can change Watershed	30	change_watershedmodel
+90	Can delete Watershed	30	delete_watershedmodel
 \.
 
 
@@ -1697,7 +1850,7 @@ COPY auth_permission (id, name, content_type_id, codename) FROM stdin;
 -- Name: auth_permission_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('auth_permission_id_seq', 81, true);
+SELECT pg_catalog.setval('auth_permission_id_seq', 90, true);
 
 
 --
@@ -1705,9 +1858,9 @@ SELECT pg_catalog.setval('auth_permission_id_seq', 81, true);
 --
 
 COPY auth_user (id, password, last_login, is_superuser, username, first_name, last_name, email, is_staff, is_active, date_joined) FROM stdin;
-2	pbkdf2_sha256$20000$etyNnMCD4hA2$FedAw6kCwKN5KFc/0bXkWhleouZM/XFTl7ANXHHdzHQ=	2015-11-16 15:27:05+00	f	birdview				t	t	2015-11-16 15:25:38+00
 3	pbkdf2_sha256$20000$JiywEFfbkICU$61itqZ9BhGNvtqo0+n9PGyZiFjI4F80uKsoFBFst0RI=	2015-11-16 15:29:31.161468+00	f	streetview				t	t	2015-11-16 15:26:01+00
-1	pbkdf2_sha256$20000$tSfyRiuNyQGD$7GfJFtCBzXj43Z6PQKQnDWrXvWlKxn3EK/QpauFxH8g=	2016-02-24 18:48:18.482727+00	t	admin			brian_miles@unc.edu	t	t	2015-11-13 21:07:36.801657+00
+2	pbkdf2_sha256$20000$cMe7p7dSNKtz$FSIhvvXW3FjPdekAE8MYcBnGzYIVlnGeEwTARGQ3AW0=	2016-02-26 16:55:45.200542+00	f	birdview				t	t	2015-11-16 15:25:38+00
+1	pbkdf2_sha256$20000$tSfyRiuNyQGD$7GfJFtCBzXj43Z6PQKQnDWrXvWlKxn3EK/QpauFxH8g=	2016-02-29 22:32:11.532117+00	t	admin			brian_miles@unc.edu	t	t	2015-11-13 21:07:36.801657+00
 \.
 
 
@@ -1738,51 +1891,6 @@ SELECT pg_catalog.setval('auth_user_id_seq', 3, true);
 --
 
 COPY auth_user_user_permissions (id, user_id, permission_id) FROM stdin;
-1	2	19
-2	2	20
-3	2	21
-4	2	25
-5	2	26
-6	2	27
-7	2	28
-8	2	29
-9	2	30
-10	2	31
-11	2	32
-12	2	33
-13	2	34
-14	2	35
-15	2	36
-16	2	37
-17	2	38
-18	2	39
-19	2	40
-20	2	41
-21	2	42
-22	2	43
-23	2	44
-24	2	45
-25	2	46
-26	2	47
-27	2	48
-28	2	49
-29	2	50
-30	2	51
-31	2	52
-32	2	53
-33	2	54
-34	2	55
-35	2	56
-36	2	57
-37	2	58
-38	2	59
-39	2	60
-40	2	61
-41	2	62
-42	2	63
-43	2	64
-44	2	65
-45	2	66
 46	3	19
 47	3	20
 48	3	21
@@ -1828,6 +1936,63 @@ COPY auth_user_user_permissions (id, user_id, permission_id) FROM stdin;
 88	3	64
 89	3	65
 90	3	66
+91	2	19
+92	2	20
+93	2	21
+94	2	25
+95	2	26
+96	2	27
+97	2	28
+98	2	29
+99	2	30
+100	2	31
+101	2	32
+102	2	33
+103	2	34
+104	2	35
+105	2	36
+106	2	37
+107	2	38
+108	2	39
+109	2	40
+110	2	41
+111	2	42
+112	2	43
+113	2	44
+114	2	45
+115	2	46
+116	2	47
+117	2	48
+118	2	49
+119	2	50
+120	2	51
+121	2	52
+122	2	53
+123	2	54
+124	2	55
+125	2	56
+126	2	57
+127	2	58
+128	2	59
+129	2	60
+130	2	61
+131	2	62
+132	2	63
+133	2	64
+134	2	65
+135	2	66
+136	2	70
+137	2	71
+138	2	72
+139	2	73
+140	2	74
+141	2	75
+142	2	76
+143	2	77
+144	2	78
+145	2	79
+146	2	80
+147	2	81
 \.
 
 
@@ -1835,7 +2000,7 @@ COPY auth_user_user_permissions (id, user_id, permission_id) FROM stdin;
 -- Name: auth_user_user_permissions_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('auth_user_user_permissions_id_seq', 90, true);
+SELECT pg_catalog.setval('auth_user_user_permissions_id_seq', 147, true);
 
 
 --
@@ -1843,6 +2008,8 @@ SELECT pg_catalog.setval('auth_user_user_permissions_id_seq', 90, true);
 --
 
 COPY authtoken_token (key, created, user_id) FROM stdin;
+02e32ab132feb8e17394a4b8b9d9d288be1fcdc2	2016-02-26 16:36:02.595609+00	3
+04f38fba529990d2e4dcbc63937d3e1aaedea1d8	2016-02-26 16:56:10.816831+00	2
 \.
 
 
@@ -1939,6 +2106,21 @@ COPY django_admin_log (id, action_time, object_id, object_repr, action_flag, cha
 75	2016-02-25 19:35:21.395789+00	10	Routes for GI Deciduous tree at SRID=4326;POINT (-76.6153289176324535 39.3166367749914301): from patch 002 with proportion 0.33	2	Changed flow_proportion.	25	1
 76	2016-02-25 19:35:26.323341+00	9	Routes for GI Deciduous tree at SRID=4326;POINT (-76.6153289176324535 39.3166367749914301): from patch 001 with proportion 0.33	2	Changed flow_proportion.	25	1
 77	2016-02-25 19:37:06.887183+00	2	Routes for GI Rain garden at SRID=4326;POINT (-76.6430282592775001 39.2778182029724974)	3		27	1
+78	2016-02-26 16:36:02.597717+00	02e32ab132feb8e17394a4b8b9d9d288be1fcdc2	02e32ab132feb8e17394a4b8b9d9d288be1fcdc2	1		7	1
+79	2016-02-26 16:52:19.195836+00	2	birdview	2	Changed password.	4	1
+80	2016-02-26 16:54:14.137697+00	2	birdview	2	Changed user_permissions.	4	1
+81	2016-02-26 16:56:10.817407+00	04f38fba529990d2e4dcbc63937d3e1aaedea1d8	04f38fba529990d2e4dcbc63937d3e1aaedea1d8	1		7	2
+82	2016-03-01 15:28:27.962126+00	1	Baltimore, MD	2	Changed boundary.	9	1
+83	2016-03-01 20:38:07.190706+00	1	Rain Garden	1		28	1
+84	2016-03-01 20:38:14.268019+00	2	Tree	1		28	1
+85	2016-03-01 20:38:21.203855+00	3	Green roof	1		28	1
+86	2016-03-01 20:38:31.481592+00	2	Rain garden	2	Changed gi_type.	17	1
+87	2016-03-01 20:38:37.361626+00	1	Deciduous tree	2	Changed gi_type.	17	1
+88	2016-03-01 21:19:00.424181+00	1	RHESSys	1		29	1
+89	2016-03-01 21:19:09.091675+00	2	IUHM	1		29	1
+90	2016-03-01 21:22:37.236495+00	2	RHESSys model for watershed Dead Run 5, Baltimore County, MD	1		30	1
+91	2016-03-01 21:22:48.452346+00	2	RHESSys model for watershed Dead Run 5, Baltimore County, MD	2	Changed model_url.	30	1
+92	2016-03-01 21:54:25.116725+00	1	Fenced Rain Garden	2	Changed soil_depth and ponding_depth.	18	1
 \.
 
 
@@ -1946,7 +2128,7 @@ COPY django_admin_log (id, action_time, object_id, object_repr, action_flag, cha
 -- Name: django_admin_log_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('django_admin_log_id_seq', 77, true);
+SELECT pg_catalog.setval('django_admin_log_id_seq', 92, true);
 
 
 --
@@ -1980,6 +2162,9 @@ COPY django_content_type (id, app_label, model) FROM stdin;
 25	gidb	giroutingvertexfrompatch
 26	gidb	giroutingvertextopatch
 27	gidb	giroute
+28	gidb	gitype
+29	gidb	modeltype
+30	gidb	watershedmodel
 \.
 
 
@@ -1987,7 +2172,7 @@ COPY django_content_type (id, app_label, model) FROM stdin;
 -- Name: django_content_type_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('django_content_type_id_seq', 27, true);
+SELECT pg_catalog.setval('django_content_type_id_seq', 30, true);
 
 
 --
@@ -2013,6 +2198,14 @@ COPY django_migrations (id, app, name, applied) FROM stdin;
 16	gidb	0005_auto_20160225_1836	2016-02-25 18:36:58.678571+00
 17	gidb	0006_auto_20160225_1900	2016-02-25 19:00:20.699406+00
 18	gidb	0007_auto_20160225_2137	2016-02-25 21:37:14.836113+00
+19	gidb	0008_giscenario_immutable	2016-02-29 17:29:21.195967+00
+20	gidb	0009_remove_giinstance_watershed	2016-02-29 17:39:46.325198+00
+21	gidb	0010_giscenario_description	2016-02-29 21:13:24.889384+00
+22	gidb	0011_region_boundary	2016-02-29 22:29:43.432391+00
+23	gidb	0012_auto_20160301_2033	2016-03-01 20:34:05.387677+00
+24	gidb	0013_auto_20160301_2042	2016-03-01 20:42:29.943603+00
+25	gidb	0014_auto_20160301_2114	2016-03-01 21:15:03.315023+00
+26	gidb	0015_auto_20160301_2151	2016-03-01 21:52:37.4139+00
 \.
 
 
@@ -2020,7 +2213,7 @@ COPY django_migrations (id, app, name, applied) FROM stdin;
 -- Name: django_migrations_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('django_migrations_id_seq', 18, true);
+SELECT pg_catalog.setval('django_migrations_id_seq', 26, true);
 
 
 --
@@ -2034,7 +2227,8 @@ yggdc0nfkq5iunue7jix5x34knuzja23	NDYxYWY0ODUxZjczZTFhNTU2ZmU5MmQ1ZTAyMzYxMTEyZTl
 884cx2xefrfqwpelsffr237fgce385oq	MjhlZTAyNzFhNTQwNGNjZTE4MmJkOWFhYWM4MjJjOWYyYTA5YzgyZjp7Il9hdXRoX3VzZXJfaGFzaCI6ImVlNzgzYzRlMmNlMjgxOWIyNTEwODdjNmM1MjQyMWE1NTdmMmVhZDYiLCJfYXV0aF91c2VyX2JhY2tlbmQiOiJkamFuZ28uY29udHJpYi5hdXRoLmJhY2tlbmRzLk1vZGVsQmFja2VuZCIsIl9hdXRoX3VzZXJfaWQiOiIzIn0=	2015-11-30 15:29:31.163465+00
 i1nkbd7k426vla8thsfu6eksve38r1ce	ZmVkMzFmM2Q5ZTNmOWMwYjEwZDMxNWUzYTdmMGY4NWUxN2U0ZWU1ZDp7Il9hdXRoX3VzZXJfaGFzaCI6IjA1ZTk0YmJiNzEzODdkYjYyYTI1YTAwMDYwYzE0NWMxMDc4ODYzN2IiLCJfYXV0aF91c2VyX2JhY2tlbmQiOiJkamFuZ28uY29udHJpYi5hdXRoLmJhY2tlbmRzLk1vZGVsQmFja2VuZCIsIl9hdXRoX3VzZXJfaWQiOiIxIn0=	2015-12-18 21:55:21.552345+00
 hu02s9yha2a2pgwt80u4dwhl9rfrad22	ZmVkMzFmM2Q5ZTNmOWMwYjEwZDMxNWUzYTdmMGY4NWUxN2U0ZWU1ZDp7Il9hdXRoX3VzZXJfaGFzaCI6IjA1ZTk0YmJiNzEzODdkYjYyYTI1YTAwMDYwYzE0NWMxMDc4ODYzN2IiLCJfYXV0aF91c2VyX2JhY2tlbmQiOiJkamFuZ28uY29udHJpYi5hdXRoLmJhY2tlbmRzLk1vZGVsQmFja2VuZCIsIl9hdXRoX3VzZXJfaWQiOiIxIn0=	2015-12-23 16:37:13.942873+00
-6sscg9bz2a983lfqlqa311x0kh2v069n	ZmVkMzFmM2Q5ZTNmOWMwYjEwZDMxNWUzYTdmMGY4NWUxN2U0ZWU1ZDp7Il9hdXRoX3VzZXJfaGFzaCI6IjA1ZTk0YmJiNzEzODdkYjYyYTI1YTAwMDYwYzE0NWMxMDc4ODYzN2IiLCJfYXV0aF91c2VyX2JhY2tlbmQiOiJkamFuZ28uY29udHJpYi5hdXRoLmJhY2tlbmRzLk1vZGVsQmFja2VuZCIsIl9hdXRoX3VzZXJfaWQiOiIxIn0=	2016-03-09 18:48:18.486459+00
+zowfsyptimh13mof97y45am3t6r0gmj4	ZGM4MjZjZTFiZGNiYjcxOGQwYzgwYzQ4ZmQ1YmJhNTI0NjVlM2EwZTp7Il9hdXRoX3VzZXJfaGFzaCI6Ijc4YzhlZjc0NzYwZjExYjZlMTcyMmMwMmU3ZDUxMjdjMTZjMjNiNGMiLCJfYXV0aF91c2VyX2JhY2tlbmQiOiJkamFuZ28uY29udHJpYi5hdXRoLmJhY2tlbmRzLk1vZGVsQmFja2VuZCIsIl9hdXRoX3VzZXJfaWQiOiIyIn0=	2016-03-11 16:55:45.202732+00
+96q10xzk72vkwo3eo7bv4teo1f71y2kq	ZmVkMzFmM2Q5ZTNmOWMwYjEwZDMxNWUzYTdmMGY4NWUxN2U0ZWU1ZDp7Il9hdXRoX3VzZXJfaGFzaCI6IjA1ZTk0YmJiNzEzODdkYjYyYTI1YTAwMDYwYzE0NWMxMDc4ODYzN2IiLCJfYXV0aF91c2VyX2JhY2tlbmQiOiJkamFuZ28uY29udHJpYi5hdXRoLmJhY2tlbmRzLk1vZGVsQmFja2VuZCIsIl9hdXRoX3VzZXJfaWQiOiIxIn0=	2016-03-14 22:32:11.534562+00
 \.
 
 
@@ -2042,9 +2236,9 @@ hu02s9yha2a2pgwt80u4dwhl9rfrad22	ZmVkMzFmM2Q5ZTNmOWMwYjEwZDMxNWUzYTdmMGY4NWUxN2U
 -- Data for Name: gidb_gielement; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
-COPY gidb_gielement (id, name, major_axis, minor_axis, model_3d_id, model_planview_id, soil_type_id, stratum_type_id) FROM stdin;
-1	Fenced Rain Garden	3.00000000000000008e-05	3.00000000000000008e-05	1	15	4	3
-2	Tree element	2.00000000000000016e-05	2.00000000000000016e-05	4	7	\N	3
+COPY gidb_gielement (id, name, major_axis, minor_axis, model_3d_id, model_planview_id, soil_type_id, stratum_type_id, ponding_depth, soil_depth) FROM stdin;
+2	Tree element	2.00000000000000016e-05	2.00000000000000016e-05	4	7	\N	3	\N	\N
+1	Fenced Rain Garden	3.00000000000000008e-05	3.00000000000000008e-05	1	15	4	3	0.152400000000000008	10
 \.
 
 
@@ -2059,9 +2253,13 @@ SELECT pg_catalog.setval('gidb_gielement_id_seq', 2, true);
 -- Data for Name: gidb_giinstance; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
-COPY gidb_giinstance (id, placement_poly, scenario_id, template_id, watershed_id) FROM stdin;
-1	0103000020E61000000100000005000000F9FFFF5F922753C02C0000A69DA84340180000A0702753C0340000262DA84340160000C0322753C0F7FFFFA570A84340370000E04E2753C07B000026E1A84340F9FFFF5F922753C02C0000A69DA84340	1	1	1
-2	0103000020E6100000010000000500000000000000002953C01100004C57A3434009000080432953C01100004C57A34340160000C04E2953C0080000CCC7A343400D0000400B2953C0080000CCC7A3434000000000002953C01100004C57A34340	1	2	1
+COPY gidb_giinstance (id, placement_poly, scenario_id, template_id) FROM stdin;
+1	0103000020E61000000100000005000000F9FFFF5F922753C02C0000A69DA84340180000A0702753C0340000262DA84340160000C0322753C0F7FFFFA570A84340370000E04E2753C07B000026E1A84340F9FFFF5F922753C02C0000A69DA84340	1	1
+2	0103000020E6100000010000000500000000000000002953C01100004C57A3434009000080432953C01100004C57A34340160000C04E2953C0080000CCC7A343400D0000400B2953C0080000CCC7A3434000000000002953C01100004C57A34340	1	2
+12	0103000020E6100000010000000500000000000000002953C01100004C57A3434009000080432953C01100004C57A34340160000C04E2953C0080000CCC7A343400D0000400B2953C0080000CCC7A3434000000000002953C01100004C57A34340	3	1
+13	0103000020E6100000010000000500000000000000002953C01100004C57A3434009000080432953C01100004C57A34340160000C04E2953C0080000CCC7A343400D0000400B2953C0080000CCC7A3434000000000002953C01100004C57A34340	3	1
+14	0103000020E610000001000000050000002B394A67942F53C00822BC2790A54340A0B8EDAE922F53C0AC332E528FA5434028C75CB7922F53C060482AFA91A543407A69B96F942F53C00C34B8CF92A543402B394A67942F53C00822BC2790A54340	3	1
+15	0103000020E6100000010000000500000051CC6546942F53C0A4A88BDD97A5434046C5D68B942F53C0A0C055AA9BA54340E52F2368932F53C06CC112B39BA54340224EDACD922F53C00027750F99A5434051CC6546942F53C0A4A88BDD97A54340	3	1
 \.
 
 
@@ -2069,7 +2267,7 @@ COPY gidb_giinstance (id, placement_poly, scenario_id, template_id, watershed_id
 -- Name: gidb_giinstance_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('gidb_giinstance_id_seq', 2, true);
+SELECT pg_catalog.setval('gidb_giinstance_id_seq', 15, true);
 
 
 --
@@ -2142,8 +2340,11 @@ SELECT pg_catalog.setval('gidb_giroutingvertextopatch_id_seq', 3, true);
 -- Data for Name: gidb_giscenario; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
-COPY gidb_giscenario (id, name, watershed_id) FROM stdin;
-1	Test Scenario	1
+COPY gidb_giscenario (id, name, watershed_id, immutable, description) FROM stdin;
+1	Test Scenario	1	f	\N
+3	Scenario 1 IG	1	f	\N
+4	Scenario 2 IG	1	f	\N
+5	Scenario 3 IG	1	f	\N
 \.
 
 
@@ -2151,16 +2352,16 @@ COPY gidb_giscenario (id, name, watershed_id) FROM stdin;
 -- Name: gidb_giscenario_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('gidb_giscenario_id_seq', 1, true);
+SELECT pg_catalog.setval('gidb_giscenario_id_seq', 7, true);
 
 
 --
 -- Data for Name: gidb_gitemplate; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
-COPY gidb_gitemplate (id, name, model_3d_id, model_planview_id) FROM stdin;
-1	Deciduous tree	4	7
-2	Rain garden	1	15
+COPY gidb_gitemplate (id, name, model_3d_id, model_planview_id, gi_type_id) FROM stdin;
+2	Rain garden	1	15	1
+1	Deciduous tree	4	7	2
 \.
 
 
@@ -2169,8 +2370,8 @@ COPY gidb_gitemplate (id, name, model_3d_id, model_planview_id) FROM stdin;
 --
 
 COPY gidb_gitemplate_gi_elements (id, gitemplate_id, gielement_id) FROM stdin;
-1	1	2
-2	2	1
+3	2	1
+4	1	2
 \.
 
 
@@ -2178,7 +2379,7 @@ COPY gidb_gitemplate_gi_elements (id, gitemplate_id, gielement_id) FROM stdin;
 -- Name: gidb_gitemplate_gi_elements_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('gidb_gitemplate_gi_elements_id_seq', 2, true);
+SELECT pg_catalog.setval('gidb_gitemplate_gi_elements_id_seq', 4, true);
 
 
 --
@@ -2186,6 +2387,24 @@ SELECT pg_catalog.setval('gidb_gitemplate_gi_elements_id_seq', 2, true);
 --
 
 SELECT pg_catalog.setval('gidb_gitemplate_id_seq', 2, true);
+
+
+--
+-- Data for Name: gidb_gitype; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY gidb_gitype (id, name) FROM stdin;
+1	Rain Garden
+2	Tree
+3	Green roof
+\.
+
+
+--
+-- Name: gidb_gitype_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('gidb_gitype_id_seq', 3, true);
 
 
 --
@@ -2219,11 +2438,28 @@ SELECT pg_catalog.setval('gidb_humanprefimage_id_seq', 1, false);
 
 
 --
+-- Data for Name: gidb_modeltype; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY gidb_modeltype (id, name, code) FROM stdin;
+1	RHESSys	rhessys
+2	IUHM	iuhm
+\.
+
+
+--
+-- Name: gidb_modeltype_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('gidb_modeltype_id_seq', 2, true);
+
+
+--
 -- Data for Name: gidb_region; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
-COPY gidb_region (id, name) FROM stdin;
-1	Baltimore, MD
+COPY gidb_region (id, name, boundary) FROM stdin;
+1	Baltimore, MD	0103000020E6100000010000000500000000000000B03C53C0F9FFFF5F2ADA434023000000563C53C0F9FFFF5FD28C4340230000005E1653C0F9FFFF5F3A8E4340230000007A1853C0F9FFFF5F92DB434000000000B03C53C0F9FFFF5F2ADA4340
 \.
 
 
@@ -2376,8 +2612,8 @@ SELECT pg_catalog.setval('gidb_templatesforecoclimate_templates_id_seq', 2, true
 -- Data for Name: gidb_watershed; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
-COPY gidb_watershed (id, name, model_url, boundary_id, region_id, template_menu_id) FROM stdin;
-1	Dead Run 5, Baltimore County, MD	https://www.hydroshare.org/django_irods/download/6dbb0dfb8f3a498881e4de428cb1587c/data/contents/DR5_3m_nonburned_DEM_rain_duration_DEM_float_lctest_raingarden.zip	1	1	1
+COPY gidb_watershed (id, name, boundary_id, region_id, template_menu_id) FROM stdin;
+1	Dead Run 5, Baltimore County, MD	1	1	1
 \.
 
 
@@ -2402,6 +2638,22 @@ COPY gidb_watershedboundary (id, name, boundary) FROM stdin;
 --
 
 SELECT pg_catalog.setval('gidb_watershedboundary_id_seq', 1, true);
+
+
+--
+-- Data for Name: gidb_watershedmodel; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY gidb_watershedmodel (id, model_url, model_type_id, watershed_id) FROM stdin;
+2	http://www.hydroshare.org/django_irods/download/6dbb0dfb8f3a498881e4de428cb1587c/data/contents/DR5_3m_nonburned_DEM_rain_duration_DEM_float_lctest_raingarden.zip	1	1
+\.
+
+
+--
+-- Name: gidb_watershedmodel_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('gidb_watershedmodel_id_seq', 2, true);
 
 
 --
@@ -2661,6 +2913,14 @@ ALTER TABLE ONLY gidb_gitemplate
 
 
 --
+-- Name: gidb_gitype_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY gidb_gitype
+    ADD CONSTRAINT gidb_gitype_pkey PRIMARY KEY (id);
+
+
+--
 -- Name: gidb_giveggrowthstate_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
 --
 
@@ -2674,6 +2934,14 @@ ALTER TABLE ONLY gidb_giveggrowthstate
 
 ALTER TABLE ONLY gidb_humanprefimage
     ADD CONSTRAINT gidb_humanprefimage_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: gidb_modeltype_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY gidb_modeltype
+    ADD CONSTRAINT gidb_modeltype_pkey PRIMARY KEY (id);
 
 
 --
@@ -2810,6 +3078,14 @@ ALTER TABLE ONLY gidb_watershed
 
 ALTER TABLE ONLY gidb_watershedboundary
     ADD CONSTRAINT gidb_watershedboundary_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: gidb_watershedmodel_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY gidb_watershedmodel
+    ADD CONSTRAINT gidb_watershedmodel_pkey PRIMARY KEY (id);
 
 
 --
@@ -2953,13 +3229,6 @@ CREATE INDEX gidb_giinstance_adc0676c ON gidb_giinstance USING btree (scenario_i
 
 
 --
--- Name: gidb_giinstance_b9ddc459; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
---
-
-CREATE INDEX gidb_giinstance_b9ddc459 ON gidb_giinstance USING btree (watershed_id);
-
-
---
 -- Name: gidb_giinstance_placement_poly_id; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
 --
 
@@ -3006,6 +3275,13 @@ CREATE INDEX gidb_giroutingvertextopatch_b4347999 ON gidb_giroutingvertextopatch
 --
 
 CREATE INDEX gidb_giscenario_b9ddc459 ON gidb_giscenario USING btree (watershed_id);
+
+
+--
+-- Name: gidb_gitemplate_11b05086; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE INDEX gidb_gitemplate_11b05086 ON gidb_gitemplate USING btree (gi_type_id);
 
 
 --
@@ -3062,6 +3338,13 @@ CREATE INDEX gidb_giveggrowthstate_8b2a9db7 ON gidb_giveggrowthstate USING btree
 --
 
 CREATE INDEX gidb_humanprefimage_408976f3 ON gidb_humanprefimage USING btree (gi_instance_id);
+
+
+--
+-- Name: gidb_region_boundary_id; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE INDEX gidb_region_boundary_id ON gidb_region USING gist (boundary);
 
 
 --
@@ -3153,6 +3436,20 @@ CREATE INDEX gidb_watershed_eb01ad15 ON gidb_watershed USING btree (boundary_id)
 --
 
 CREATE INDEX gidb_watershedboundary_boundary_id ON gidb_watershedboundary USING gist (boundary);
+
+
+--
+-- Name: gidb_watershedmodel_b9ddc459; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE INDEX gidb_watershedmodel_b9ddc459 ON gidb_watershedmodel USING btree (watershed_id);
+
+
+--
+-- Name: gidb_watershedmodel_fd6be7c6; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE INDEX gidb_watershedmodel_fd6be7c6 ON gidb_watershedmodel USING btree (model_type_id);
 
 
 --
@@ -3300,14 +3597,6 @@ ALTER TABLE ONLY gidb_giinstance
 
 
 --
--- Name: gidb_giinsta_watershed_id_76a4e105dadcb349_fk_gidb_watershed_id; Type: FK CONSTRAINT; Schema: public; Owner: postgres
---
-
-ALTER TABLE ONLY gidb_giinstance
-    ADD CONSTRAINT gidb_giinsta_watershed_id_76a4e105dadcb349_fk_gidb_watershed_id FOREIGN KEY (watershed_id) REFERENCES gidb_watershed(id) DEFERRABLE INITIALLY DEFERRED;
-
-
---
 -- Name: gidb_giroute_instance_id_3bcb6ecca8bf47b_fk_gidb_giinstance_id; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -3372,6 +3661,14 @@ ALTER TABLE ONLY gidb_gitemplate_gi_elements
 
 
 --
+-- Name: gidb_gitemplate_gi_type_id_62bcd0229c53e5f2_fk_gidb_gitype_id; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY gidb_gitemplate
+    ADD CONSTRAINT gidb_gitemplate_gi_type_id_62bcd0229c53e5f2_fk_gidb_gitype_id FOREIGN KEY (gi_type_id) REFERENCES gidb_gitype(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
 -- Name: gidb_give_gi_instance_id_7de17f6cd09a0553_fk_gidb_giinstance_id; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -3401,6 +3698,22 @@ ALTER TABLE ONLY gidb_humanprefimage
 
 ALTER TABLE ONLY gidb_templatesforecoclimate_templates
     ADD CONSTRAINT gidb_templa_gitemplate_id_d3e12e34a744810_fk_gidb_gitemplate_id FOREIGN KEY (gitemplate_id) REFERENCES gidb_gitemplate(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: gidb_waters_model_type_id_49610ea8db14bb72_fk_gidb_modeltype_id; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY gidb_watershedmodel
+    ADD CONSTRAINT gidb_waters_model_type_id_49610ea8db14bb72_fk_gidb_modeltype_id FOREIGN KEY (model_type_id) REFERENCES gidb_modeltype(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: gidb_watersh_watershed_id_7b4718748d13a078_fk_gidb_watershed_id; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY gidb_watershedmodel
+    ADD CONSTRAINT gidb_watersh_watershed_id_7b4718748d13a078_fk_gidb_watershed_id FOREIGN KEY (watershed_id) REFERENCES gidb_watershed(id) DEFERRABLE INITIALLY DEFERRED;
 
 
 --
