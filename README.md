@@ -26,6 +26,13 @@ Switched to a new branch 'develop'
 $ git checkout -b my-development-branch
 Switched to a new branch 'my-development-branch'
 ```
+
+Build sshd_base Docker image.
+
+```bash
+cd sshd_base && docker build -t sshd_base . && cd -
+```
+
 At this point the developer could deploy the base GINotebook code in hydrodev using the `ginbctl` script.
 
 ```bash
