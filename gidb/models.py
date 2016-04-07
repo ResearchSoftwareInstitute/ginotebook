@@ -42,6 +42,7 @@ class Watershed(models.Model):
     region = models.ForeignKey('Region', related_name='watersheds')
     template_menu = models.ForeignKey('TemplatesForEcoClimate')
     boundary = models.ForeignKey('WatershedBoundary', blank=True, null=True) # TODO: Make required
+    spatial_ref_epsg = models.IntegerField(default='4326', verbose_name='Spatial reference (EPSG)')
 
     def __unicode__(self):  # __str__ on Python 3
         return self.name

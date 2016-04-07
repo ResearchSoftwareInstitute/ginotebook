@@ -52,10 +52,15 @@ class GIScenarioSerializer(serializers.HyperlinkedModelSerializer):
 
 class GIInstanceSerializer(serializers.HyperlinkedModelSerializer):
     routes = serializers.HyperlinkedRelatedField(many=True, read_only=True, view_name='giroute-detail')
+    placement_poly_area_sq_m = serializers.SerializerMethodField()
 
     class Meta:
         model = GIInstance
-        fields = ('url', 'id', 'scenario', 'template', 'placement_poly', 'routes')
+        fields = ('url', 'id', 'scenario', 'template', 'placement_poly', 'routes', 'placement_poly_area_sq_m')
+
+    def get_placement_poly_area_sq_m(self, obj):
+        obj.placement_poly.transform(obj.scenario.watershed.spatial_ref_epsg)
+        return obj.placement_poly.area
 
 
 class HumanPrefImageSerializer(serializers.HyperlinkedModelSerializer):
